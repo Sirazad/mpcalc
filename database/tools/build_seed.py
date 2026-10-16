@@ -457,16 +457,21 @@ forms = [
     form("labda", "Labda", 4, ONEOFF),
 ]
 groups = [
-    {"id": "I", "name": "I. csoport", "examples": ["everything else non-magical"], "source": P10B},
+    {"id": "I", "name": "I. csoport", "examples": ["Minden más nem mágikus anyag."], "source": P10B},
     {"id": "II", "name": "II. csoport",
-     "examples": ["base metals (copper, tin, iron...)", "ores with over 10% content"], "source": P10B},
+     "examples": ["Nemtelen fémek, mint réz, ón, vas stb…", "Ércek, amikben 10%-nál nagyobb a tartalom."], "source": P10B},
     {"id": "III", "name": "III. csoport",
-     "examples": ["aryan", "silver", "platinum", "alloys with at least 10% of them",
-                  "acids", "bases", "poisons"], "source": P10B},
+     "examples": ["Aryan, ezüst, platina és minden olyan ötvözet, amiben legalább 10%-ban megtalálhatóak.", "Savak, lúgok, mérgek."],
+     "source": P10B},
+]
+# Texts that belong to no mosaic, form or group (id -> Hungarian text); the page shows them where they fit
+reference_texts = [
+    {"id": "materials.magical", "text": "Mágikus anyagok: Mithrill, abbitacél, drágakövek.", "source": P10B},
 ]
 
 for fname, data in [("alapvarazslatok.json", alap), ("ter.json", ter), ("mental.json", mental),
                     ("asztral.json", asztral), ("ido.json", ido), ("nekromancia.json", nekro),
-                    ("anyagi.json", anyagi), ("forms.json", forms), ("material_groups.json", groups)]:
+                    ("anyagi.json", anyagi), ("forms.json", forms), ("material_groups.json", groups),
+                    ("reference_texts.json", reference_texts)]:
     write(fname, data)
 print("written", sum(len(x) for x in [alap, ter, mental, asztral, ido, nekro, anyagi]), "mosaics")

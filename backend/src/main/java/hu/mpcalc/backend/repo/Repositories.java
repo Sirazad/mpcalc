@@ -15,6 +15,7 @@ public final class Repositories {
     }
     public interface FormRepository extends JpaRepository<FormEntity, String> {}
     public interface MaterialGroupRepository extends JpaRepository<MaterialGroup, String> {}
+    public interface ReferenceTextRepository extends JpaRepository<ReferenceText, String> {}
     public interface PlayerRepository extends JpaRepository<Player, Long> {
         Optional<Player> findByName(String name);
     }

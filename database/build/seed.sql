@@ -133,7 +133,8 @@ INSERT INTO forms (id, name, tier, duration, regeneration, description, movable,
 INSERT INTO forms (id, name, tier, duration, regeneration, description, movable, source) VALUES ('eso', 'Eső', 3, '{"kind": "time", "time": {"kind": "time", "amounts": {"kor": 3}}}'::jsonb, '0,5 szegmens', NULL, false, 'Part 10a');
 INSERT INTO forms (id, name, tier, duration, regeneration, description, movable, source) VALUES ('gyuru', 'Gyűrű', 4, '{"kind": "time", "time": {"kind": "time", "amounts": {"kor": 3}}}'::jsonb, '0,5 szegmens', NULL, false, 'Part 10a');
 INSERT INTO forms (id, name, tier, duration, regeneration, description, movable, source) VALUES ('labda', 'Labda', 4, '{"kind": "oneOff"}'::jsonb, NULL, NULL, false, 'Part 10a');
-INSERT INTO material_groups (id, name, examples, source) VALUES ('I', 'I. csoport', ARRAY['everything else non-magical']::text[], 'Part 10b');
-INSERT INTO material_groups (id, name, examples, source) VALUES ('II', 'II. csoport', ARRAY['base metals (copper, tin, iron...)', 'ores with over 10% content']::text[], 'Part 10b');
-INSERT INTO material_groups (id, name, examples, source) VALUES ('III', 'III. csoport', ARRAY['aryan', 'silver', 'platinum', 'alloys with at least 10% of them', 'acids', 'bases', 'poisons']::text[], 'Part 10b');
+INSERT INTO material_groups (id, name, examples, source) VALUES ('I', 'I. csoport', ARRAY['Minden más nem mágikus anyag.']::text[], 'Part 10b');
+INSERT INTO material_groups (id, name, examples, source) VALUES ('II', 'II. csoport', ARRAY['Nemtelen fémek, mint réz, ón, vas stb…', 'Ércek, amikben 10%-nál nagyobb a tartalom.']::text[], 'Part 10b');
+INSERT INTO material_groups (id, name, examples, source) VALUES ('III', 'III. csoport', ARRAY['Aryan, ezüst, platina és minden olyan ötvözet, amiben legalább 10%-ban megtalálhatóak.', 'Savak, lúgok, mérgek.']::text[], 'Part 10b');
+INSERT INTO reference_texts (id, text, source) VALUES ('materials.magical', 'Mágikus anyagok: Mithrill, abbitacél, drágakövek.', 'Part 10b');
 COMMIT;

@@ -21,6 +21,7 @@ export class MosaicGroup {
   readonly forms = input.required<Form[]>();
   readonly tiers = input.required<Record<string, number>>();
   readonly groups = input.required<MaterialGroup[]>();
+  readonly materialNote = input<string | null>(null);
   readonly added = output<Selection>();
 
   protected readonly key = linkedSignal<string | null>(() => { this.def(); return null; });

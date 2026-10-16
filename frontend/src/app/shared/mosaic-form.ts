@@ -24,6 +24,8 @@ export class MosaicForm {
   readonly groups = input.required<MaterialGroup[]>();
   /** Values the caller has fixed (for example the element chosen in a group): they start filled and their boxes are hidden. */
   readonly preset = input<Record<string, string>>({});
+  /** Text about the magical materials, shown under the material rows. */
+  readonly materialNote = input<string | null>(null);
   readonly added = output<Selection>();
 
   protected readonly values = linkedSignal<InputValues>(() => ({ ...defaultInputs(this.mosaic()), ...this.preset() }));
@@ -42,6 +44,7 @@ export class MosaicForm {
     && this.mosaic().status.state !== 'incomplete' && (!this.isModifier() || this.extraMpValid()));
 
   /** The regenerációs idő of the chosen form, if it has one. */
+  protected examplesOf(groupId: string): string { return this.groups().find((g) => g.id === groupId)?.examples.join('\n') ?? ''; }
   protected formOf(formId: unknown): Form | undefined { return this.forms().find((f) => f.id === formId); }
   protected regenerationOf(formId: unknown): string | null { return this.formOf(formId)?.regeneration ?? null; }
 

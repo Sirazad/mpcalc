@@ -64,8 +64,12 @@
               </mat-form-field>
               <button mat-button type="button" (click)="removeRow(i.id, $index)">{{ T.builder.removeRow }}</button>
             </div>
+            @if (examplesOf(r.group); as examples) {
+              <p class="choice-description" [attr.data-testid]="'group-examples-' + $index">{{ examples }}</p>
+            }
           }
           <button mat-stroked-button type="button" [disabled]="!canAddRow(i.id)" (click)="addRow(i.id)" data-testid="add-row">{{ T.builder.addRow }}</button>
+          @if (materialNote(); as note) { <p class="choice-description" data-testid="material-note">{{ note }}</p> }
         </div>
       }
     }

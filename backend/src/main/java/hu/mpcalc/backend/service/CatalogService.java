@@ -21,10 +21,12 @@ public class CatalogService {
     private final MosaicRepository mosaics;
     private final FormRepository forms;
     private final MaterialGroupRepository groups;
+    private final ReferenceTextRepository referenceTexts;
     private final CharacterService characters;
 
-    public CatalogService(SchoolRepository schools, MosaicRepository mosaics, FormRepository forms, MaterialGroupRepository groups, CharacterService characters) {
-        this.schools = schools; this.mosaics = mosaics; this.forms = forms; this.groups = groups; this.characters = characters;
+    public CatalogService(SchoolRepository schools, MosaicRepository mosaics, FormRepository forms, MaterialGroupRepository groups,
+                          ReferenceTextRepository referenceTexts, CharacterService characters) {
+        this.schools = schools; this.mosaics = mosaics; this.forms = forms; this.groups = groups; this.referenceTexts = referenceTexts; this.characters = characters;
     }
 
     @Transactional(readOnly = true)
@@ -61,6 +63,14 @@ public class CatalogService {
             for (String e : g.examples) ex.add(e);
         });
         return arr.toString();
+    }
+
+    /** Texts without an owner as one object: id -> text. */
+    @Transactional(readOnly = true)
+    public String referenceTexts() {
+        ObjectNode o = EngineJson.mapper().createObjectNode();
+        referenceTexts.findAll().stream().sorted((a, c) -> a.id.compareTo(c.id)).forEach(t -> o.put(t.id, t.text));
+        return o.toString();
     }
 
     /**

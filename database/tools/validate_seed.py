@@ -289,6 +289,14 @@ def check_forms(forms, mosaic_ids):
         if f["duration"].get("kind") in ("undefined", "formDependent"):
             err(w, "form duration must be time or oneOff")
 
+def check_reference_texts(texts):
+    ids = [t.get("id") for t in texts]
+    if len(set(ids)) != len(ids):
+        err("reference_texts.json", "duplicate id")
+    for t in texts:
+        if not (set(t) == {"id", "text", "source"} and all(isinstance(t[k], str) and t[k] for k in t)):
+            err("reference_texts.json", f"bad text {t.get('id')}")
+
 def check_groups(groups):
     if [g.get("id") for g in groups] != ["I", "II", "III"]:
         err("material_groups.json", "need exactly I, II, III")
@@ -339,7 +347,7 @@ def main():
     for i, n in all_ids.items():
         if n > 1:
             err("all files", f"duplicate id {i}")
-    for name, check in (("forms.json", check_forms), ("material_groups.json", check_groups)):
+    for name, check in (("forms.json", check_forms), ("material_groups.json", check_groups), ("reference_texts.json", check_reference_texts)):
         with open(os.path.join(SEED, name), encoding="utf-8") as fh:
             data = json.load(fh)
         check(data, all_ids) if name == "forms.json" else check(data)

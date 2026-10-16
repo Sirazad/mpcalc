@@ -32,6 +32,7 @@ const RESISTANCE_NAMES: Record<string, string> = {
   concealment: 'Leplezés',
   spellMp: 'Varázslat MP',
   armorSfe: 'SFÉ',
+  naturalMaterialMagic: 'Természetes anyagi mágia',
 };
 
 export function formatResistance(r: Resistance, schools: School[]): string {

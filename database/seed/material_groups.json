@@ -3,7 +3,7 @@
     "id": "I",
     "name": "I. csoport",
     "examples": [
-      "everything else non-magical"
+      "Minden más nem mágikus anyag."
     ],
     "source": "Part 10b"
   },
@@ -11,8 +11,8 @@
     "id": "II",
     "name": "II. csoport",
     "examples": [
-      "base metals (copper, tin, iron...)",
-      "ores with over 10% content"
+      "Nemtelen fémek, mint réz, ón, vas stb…",
+      "Ércek, amikben 10%-nál nagyobb a tartalom."
     ],
     "source": "Part 10b"
   },
@@ -20,13 +20,8 @@
     "id": "III",
     "name": "III. csoport",
     "examples": [
-      "aryan",
-      "silver",
-      "platinum",
-      "alloys with at least 10% of them",
-      "acids",
-      "bases",
-      "poisons"
+      "Aryan, ezüst, platina és minden olyan ötvözet, amiben legalább 10%-ban megtalálhatóak.",
+      "Savak, lúgok, mérgek."
     ],
     "source": "Part 10b"
   }

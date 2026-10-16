@@ -31,4 +31,6 @@ for g in load("material_groups.json"):
     ex = "ARRAY[" + ", ".join(q(e) for e in g["examples"]) + "]::text[]"
     print(f"INSERT INTO material_groups (id, name, examples, source) VALUES "
           f"({q(g['id'])}, {q(g['name'])}, {ex}, {q(g['source'])});")
+for t in load("reference_texts.json"):
+    print(f"INSERT INTO reference_texts (id, text, source) VALUES ({q(t['id'])}, {q(t['text'])}, {q(t['source'])});")
 print("COMMIT;")

@@ -20,6 +20,8 @@ export class Api {
 
   schools() { return firstValueFrom(this.http.get<School[]>(`${this.base}/schools`)); }
   forms() { return firstValueFrom(this.http.get<Form[]>(`${this.base}/forms`)); }
+  /** Texts that belong to no mosaic, form or group: id -> text. */
+  texts() { return firstValueFrom(this.http.get<Record<string, string>>(`${this.base}/texts`)); }
   materialGroups() { return firstValueFrom(this.http.get<MaterialGroup[]>(`${this.base}/material-groups`)); }
 
   characters() { return firstValueFrom(this.http.get<Character[]>(`${this.base}/characters`)); }

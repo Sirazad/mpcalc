@@ -384,6 +384,19 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void materialGroupsHaveHungarianExamplesAndTheMagicalMaterialsLineIsServed() throws Exception {
+        MockHttpSession s = login("g-" + UUID.randomUUID());
+        java.util.Map<String, JsonNode> byId = new java.util.HashMap<>();
+        for (JsonNode g : json(send(get("/material-groups"), s, null, 200))) byId.put(g.get("id").asText(), g);
+        assertEquals("Minden más nem mágikus anyag.", byId.get("I").get("examples").get(0).asText());
+        assertEquals(2, byId.get("II").get("examples").size());
+        assertTrue(byId.get("III").get("examples").get(0).asText().startsWith("Aryan, ezüst, platina"));
+        JsonNode texts = json(send(get("/texts"), s, null, 200));
+        assertEquals("Mágikus anyagok: Mithrill, abbitacél, drágakövek.", texts.get("materials.magical").asText());
+        assertEquals(401, send(get("/texts"), null, null, 401).getResponse().getStatus(), "texts need a login like the other reference data");
+    }
+
+    @Test
     void formsCarryTheirRegenerationTimeAsText() throws Exception {
         MockHttpSession s = login("f-" + UUID.randomUUID());
         java.util.Map<String, JsonNode> byId = new java.util.HashMap<>();

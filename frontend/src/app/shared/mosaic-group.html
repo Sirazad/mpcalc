@@ -7,6 +7,6 @@
   </mat-form-field>
   @if (chosen(); as c) {
     @if (c.description) { <p class="choice-description" data-testid="group-description">{{ c.description }}</p> }
-    <app-mosaic-form [mosaic]="c.mosaic" [preset]="c.preset" [forms]="forms()" [tiers]="tiers()" [groups]="groups()" (added)="added.emit($event)" />
+    <app-mosaic-form [mosaic]="c.mosaic" [preset]="c.preset" [forms]="forms()" [tiers]="tiers()" [groups]="groups()" [materialNote]="materialNote()" (added)="added.emit($event)" />
   }
 </div>

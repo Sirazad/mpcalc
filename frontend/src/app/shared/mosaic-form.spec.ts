@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { MosaicForm } from './mosaic-form';
 import { Form, MaterialGroup, Mosaic, Selection } from '../models';
 
-const groups: MaterialGroup[] = [{ id: 'I', name: 'I. csoport', examples: [] }, { id: 'II', name: 'II. csoport', examples: [] }];
+const groups: MaterialGroup[] = [{ id: 'I', name: 'I. csoport', examples: ['Minden más nem mágikus anyag.'] }, { id: 'II', name: 'II. csoport', examples: ['Nemtelen fémek.', 'Ércek.'] }];
 const forms: Form[] = [{ id: 'small', name: 'Kicsi', tier: 2, duration: null, regeneration: '0,5 szegmens', movable: false, description: 'Támadó varázslat.\n\nMásodik bekezdés.' }, { id: 'big', name: 'Nagy', tier: 4, duration: null, movable: true }];
 const oselem: Mosaic = {
   id: 'oselem', name: 'Őselem idézése', school: 'anyagi', tier: 2, status: { state: 'complete', missing: [] },
@@ -64,6 +64,20 @@ describe('MosaicForm', () => {
     expect(el.querySelector('[data-testid="regeneration-form"]')).toBeNull();
     expect(el.querySelector('[data-testid="form-description-form"]')).toBeNull();
     expect(el.querySelector('[data-testid="form-movable-form"]')?.textContent?.trim()).toBe('Mozgatható.');
+  });
+
+  it('shows the examples of the chosen material group under its row and the note about the magical materials', async () => {
+    const fixture = create({ ...oselem, inputs: [{ id: 'composition', label: 'Összetétel', type: 'composition' }] }, { anyagi: 2 });
+    fixture.componentRef.setInput('materialNote', 'Mágikus anyagok: Mithrill.');
+    await fixture.whenStable();
+    const el = fixture.nativeElement as HTMLElement;
+    // a composition starts with one row, for the first material group
+    expect(el.querySelector('[data-testid="group-examples-0"]')?.textContent?.trim()).toBe('Minden más nem mágikus anyag.');
+    (el.querySelector('[data-testid="add-row"]') as HTMLButtonElement).click();
+    await fixture.whenStable();
+    expect(el.querySelector('[data-testid="group-examples-1"]')?.textContent).toContain('Nemtelen fémek.');
+    expect(el.querySelector('[data-testid="group-examples-1"]')?.textContent).toContain('Ércek.');
+    expect(el.querySelector('[data-testid="material-note"]')?.textContent?.trim()).toBe('Mágikus anyagok: Mithrill.');
   });
 
   it('raises the power step and emits the selection with k', async () => {

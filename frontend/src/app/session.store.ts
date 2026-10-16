@@ -19,6 +19,7 @@ export class SessionStore {
   readonly schools = signal<School[]>([]);
   readonly forms = signal<Form[]>([]);
   readonly groups = signal<MaterialGroup[]>([]);
+  readonly texts = signal<Record<string, string>>({});
   readonly mosaics = signal<Mosaic[]>([]);
   readonly versions = signal<Record<string, string>>({});
 
@@ -71,8 +72,8 @@ export class SessionStore {
 
   /** Opens a character: reads it, its available mosaics and the reference data once, and caches them. */
   async openCharacter(id: number) {
-    const [character, mosaics, schools, forms, groups] = await Promise.all([
-      this.api.character(id), this.api.mosaics(id), this.api.schools(), this.api.forms(), this.api.materialGroups(),
+    const [character, mosaics, schools, forms, groups, texts] = await Promise.all([
+      this.api.character(id), this.api.mosaics(id), this.api.schools(), this.api.forms(), this.api.materialGroups(), this.api.texts(),
     ]);
     this.character.set(character);
     this.mosaics.set(mosaics.mosaics);
@@ -80,6 +81,7 @@ export class SessionStore {
     this.schools.set(schools);
     this.forms.set(forms);
     this.groups.set(groups);
+    this.texts.set(texts);
   }
 
   /** The reload button: read everything of the open character again. */

@@ -26,6 +26,7 @@ describe('format', () => {
     expect(formatResistance({ kind: 'school', school: 'mental' }, schools)).toBe('Iskola: Mentál mágia');
     expect(formatResistance({ kind: 'concealment', school: null }, schools)).toBe('Leplezés');
     expect(formatResistance({ kind: 'armorSfe', school: null }, schools)).toBe('SFÉ');
+    expect(formatResistance({ kind: 'naturalMaterialMagic', school: null }, schools)).toBe('Természetes anyagi mágia');
     expect(formatResistance({ kind: 'lifeForce', school: null }, schools)).toBe('lifeForce');
   });
 

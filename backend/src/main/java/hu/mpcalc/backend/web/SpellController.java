@@ -30,6 +30,9 @@ public class SpellController {
     @GetMapping("/material-groups")
     ResponseEntity<String> materialGroups(HttpSession s) { sessions.require(s); return Sessions.json(catalog.materialGroups()); }
 
+    @GetMapping("/texts")
+    ResponseEntity<String> texts(HttpSession s) { sessions.require(s); return Sessions.json(catalog.referenceTexts()); }
+
     @PostMapping("/calculate")
     ResponseEntity<String> calculate(@RequestBody String body, HttpSession s) { return Sessions.json(spells.calculate(sessions.require(s), body)); }
 
