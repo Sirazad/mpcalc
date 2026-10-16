@@ -110,7 +110,6 @@ INSERT INTO forms (id, name, tier, duration, regeneration, source) VALUES ('sato
 INSERT INTO forms (id, name, tier, duration, regeneration, source) VALUES ('kupola', 'Kupola', 3, '{"kind": "time", "time": {"kind": "time", "amounts": {"kor": 3}}}'::jsonb, NULL, 'Part 10a');
 INSERT INTO forms (id, name, tier, duration, regeneration, source) VALUES ('eso', 'Eső', 3, '{"kind": "time", "time": {"kind": "time", "amounts": {"kor": 3}}}'::jsonb, '0,5 szegmens', 'Part 10a');
 INSERT INTO forms (id, name, tier, duration, regeneration, source) VALUES ('gyuru', 'Gyűrű', 4, '{"kind": "time", "time": {"kind": "time", "amounts": {"kor": 3}}}'::jsonb, '0,5 szegmens', 'Part 10a');
-INSERT INTO forms (id, name, tier, duration, regeneration, source) VALUES ('gomb', 'Gömb', 4, '{"kind": "time", "time": {"kind": "time", "amounts": {"kor": 5}}}'::jsonb, NULL, 'Part 10a');
 INSERT INTO forms (id, name, tier, duration, regeneration, source) VALUES ('labda', 'Labda', 4, '{"kind": "oneOff"}'::jsonb, NULL, 'Part 10a');
 INSERT INTO material_groups (id, name, examples, source) VALUES ('I', 'I. csoport', ARRAY['everything else non-magical']::text[], 'Part 10b');
 INSERT INTO material_groups (id, name, examples, source) VALUES ('II', 'II. csoport', ARRAY['base metals (copper, tin, iron...)', 'ores with over 10% content']::text[], 'Part 10b');

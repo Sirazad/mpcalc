@@ -65,7 +65,7 @@ class ApiIntegrationTest {
     @Test
     void flywayLoadedTheSeed() {
         assertEquals(101, mosaics.count());
-        assertEquals(12, jdbc.queryForObject("select count(*) from forms", Integer.class));
+        assertEquals(11, jdbc.queryForObject("select count(*) from forms", Integer.class), "the 11 forms of the user's form table");
         assertEquals(3, jdbc.queryForObject("select count(*) from material_groups", Integer.class));
     }
 

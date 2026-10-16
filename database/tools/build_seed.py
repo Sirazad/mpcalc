@@ -349,7 +349,7 @@ forms = [
     form("kard", "Kard", 2, DUR(kor=5), "5 kör"), form("aura", "Aura", 2, DUR(kor=2), "5 kör"),
     form("sator", "Sátor", 3, DUR(kor=3), "0,5 szegmens"), form("kupola", "Kupola", 3, DUR(kor=3)),
     form("eso", "Eső", 3, DUR(kor=3), "0,5 szegmens"),
-    form("gyuru", "Gyűrű", 4, DUR(kor=3), "0,5 szegmens"), form("gomb", "Gömb", 4, DUR(kor=5)),
+    form("gyuru", "Gyűrű", 4, DUR(kor=3), "0,5 szegmens"),
     form("labda", "Labda", 4, ONEOFF),
 ]
 groups = [
