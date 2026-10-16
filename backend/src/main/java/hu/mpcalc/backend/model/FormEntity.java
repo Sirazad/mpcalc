@@ -16,5 +16,7 @@ public class FormEntity {
     public String regeneration;
     /** Hungarian description of the form (line breaks separate paragraphs); null: none. */
     public String description;
+    /** Kard and Aura can be moved; every other form is stationary (tied to a point of space). */
+    public boolean movable;
     public String source;
 }

@@ -50,6 +50,8 @@ export const T = {
     back: 'Vissza',
     tier: 'Fok',
     regeneration: 'Regenerációs idő',
+    stationary: 'Helyhez kötött: a tér egy pontjához kötődik, nem valami tárgyhoz vagy személyhez, azaz nem mozgatható.',
+    movable: 'Mozgatható.',
     incomplete: 'Hiányos adat, nem használható',
     noMosaics: 'Ehhez a karakterhez nincs elérhető mozaik.',
     add: 'Hozzáadás',

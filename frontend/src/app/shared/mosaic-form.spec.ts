@@ -3,7 +3,7 @@ import { MosaicForm } from './mosaic-form';
 import { Form, MaterialGroup, Mosaic, Selection } from '../models';
 
 const groups: MaterialGroup[] = [{ id: 'I', name: 'I. csoport', examples: [] }, { id: 'II', name: 'II. csoport', examples: [] }];
-const forms: Form[] = [{ id: 'small', name: 'Kicsi', tier: 2, duration: null, regeneration: '0,5 szegmens', description: 'Támadó varázslat.\n\nMásodik bekezdés.' }, { id: 'big', name: 'Nagy', tier: 4, duration: null }];
+const forms: Form[] = [{ id: 'small', name: 'Kicsi', tier: 2, duration: null, regeneration: '0,5 szegmens', movable: false, description: 'Támadó varázslat.\n\nMásodik bekezdés.' }, { id: 'big', name: 'Nagy', tier: 4, duration: null, movable: true }];
 const oselem: Mosaic = {
   id: 'oselem', name: 'Őselem idézése', school: 'anyagi', tier: 2, status: { state: 'complete', missing: [] },
   power: { unit: 'E', baseE: 1, step: { mp: 4, e: 1 } }, cost: { pattern: 'flat' }, source: 'x',
@@ -58,10 +58,12 @@ describe('MosaicForm', () => {
     await fixture.whenStable();
     expect(el.querySelector('[data-testid="regeneration-form"]')?.textContent?.trim()).toBe('Regenerációs idő: 0,5 szegmens');
     expect(el.querySelector('[data-testid="form-description-form"]')?.textContent).toContain('Támadó varázslat.');
+    expect(el.querySelector('[data-testid="form-movable-form"]')?.textContent).toContain('Helyhez kötött');
     set('big');
     await fixture.whenStable();
     expect(el.querySelector('[data-testid="regeneration-form"]')).toBeNull();
     expect(el.querySelector('[data-testid="form-description-form"]')).toBeNull();
+    expect(el.querySelector('[data-testid="form-movable-form"]')?.textContent?.trim()).toBe('Mozgatható.');
   });
 
   it('raises the power step and emits the selection with k', async () => {

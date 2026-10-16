@@ -46,6 +46,7 @@ public class CatalogService {
             o.set("duration", EngineJson.parse(f.duration));
             o.put("regeneration", f.regeneration);
             o.put("description", f.description);
+            o.put("movable", f.movable);
         }
         return arr.toString();
     }

@@ -395,6 +395,9 @@ class ApiIntegrationTest {
         assertTrue(byId.get("kitores").get("description").asText().contains("E/4 méter sugarú kör"), "Kitörés radius E/4 (user decision 2026-10-17)");
         assertTrue(byId.get("szonyeg").get("description").asText().contains("félkörönkénti sebzése"), "Szőnyeg damage per félkör for now");
         assertTrue(byId.get("fal").get("description").isNull(), "Fal has no description in the source");
+        for (String id : byId.keySet())
+            assertEquals(id.equals("kard") || id.equals("aura"), byId.get(id).get("movable").asBoolean(), id + ": only Kard and Aura are movable");
+        assertTrue(byId.get("szonyeg").get("description").asText().contains("kel birokra"), "the opposing-element sentence of the Szőnyeg");
         assertEquals(5, byId.get("fal").at("/duration/time/amounts/kor").asInt(), "Fal stays 5 k\u00f6r (user decision 2026-10-17)");
     }
 

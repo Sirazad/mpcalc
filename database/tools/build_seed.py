@@ -437,13 +437,16 @@ FORM_DESCRIPTIONS = {
         "méterben számított sugarával (24 E elem – 6 méter/4 E vagy 3 méter/8 E, vagy 2 méter/12 E). Tört érték esetén lefelé kell kerekíteni.\n\n"
         "A szőnyeg félkörönkénti sebzése a szőnyeg E-jével arányos, és nem a teremtett elemével.\n\n"
         "A szőnyegbe lépő lények méretüktől függően vesztenek Sp-t félkörönként.\n\n"
+        "Ha a szőnyegbe ellentétes elem alkotta nyíl, kard, fal vagy aura kerül, azokkal nem az átlag E-je kel birokra, hanem a bele formázott elem összes E-je.\n\n"
         "3 körig marad együtt, azután eloszlik."
     ),
 }
+# Kard and Aura can be moved, every other form is stationary (user, 2026-10-17)
+MOVABLE_FORMS = {"kard", "aura"}
 def form(id, name, tier, dur, regen=None):
     # regen: the regenerációs idő of the user's form table as text ("-" in the table is None); nothing calculates with it
     return {"id": id, "name": name, "tier": tier, "duration": dur, "regeneration": regen,
-            "description": FORM_DESCRIPTIONS.get(id), "source": P10A}
+            "description": FORM_DESCRIPTIONS.get(id), "movable": id in MOVABLE_FORMS, "source": P10A}
 forms = [
     form("nyil", "Nyíl", 2, ONEOFF), form("kitores", "Kitörés", 2, ONEOFF),
     form("fal", "Fal", 2, DUR(kor=5), "0,5 szegmens"), form("szonyeg", "Szőnyeg", 2, DUR(kor=3), "0,5 szegmens"),
