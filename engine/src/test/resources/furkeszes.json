@@ -1,0 +1,7 @@
+{ "id": "alap-furkeszes", "name": "Fürkészés", "school": "alapvarazslatok", "tier": 0,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"kor": 1}}},
+  "duration": {"kind": "oneOff"}, "range": {"kind": "zone"},
+  "resistance": {"kind": "concealment"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 1, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 7}, "inputs": [], "effect": "Test effect text", "source": "Part 2" }

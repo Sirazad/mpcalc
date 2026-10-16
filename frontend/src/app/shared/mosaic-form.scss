@@ -1,0 +1,8 @@
+.form { display: flex; flex-direction: column; gap: 4px; }
+.row { display: flex; gap: 8px; align-items: center; }
+.group { width: 180px; }
+.mass { width: 160px; }
+.power { display: flex; gap: 12px; align-items: center; margin: 8px 0; }
+.options { display: flex; flex-direction: column; }
+.choice-description { margin: 0 0 8px; color: var(--mat-sys-on-surface-variant); font-size: 0.9em; }
+.warn { color: var(--mat-sys-error); }

@@ -1,0 +1,538 @@
+[
+  {
+    "id": "asztral-szeretet-gyulolet",
+    "name": "Szeretet/Gyűlölet",
+    "school": "asztral",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-batorsag-felelem",
+    "name": "Bátorság/Félelem",
+    "school": "asztral",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 2,
+      "step": {
+        "mp": 3,
+        "e": 2
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 3
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-vagy-undor",
+    "name": "Vágy/Undor",
+    "school": "asztral",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-nyugalom-ingerultseg",
+    "name": "Nyugalom/Ingerültség",
+    "school": "asztral",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 2,
+      "step": {
+        "mp": 1,
+        "e": 2
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-huseg-hutlenseg",
+    "name": "Hűség/Hűtlenség",
+    "school": "asztral",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 2,
+      "step": {
+        "mp": 1,
+        "e": 2
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-semlegesseg-elvakultsag",
+    "name": "Semlegesség/Elvakultság",
+    "school": "asztral",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-elemzes",
+    "name": "Asztrál Elemzés",
+    "school": "asztral",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "oneOff"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 3,
+      "step": {
+        "mp": 1,
+        "e": 3
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-arnyalas",
+    "name": "Árnyalás",
+    "school": "asztral",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-kiterjesztes",
+    "name": "Asztrál Kiterjesztés",
+    "school": "asztral",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "duration",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-lenyomat",
+    "name": "Lenyomat",
+    "school": "asztral",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "duration",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "asztral"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-leny-idezese",
+    "name": "Asztrál lény idézése",
+    "school": "asztral",
+    "tier": null,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "tier",
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power",
+        "resistance"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "undefined"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 7"
+  },
+  {
+    "id": "asztral-tukrozes",
+    "name": "Tükrözés",
+    "school": "asztral",
+    "tier": 4,
+    "status": {
+      "state": "partial",
+      "missing": [
+        "castingTime",
+        "duration",
+        "range",
+        "resistance"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "undefined"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "source": "Part 7"
+  }
+]

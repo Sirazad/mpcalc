@@ -1,0 +1,121 @@
+@if (loading()) {
+  <p>{{ T.spell.calculating }}</p>
+} @else if (!session.character()) {
+  <p class="error" role="alert">{{ error() || T.errors.generic }}</p>
+  <a mat-button routerLink="/characters">{{ T.builder.back }}</a>
+} @else {
+  @let c = session.character()!;
+  <div class="head">
+    <a mat-button routerLink="/characters">{{ T.builder.back }}</a>
+    <h2>{{ c.name }}</h2>
+    <span class="mp" data-testid="current-mp">{{ T.builder.mp }}: <strong>{{ c.currentMp }}</strong> / {{ c.maxMp }}</span>
+    <span class="spacer"></span>
+    <button mat-stroked-button type="button" (click)="reload()" data-testid="reload">{{ T.actions.reload }}</button>
+    <button mat-stroked-button type="button" (click)="validate()" data-testid="validate">{{ T.actions.validate }}</button>
+  </div>
+  @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+
+  <div class="columns">
+    <mat-card class="add">
+      <mat-card-header><mat-card-title>{{ T.builder.addMosaic }}</mat-card-title></mat-card-header>
+      <mat-card-content>
+        @if (session.schoolsWithMosaics().length === 0) {
+          <p>{{ T.builder.noMosaics }}</p>
+        }
+        <h4>{{ T.builder.schools }}</h4>
+        <div class="chips">
+          @for (s of session.schoolsWithMosaics(); track s.id) {
+            <button mat-stroked-button type="button" [class.active]="school() === s.id" (click)="pickSchool(s.id)" [attr.data-testid]="'school-' + s.id">{{ s.name }}</button>
+          }
+        </div>
+        @if (school()) {
+          <h4>{{ T.builder.mosaics }}</h4>
+          <div class="mosaic-list" role="list">
+            @for (e of entries(); track e.key) {
+              <div class="entry" role="listitem" [class.selected]="openKey() === e.key">
+                <button type="button" class="pick" (click)="pick(e)" [attr.aria-expanded]="openKey() === e.key" [attr.data-testid]="(e.group ? 'group-' : 'mosaic-') + e.key">
+                  <span class="name">{{ e.name }}</span>
+                  <span class="meta">{{ T.builder.tier }}: {{ e.tierText }}@if (e.mosaic?.status?.state === 'incomplete') { · {{ T.builder.incomplete }} }</span>
+                </button>
+                @if (openKey() === e.key) {
+                  @if (e.group; as g) {
+                    <app-mosaic-group [def]="g.def" [choices]="g.choices" [forms]="session.forms()" [tiers]="c.tiers" [groups]="session.groups()" (added)="added($event)" />
+                  } @else if (e.mosaic; as m) {
+                    <app-mosaic-form [mosaic]="m" [forms]="session.forms()" [tiers]="c.tiers" [groups]="session.groups()" (added)="added($event)" />
+                  }
+                }
+              </div>
+            }
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <div class="right">
+      <mat-card class="spell" data-testid="spell-panel">
+        <mat-card-header><mat-card-title>{{ T.spell.title }}</mat-card-title></mat-card-header>
+        <mat-card-content>
+          @if (spell.selections().length === 0) {
+            <p>{{ T.spell.empty }}</p>
+          }
+          @if (spell.error()) { <p class="error" role="alert">{{ spell.error() }}</p> }
+          @if (spell.result(); as r) {
+            @for (m of r.mosaics; track $index) {
+              <div class="mosaic" [class.refused]="m.refused" [attr.data-testid]="'spell-mosaic-' + m.mosaicId">
+                <div class="line">
+                  <strong>{{ m.name }}</strong>
+                  @if (m.refused) { <span class="tag">{{ T.spell.refused }}</span> }
+                  <span class="spacer"></span>
+                  <button mat-button type="button" (click)="spell.remove($index)">{{ T.spell.remove }}</button>
+                </div>
+                @if (details($index); as d) {
+                  @if (d.length) {
+                    <dl class="details" [attr.data-testid]="'details-' + m.mosaicId">
+                      @for (item of d; track item.label) {
+                        <dt>{{ item.label }}</dt>
+                        <dd>@for (l of item.lines; track $index) { <div>{{ l }}</div> }</dd>
+                      }
+                    </dl>
+                  }
+                }
+                <dl>
+                  <dt>{{ T.spell.mp }}</dt><dd data-testid="mosaic-mp">{{ mp(m) }}</dd>
+                  <dt>{{ T.spell.e }}</dt><dd>{{ e(m) }}</dd>
+                  <dt>{{ T.spell.effect }}</dt><dd>{{ effect(m, $index) }}</dd>
+                  <dt>{{ T.spell.resistance }}</dt><dd>{{ resistance(m) }}</dd>
+                  <dt>{{ T.spell.castingTime }}</dt><dd>{{ casting(m) }}</dd>
+                  <dt>{{ T.spell.duration }}</dt><dd>{{ duration(m) }}</dd>
+                </dl>
+                @for (w of m.warnings; track $index) { <p class="warn">{{ w.text }}</p> }
+                @for (x of m.errors; track $index) { <p class="error">{{ x.text }}</p> }
+              </div>
+            }
+            <div class="totals">
+              <h4>{{ T.spell.total }}</h4>
+              <dl>
+                <dt>{{ T.spell.totalMp }}</dt><dd data-testid="total-mp">{{ totalMp() }}</dd>
+                <dt>{{ T.spell.castingTime }}</dt><dd>{{ totalCasting() }}</dd>
+                <dt>{{ T.spell.duration }}</dt><dd>{{ totalDuration() }}</dd>
+                <dt>{{ T.spell.remaining }}</dt><dd data-testid="remaining-mp">{{ remaining() }}</dd>
+              </dl>
+              @if (overspent(); as o) {
+                <p class="error" role="alert" data-testid="overspend-banner">{{ T.spell.notEnough }} {{ T.overspend.missing(o) }}</p>
+              } @else if (r.valid) {
+                <p>{{ T.spell.enough }}</p>
+              }
+              @for (w of r.warnings; track $index) { <p class="warn">{{ w.text }}</p> }
+              @for (x of r.errors; track $index) { <p class="error">{{ x.text }}</p> }
+            </div>
+          }
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button type="button" [disabled]="!canCast()" (click)="cast()" data-testid="cast">{{ T.actions.cast }}</button>
+          <button mat-stroked-button type="button" (click)="newSpell()" data-testid="new-spell">{{ T.actions.newSpell }}</button>
+          <button mat-stroked-button type="button" [disabled]="spell.selections().length === 0" (click)="save()" data-testid="save-spell">{{ T.actions.save }}</button>
+          <button mat-stroked-button type="button" (click)="load()" data-testid="open-load">{{ T.actions.load }}</button>
+        </mat-card-actions>
+      </mat-card>
+      <app-chat-box [characterId]="c.id" />
+    </div>
+  </div>
+}

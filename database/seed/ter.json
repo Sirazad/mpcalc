@@ -1,0 +1,559 @@
+[
+  {
+    "id": "ter-lokalizalas",
+    "name": "Lokalizálás",
+    "school": "ter",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "oneOff"
+    },
+    "range": {
+      "kind": "self"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-tavolbahatas",
+    "name": "Távolbahatás",
+    "school": "ter",
+    "tier": 2,
+    "status": {
+      "state": "partial",
+      "missing": [
+        "duration",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 4
+        }
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "byInput"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "lookup",
+      "input": "rangeM",
+      "table": [
+        {
+          "fromM": 20,
+          "toM": 39,
+          "mp": 10
+        },
+        {
+          "fromM": 40,
+          "toM": 99,
+          "mp": 18
+        },
+        {
+          "fromM": 100,
+          "toM": 999,
+          "mp": 25
+        },
+        {
+          "fromM": 1000,
+          "toM": 99000,
+          "mp": 40
+        },
+        {
+          "fromM": 100000,
+          "toM": null,
+          "mp": 50
+        }
+      ]
+    },
+    "inputs": [
+      {
+        "id": "rangeM",
+        "label": "Hatótáv",
+        "type": "number",
+        "unit": "m"
+      }
+    ],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-teleport",
+    "name": "Teleport",
+    "school": "ter",
+    "tier": 3,
+    "status": {
+      "state": "partial",
+      "missing": [
+        "castingTime"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "oneOff"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "perMass",
+      "rate": {
+        "mp": 1,
+        "massG": 3000
+      }
+    },
+    "inputs": [
+      {
+        "id": "massKg",
+        "label": "Tömeg",
+        "type": "number",
+        "unit": "kg"
+      }
+    ],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-terkapu",
+    "name": "Térkapu",
+    "school": "ter",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 68
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-terzavaras",
+    "name": "Térzavarás",
+    "school": "ter",
+    "tier": null,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "tier",
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power",
+        "resistance"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "undefined"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-tergomb",
+    "name": "Térgömb",
+    "school": "ter",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 82
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-sikkapu-anyagi",
+    "name": "Síkkapu – Anyagi",
+    "school": "ter",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 150
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-sikkapu-demoni",
+    "name": "Síkkapu – Démoni",
+    "school": "ter",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 200
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-abszolut-pont",
+    "name": "Abszolút pont",
+    "school": "ter",
+    "tier": 4,
+    "status": {
+      "state": "partial",
+      "missing": [
+        "duration",
+        "range",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 20
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "sz": 2
+        }
+      },
+      "addsDuration": {
+        "kind": "undefined"
+      },
+      "durationPerExtraMp": null
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-idezes",
+    "name": "Idézés",
+    "school": "ter",
+    "tier": 2,
+    "status": {
+      "state": "partial",
+      "missing": [
+        "duration"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 7
+        }
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "pentagram"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 15
+    },
+    "inputs": [],
+    "source": "Part 3"
+  },
+  {
+    "id": "ter-tavolbalatas",
+    "name": "Távolbalátás",
+    "school": "ter",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ter"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 30
+    },
+    "options": [
+      {
+        "id": "move",
+        "label": "Az ablak mozgatása (max. 100 km/h)",
+        "extraMp": 20,
+        "extraCastingTime": null
+      }
+    ],
+    "inputs": [],
+    "effect": "One-way transparent window, max 1 m x 1 m, to observe an area; sensed from the other side only as magic. Fixed unless the move option is taken.",
+    "source": "Part 3"
+  }
+]

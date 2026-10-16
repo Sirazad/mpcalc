@@ -1,0 +1,11 @@
+.chat { margin-top: 16px; }
+.list { max-height: 360px; min-height: 80px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 4px 0 8px; }
+.hint { color: var(--mat-sys-on-surface-variant); margin: 0; }
+.msg { padding: 8px 12px; border-radius: 12px; background: var(--mat-sys-surface-container); align-self: flex-start; max-width: 92%; }
+.msg.user { background: var(--mat-sys-secondary-container); align-self: flex-end; }
+.msg.error .text { color: var(--mat-sys-error); }
+.who { display: block; font: var(--mat-sys-label-small); color: var(--mat-sys-on-surface-variant); }
+.text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.status { color: var(--mat-sys-on-surface-variant); font-style: italic; margin: 0; }
+.input { width: 100%; }
+mat-card-actions { gap: 8px; padding: 0 16px 16px; }

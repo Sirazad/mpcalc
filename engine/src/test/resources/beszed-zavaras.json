@@ -1,0 +1,7 @@
+{ "id": "mental-beszed-zavaras", "name": "Beszéd – Zavarás", "school": "mental", "tier": 2,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "meditation", "time": {"kind": "time", "amounts": {"sz": 1}}},
+  "duration": {"kind": "time", "time": {"kind": "time", "amounts": {"kor": 3}}},
+  "range": {"kind": "meters", "value": 20}, "resistance": {"kind": "school", "school": "mental"},
+  "power": {"unit": "E", "baseE": 3, "step": {"mp": 2, "e": 3}},
+  "cost": {"pattern": "flat", "baseMp": 2}, "inputs": [], "source": "Part 6" }

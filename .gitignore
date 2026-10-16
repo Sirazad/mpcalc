@@ -1,0 +1,22 @@
+# Secrets and local settings (the real values live in infra/.env, never committed)
+.env
+.eval.env
+
+# Build output and caches
+node_modules/
+target/
+dist/
+.angular/
+__pycache__/
+.pytest_cache/
+.playwright-mcp/
+*.pyc
+
+# Python virtual environments
+.venv/
+
+# Eval runs (traces and results of paid model runs)
+chat/evals/runs/
+
+# macOS
+.DS_Store

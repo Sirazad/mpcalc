@@ -1,0 +1,77 @@
+# Tested 2026-10-13: db, backend and proxy start and work together (chat has no code yet, see README).
+# Run from this folder: docker-compose up --build   (on this machine the Compose plugin is the standalone `docker-compose` command)
+name: mpcalc
+
+services:
+  proxy:
+    image: nginx:1.27-alpine
+    ports:
+      - "${PROXY_PORT:-8081}:80"   # the ONLY published port
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${FRONTEND_DIST:-./site}:/usr/share/nginx/html:ro
+    networks: [edge]
+    depends_on: [backend, chat]
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ../backend            # Maven project (pom.xml); placeholder is built if empty
+      dockerfile: ../infra/backend/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-mpcalc}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-mpcalc}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      MCP_API_KEY: ${MCP_API_KEY:?set MCP_API_KEY in .env}
+    expose: ["8080"]
+    networks: [edge, db_net]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  chat:
+    build:
+      context: ../chat               # Python service folder (requirements.txt); code not part of phase 0
+      dockerfile: ../infra/chat/Dockerfile
+    environment:
+      BACKEND_URL: http://backend:8080
+      MCP_API_KEY: ${MCP_API_KEY:?set MCP_API_KEY in .env}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:?set ANTHROPIC_API_KEY in .env}
+      CHAT_MODEL: ${CHAT_MODEL:-claude-haiku-5-5}
+      CHAT_RATE_QUESTIONS: ${CHAT_RATE_QUESTIONS:-10}
+      CHAT_RATE_WINDOW_SECONDS: ${CHAT_RATE_WINDOW_SECONDS:-300}
+      CHAT_RATE_CONCURRENT: ${CHAT_RATE_CONCURRENT:-2}
+    expose: ["8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/chat/health', timeout=3).status == 200 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [edge]                 # no db_net: no database access (open decision, see README)
+    depends_on: [backend]
+    restart: unless-stopped
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mpcalc}
+      POSTGRES_USER: ${POSTGRES_USER:-mpcalc}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [db_net]               # internal network, only the backend is also on it
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+networks:
+  edge: {}
+  db_net:
+    internal: true                   # no route to the outside
+
+volumes:
+  pgdata: {}

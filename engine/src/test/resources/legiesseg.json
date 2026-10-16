@@ -1,0 +1,8 @@
+{ "id": "anyagi-term-legiesseg", "name": "Légiesség", "school": "anyagi", "subgroup": "termeszetes", "tier": 3,
+  "status": {"state": "incomplete", "missing": ["cost"]},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"sz": 2}}},
+  "duration": {"kind": "time", "time": {"kind": "time", "amounts": {"perc": 1}}},
+  "range": {"kind": "zone"}, "resistance": {"kind": "naturalMaterialMagic"}, "power": null,
+  "cost": {"pattern": "compositionGrid", "rows": ["I", "II", "III"], "columns": ["I", "I+II", "I+II+III"], "rates": null},
+  "inputs": [ {"id": "composition", "type": "composition"},
+              {"id": "passThrough", "type": "choice", "values": ["I", "I+II", "I+II+III"]} ], "source": "Part 10b" }

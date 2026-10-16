@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>hu.mpcalc</groupId>
+  <artifactId>mpcalc-engine</artifactId>
+  <versioning>
+    <versions>
+      <version>0.1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20261016205723</lastUpdated>
+  </versioning>
+</metadata>

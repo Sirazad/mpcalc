@@ -1,0 +1,8 @@
+{ "id": "anyagi-elemi-elemi-ero-idezese", "name": "Elemi erő idézése", "school": "anyagi", "subgroup": "elemi", "tier": 3,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"sz": 1}}},
+  "duration": {"kind": "formDependent"}, "range": {"kind": "zone"},
+  "resistance": {"kind": "armorSfe"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 1, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 1},
+  "inputs": [ {"id": "form", "type": "form"} ], "source": "test" }

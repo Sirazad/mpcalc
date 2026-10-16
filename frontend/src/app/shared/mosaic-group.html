@@ -1,0 +1,12 @@
+<div class="group" data-testid="mosaic-group">
+  <mat-form-field>
+    <mat-label>{{ def().choiceLabel }}</mat-label>
+    <mat-select [ngModel]="key()" (ngModelChange)="key.set($event)" name="group-choice" data-testid="group-choice">
+      @for (c of choices(); track c.key) { <mat-option [value]="c.key">{{ c.label }} · {{ T.builder.tier }}: {{ c.tier }}</mat-option> }
+    </mat-select>
+  </mat-form-field>
+  @if (chosen(); as c) {
+    @if (c.description) { <p class="choice-description" data-testid="group-description">{{ c.description }}</p> }
+    <app-mosaic-form [mosaic]="c.mosaic" [preset]="c.preset" [forms]="forms()" [tiers]="tiers()" [groups]="groups()" (added)="added.emit($event)" />
+  }
+</div>

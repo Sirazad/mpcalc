@@ -1,0 +1,8 @@
+{ "id": "test-teleport", "name": "Teleport (hand-written test data)", "school": "ter", "tier": 2,
+  "status": {"state": "partial", "missing": ["castingTime"]},
+  "castingTime": {"label": "casting", "time": {"kind": "undefined"}},
+  "duration": {"kind": "oneOff"}, "range": {"kind": "zone"},
+  "resistance": {"kind": "school", "school": "ter"}, "power": null,
+  "cost": {"pattern": "perMass", "rate": {"mp": 1, "massG": 3000}},
+  "options": [ {"id": "window", "label": "move the window", "extraMp": 20, "extraCastingTime": null} ],
+  "inputs": [ {"id": "weight", "type": "number", "unit": "kg"} ], "source": "test" }

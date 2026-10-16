@@ -1,0 +1,59 @@
+<h2>{{ T.characters.title }}</h2>
+<button mat-flat-button type="button" (click)="startNew()" data-testid="new-character">{{ T.characters.new }}</button>
+
+@if (editing(); as e) {
+  <mat-card class="form">
+    <mat-card-header>
+      <mat-card-title>{{ e === 'new' ? T.characters.newTitle : T.characters.editTitle }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>{{ T.characters.name }}</mat-label>
+        <input matInput [ngModel]="name()" (ngModelChange)="name.set($event)" name="name" data-testid="char-name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ T.characters.maxMp }}</mat-label>
+        <input matInput type="number" min="0" step="1" [ngModel]="maxMp()" (ngModelChange)="maxMp.set($event)" name="maxMp" data-testid="char-max-mp" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ T.characters.currentMp }}</mat-label>
+        <input matInput type="number" min="0" step="1" [ngModel]="currentMp()" (ngModelChange)="currentMp.set($event)" name="currentMp" data-testid="char-current-mp" />
+      </mat-form-field>
+      <h4>{{ T.characters.tiers }}</h4>
+      <p class="hint">{{ T.characters.tierHint }}</p>
+      <div class="tiers">
+        @for (s of tierSchools(); track s.id) {
+          <mat-form-field class="tier">
+            <mat-label>{{ s.name }}</mat-label>
+            <input matInput type="number" min="0" max="5" step="1" [ngModel]="tiers()[s.id] ?? 0" (ngModelChange)="setTier(s.id, $event)"
+                   [name]="'tier-' + s.id" [attr.data-testid]="'tier-' + s.id" />
+          </mat-form-field>
+        }
+      </div>
+      @if (!wholeNumbers()) { <p class="error" role="alert" data-testid="whole-error">{{ T.wholeNumberOnly }}</p> }
+      @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button type="button" [disabled]="!wholeNumbers()" (click)="save()" data-testid="char-save">{{ e === 'new' ? T.characters.create : T.characters.save }}</button>
+      <button mat-button type="button" (click)="editing.set(null)">{{ T.characters.cancel }}</button>
+    </mat-card-actions>
+  </mat-card>
+}
+
+@if (session.characters().length === 0 && !editing()) {
+  <p>{{ T.characters.none }}</p>
+}
+<div class="list">
+  @for (c of session.characters(); track c.id) {
+    <mat-card class="character" [attr.data-testid]="'character-' + c.id">
+      <mat-card-header>
+        <mat-card-title>{{ c.name }}</mat-card-title>
+        <mat-card-subtitle>{{ T.builder.mp }}: {{ c.currentMp }} / {{ c.maxMp }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-flat-button type="button" (click)="open(c)" data-testid="open-character">{{ T.characters.open }}</button>
+        <button mat-button type="button" (click)="startEdit(c)">{{ T.characters.edit }}</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>

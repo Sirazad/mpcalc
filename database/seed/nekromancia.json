@@ -1,0 +1,472 @@
+[
+  {
+    "id": "nekro-elohalott-taszitas",
+    "name": "Élőholt taszítás",
+    "school": "nekromancia",
+    "tier": 2,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "range"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-elohalott-erzekeles",
+    "name": "Élőholt érzékelés",
+    "school": "nekromancia",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 3
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "self"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": null
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-negativ-energia",
+    "name": "Negatív energia",
+    "school": "nekromancia",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "formDependent"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "lifeForce"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 4,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 4
+    },
+    "inputs": [
+      {
+        "id": "form",
+        "label": "Forma",
+        "type": "form"
+      }
+    ],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-kepzettseg-iranyitasa",
+    "name": "Képzettség irányítása",
+    "school": "nekromancia",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power",
+        "resistance"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "undefined"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-tulajdonsag-iranyitasa",
+    "name": "Tulajdonság irányítása",
+    "school": "nekromancia",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 3
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "touch"
+    },
+    "resistance": {
+      "kind": "lifeForce"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 6,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 6
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-iranyitas",
+    "name": "Irányítás",
+    "school": "nekromancia",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "duration",
+        "range",
+        "resistance",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "undefined"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-szellemidezes",
+    "name": "Szellemidézés",
+    "school": "nekromancia",
+    "tier": 3,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-elohalott-idezes",
+    "name": "Élőholt idézés",
+    "school": "nekromancia",
+    "tier": 3,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-demonidezes",
+    "name": "Démonidézés",
+    "school": "nekromancia",
+    "tier": 3,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-halott-mozgatasa",
+    "name": "Halott mozgatása",
+    "school": "nekromancia",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": null
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 30
+    },
+    "inputs": [],
+    "source": "Part 9"
+  },
+  {
+    "id": "nekro-lelek-bebortonzese",
+    "name": "Lélek bebörtönzése",
+    "school": "nekromancia",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": null
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 20
+    },
+    "inputs": [],
+    "source": "Part 9"
+  }
+]

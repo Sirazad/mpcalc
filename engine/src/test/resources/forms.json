@@ -1,0 +1,2 @@
+[ {"id": "test-small", "name": "Test form tier 2", "tier": 2, "duration": {"kind": "time", "amounts": {"kor": 3}}},
+  {"id": "test-big", "name": "Test form tier 3", "tier": 3, "duration": {"kind": "time", "amounts": {"perc": 1}}} ]

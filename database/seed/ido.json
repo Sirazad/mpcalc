@@ -1,0 +1,837 @@
+[
+  {
+    "id": "ido-nyujtas-kor",
+    "name": "Varázslat nyújtás-kör",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      },
+      "addsDuration": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      },
+      "durationPerExtraMp": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-nyujtas-perc",
+    "name": "Varázslat nyújtás-perc",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 10
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      },
+      "addsDuration": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      },
+      "durationPerExtraMp": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-nyujtas-ora",
+    "name": "Varázslat nyújtás-óra",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 25
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      },
+      "addsDuration": {
+        "kind": "time",
+        "amounts": {
+          "ora": 1
+        }
+      },
+      "durationPerExtraMp": {
+        "kind": "time",
+        "amounts": {
+          "ora": 1
+        }
+      }
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-nyujtas-nap",
+    "name": "Varázslat nyújtás-nap",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 45
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      },
+      "addsDuration": {
+        "kind": "time",
+        "amounts": {
+          "nap": 1
+        }
+      },
+      "durationPerExtraMp": {
+        "kind": "time",
+        "amounts": {
+          "nap": 10
+        }
+      }
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-nyujtas-ev",
+    "name": "Varázslat nyújtás-év",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 75
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "ora": 1
+        }
+      },
+      "addsDuration": {
+        "kind": "time",
+        "amounts": {
+          "ev": 1
+        }
+      },
+      "durationPerExtraMp": {
+        "kind": "time",
+        "amounts": {
+          "ev": 1
+        }
+      }
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-nyujtas-orokkevalosag",
+    "name": "Varázslat nyújtás-örökkévalóság",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 150
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "ora": 12
+        }
+      },
+      "addsDuration": {
+        "kind": "permanent"
+      },
+      "durationPerExtraMp": null
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-idozites",
+    "name": "Időzítés",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "partial",
+      "missing": [
+        "duration"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {}
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 15
+    },
+    "modifier": {
+      "appliesToWholeSpell": true,
+      "addsCastingTime": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      },
+      "addsDuration": {
+        "kind": "undefined"
+      },
+      "durationPerExtraMp": null
+    },
+    "inputs": [],
+    "effect": "Timing/delay; source gives 'max. 1 év' as its duration.",
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-lassitas",
+    "name": "Lassítás",
+    "school": "ido",
+    "tier": 3,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 3
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-gyorsitas",
+    "name": "Gyorsítás",
+    "school": "ido",
+    "tier": 3,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 3
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-lassitas-terulet",
+    "name": "Lassítás – Terület",
+    "school": "ido",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 10
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-gyorsitas-terulet",
+    "name": "Gyorsítás – Terület",
+    "school": "ido",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 10
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-idougras",
+    "name": "Időugrás",
+    "school": "ido",
+    "tier": 3,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-idokapu",
+    "name": "Időkapu",
+    "school": "ido",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-idofagyas",
+    "name": "Időfagyás",
+    "school": "ido",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-idozavaras",
+    "name": "Időzavarás",
+    "school": "ido",
+    "tier": null,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "tier",
+        "cost",
+        "castingTime",
+        "duration",
+        "range",
+        "power",
+        "resistance"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "undefined"
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "undefined"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 8"
+  },
+  {
+    "id": "ido-pontos-ido",
+    "name": "Pontos idő",
+    "school": "ido",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "self"
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "ido"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "source": "Part 8"
+  }
+]

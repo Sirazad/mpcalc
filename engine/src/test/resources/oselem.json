@@ -1,0 +1,10 @@
+{ "id": "anyagi-elemi-oselem-idezese", "name": "Őselem idézése", "school": "anyagi", "subgroup": "elemi", "tier": 2,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"sz": 1}}},
+  "duration": {"kind": "formDependent"}, "range": {"kind": "zone"},
+  "resistance": {"kind": "oppositeElement", "input": "element", "pairs": {"ostuz": "osviz", "osviz": "ostuz", "osfold": "oslevego", "oslevego": "osfold"}},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 4, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 4},
+  "inputs": [ {"id": "element", "type": "choice", "values": ["ostuz", "osviz", "osfold", "oslevego"],
+                "labels": {"ostuz": "Ős tűz", "osviz": "Ős víz", "osfold": "Ős föld", "oslevego": "Ős levegő"}},
+              {"id": "form", "type": "form"} ], "source": "Part 10a" }

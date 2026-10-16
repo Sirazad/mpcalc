@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <a class="brand" routerLink="/characters">{{ T.appName }}</a>
+  <span class="spacer"></span>
+  @if (session.player(); as p) {
+    <span class="who">{{ p.name }}</span>
+    <a mat-button routerLink="/characters">{{ T.nav.characters }}</a>
+    <button mat-button type="button" (click)="logout()">{{ T.nav.logout }}</button>
+  }
+</mat-toolbar>
+<main>
+  <router-outlet />
+</main>

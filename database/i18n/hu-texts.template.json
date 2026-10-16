@@ -1,0 +1,436 @@
+{
+  "_readme": [
+    "Fill in every \"hu\" field with the Hungarian text. Do not change the other fields.",
+    "effects: the effect text of the mosaic (shown in the spell panel).",
+    "resistanceKinds: the name of the magic resistance type (mágikus ellenállás). 'school' is shown as 'Iskola: <name of the school>', so give only the word for the prefix if you want it changed; leave empty to keep the current text.",
+    "choiceValues: the name shown in the drop-down for a choice. The stored value (for example ostuz) stays as the technical id.",
+    "materialGroupExamples: the examples listed for a material group.",
+    "An empty \"hu\" means: keep the current text.",
+    "choiceValues for the 8 elements are already filled and stored (migration V7); only the passThrough values (I, I+II, I+II+III) are still open."
+  ],
+  "effects": [
+    {
+      "mosaicId": "anyagi-term-atformazas",
+      "name": "Átformázás",
+      "en": "Changes shape and colour; new object of exactly the same weight; reverts when the spell ends.",
+      "hu": "Megváltoztatja a méretet és színt, súlyra az eredetivel azonos; a varázslat végével az eredetire áll vissza"
+    },
+    {
+      "mosaicId": "anyagi-term-atalakitas",
+      "name": "Átalakítás",
+      "en": "Changes quality within the group; state and shape stay; MP from the starting weight; reverts when the spell ends.",
+      "hu": "Kategórián belül változik, az állapot és forma változik, a kezdeti súly határozza meg a MP igényt, visszamegy eredeti állapotba lejárat után"
+    },
+    {
+      "mosaicId": "anyagi-term-visszavaltoztatas",
+      "name": "Visszaváltoztatás",
+      "en": "Recreates from the soul.",
+      "hu": "A lélekből állítja vissza"
+    },
+    {
+      "mosaicId": "mental-beszed-olvasas",
+      "name": "Beszéd – Olvasás",
+      "en": "speech, read: glimpse into someone's mind",
+      "hu": "elmébe tekintés"
+    },
+    {
+      "mosaicId": "mental-beszed-iras",
+      "name": "Beszéd – Írás",
+      "en": "speech, write: put in something that was not there, e.g. a memory",
+      "hu": "tegyél oda valamit, ami nem lenne ott"
+    },
+    {
+      "mosaicId": "mental-beszed-zavaras",
+      "name": "Beszéd – Zavarás",
+      "en": "speech, disrupt: make it hard to focus; jumbled",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-beszed-benitas",
+      "name": "Beszéd – Bénítás",
+      "en": "speech, disable: remove a thought, memory, ability or feeling",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-erzekeles-olvasas",
+      "name": "Érzékelés – Olvasás",
+      "en": "perception, read: glimpse into someone's mind",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-erzekeles-iras",
+      "name": "Érzékelés – Írás",
+      "en": "perception, write: put in something that was not there, e.g. a memory",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-erzekeles-zavaras",
+      "name": "Érzékelés – Zavarás",
+      "en": "perception, disrupt: make it hard to focus; jumbled",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-erzekeles-benitas",
+      "name": "Érzékelés – Bénítás",
+      "en": "perception, disable: remove a thought, memory, ability or feeling",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-emlek-olvasas",
+      "name": "Emlék – Olvasás",
+      "en": "memory, read: glimpse into someone's mind",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-emlek-iras",
+      "name": "Emlék – Írás",
+      "en": "memory, write: put in something that was not there, e.g. a memory",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-emlek-zavaras",
+      "name": "Emlék – Zavarás",
+      "en": "memory, disrupt: make it hard to focus; jumbled",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-emlek-benitas",
+      "name": "Emlék – Bénítás",
+      "en": "memory, disable: remove a thought, memory, ability or feeling",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-mozgas-olvasas",
+      "name": "Mozgás – Olvasás",
+      "en": "movement, read: glimpse into someone's mind",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-mozgas-iras",
+      "name": "Mozgás – Írás",
+      "en": "movement, write: put in something that was not there, e.g. a memory",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-mozgas-zavaras",
+      "name": "Mozgás – Zavarás",
+      "en": "movement, disrupt: make it hard to focus; jumbled",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-mozgas-benitas",
+      "name": "Mozgás – Bénítás",
+      "en": "movement, disable: remove a thought, memory, ability or feeling",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-akarat-olvasas",
+      "name": "Akarat – Olvasás",
+      "en": "will, read: glimpse into someone's mind",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-akarat-iras",
+      "name": "Akarat – Írás",
+      "en": "will, write: put in something that was not there, e.g. a memory",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-akarat-zavaras",
+      "name": "Akarat – Zavarás",
+      "en": "will, disrupt: make it hard to focus; jumbled",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-akarat-benitas",
+      "name": "Akarat – Bénítás",
+      "en": "will, disable: remove a thought, memory, ability or feeling",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-fajdalom-olvasas",
+      "name": "Fájdalom – Olvasás",
+      "en": "pain, read: glimpse into someone's mind",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-fajdalom-iras",
+      "name": "Fájdalom – Írás",
+      "en": "pain, write: put in something that was not there, e.g. a memory",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-fajdalom-zavaras",
+      "name": "Fájdalom – Zavarás",
+      "en": "pain, disrupt: make it hard to focus; jumbled",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-fajdalom-benitas",
+      "name": "Fájdalom – Bénítás",
+      "en": "pain, disable: remove a thought, memory, ability or feeling",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-igazsag-olvasas",
+      "name": "Igazság – Olvasás",
+      "en": "truth, read: glimpse into someone's mind",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-igazsag-iras",
+      "name": "Igazság – Írás",
+      "en": "truth, write: put in something that was not there, e.g. a memory",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-igazsag-zavaras",
+      "name": "Igazság – Zavarás",
+      "en": "truth, disrupt: make it hard to focus; jumbled",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-igazsag-benitas",
+      "name": "Igazság – Bénítás",
+      "en": "truth, disable: remove a thought, memory, ability or feeling",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-halo",
+      "name": "Háló",
+      "en": "A net that links people's minds together; has no strength (+E/MP '-'); MP is '?' in the source.",
+      "hu": ""
+    },
+    {
+      "mosaicId": "mental-mentalleny-idezese",
+      "name": "Mentállény idézése",
+      "en": "Summoning a mental being; power and cost depend on the type of creature pulled to the place.",
+      "hu": ""
+    },
+    {
+      "mosaicId": "ter-tavolbalatas",
+      "name": "Távolbalátás",
+      "en": "One-way transparent window, max 1 m x 1 m, to observe an area; sensed from the other side only as magic. Fixed unless the move option is taken.",
+      "hu": ""
+    },
+    {
+      "mosaicId": "ido-idozites",
+      "name": "Időzítés",
+      "en": "Timing/delay; source gives 'max. 1 év' as its duration.",
+      "hu": ""
+    }
+  ],
+  "resistanceKinds": [
+    {
+      "kind": "concealment",
+      "usedBy": 1,
+      "currentlyShownAs": "Leplezés",
+      "hu": ""
+    },
+    {
+      "kind": "spellMp",
+      "usedBy": 1,
+      "currentlyShownAs": "Varázslat MP",
+      "hu": ""
+    },
+    {
+      "kind": "none",
+      "usedBy": 11,
+      "currentlyShownAs": "nincs",
+      "hu": ""
+    },
+    {
+      "kind": "givenElement",
+      "usedBy": 1,
+      "currentlyShownAs": "givenElement",
+      "hu": ""
+    },
+    {
+      "kind": "givenParaElement",
+      "usedBy": 1,
+      "currentlyShownAs": "givenParaElement",
+      "hu": ""
+    },
+    {
+      "kind": "armorSfe",
+      "usedBy": 1,
+      "currentlyShownAs": "armorSfe",
+      "hu": ""
+    },
+    {
+      "kind": "naturalMaterialMagic",
+      "usedBy": 12,
+      "currentlyShownAs": "naturalMaterialMagic",
+      "hu": ""
+    },
+    {
+      "kind": "school",
+      "usedBy": 65,
+      "currentlyShownAs": "Iskola: <az iskola neve>",
+      "hu": ""
+    },
+    {
+      "kind": "undefined",
+      "usedBy": 6,
+      "currentlyShownAs": "undefined",
+      "hu": ""
+    },
+    {
+      "kind": "lifeForce",
+      "usedBy": 2,
+      "currentlyShownAs": "lifeForce",
+      "hu": ""
+    }
+  ],
+  "choiceValues": [
+    {
+      "mosaicId": "anyagi-elemi-oselem-idezese",
+      "inputId": "element",
+      "inputLabel": "Őselem",
+      "value": "ostuz",
+      "hu": "Ős tűz"
+    },
+    {
+      "mosaicId": "anyagi-elemi-oselem-idezese",
+      "inputId": "element",
+      "inputLabel": "Őselem",
+      "value": "osviz",
+      "hu": "Ős víz"
+    },
+    {
+      "mosaicId": "anyagi-elemi-oselem-idezese",
+      "inputId": "element",
+      "inputLabel": "Őselem",
+      "value": "osfold",
+      "hu": "Ős föld"
+    },
+    {
+      "mosaicId": "anyagi-elemi-oselem-idezese",
+      "inputId": "element",
+      "inputLabel": "Őselem",
+      "value": "oslevego",
+      "hu": "Ős levegő"
+    },
+    {
+      "mosaicId": "anyagi-elemi-paraelem-idezese",
+      "inputId": "paraElement",
+      "inputLabel": "Paraelem",
+      "value": "ho",
+      "hu": "Elemi hő"
+    },
+    {
+      "mosaicId": "anyagi-elemi-paraelem-idezese",
+      "inputId": "paraElement",
+      "inputLabel": "Paraelem",
+      "value": "fagy",
+      "hu": "Elemi hideg"
+    },
+    {
+      "mosaicId": "anyagi-elemi-paraelem-idezese",
+      "inputId": "paraElement",
+      "inputLabel": "Paraelem",
+      "value": "feny",
+      "hu": "Elemi fény"
+    },
+    {
+      "mosaicId": "anyagi-elemi-paraelem-idezese",
+      "inputId": "paraElement",
+      "inputLabel": "Paraelem",
+      "value": "setet",
+      "hu": "Elemi sötétség"
+    },
+    {
+      "mosaicId": "anyagi-term-legiesseg",
+      "inputId": "passThrough",
+      "inputLabel": "Áthatolás",
+      "value": "I",
+      "hu": ""
+    },
+    {
+      "mosaicId": "anyagi-term-legiesseg",
+      "inputId": "passThrough",
+      "inputLabel": "Áthatolás",
+      "value": "I+II",
+      "hu": ""
+    },
+    {
+      "mosaicId": "anyagi-term-legiesseg",
+      "inputId": "passThrough",
+      "inputLabel": "Áthatolás",
+      "value": "I+II+III",
+      "hu": ""
+    }
+  ],
+  "materialGroupExamples": [
+    {
+      "groupId": "I",
+      "groupName": "I. csoport",
+      "index": 0,
+      "en": "everything else non-magical",
+      "hu": ""
+    },
+    {
+      "groupId": "II",
+      "groupName": "II. csoport",
+      "index": 0,
+      "en": "base metals (copper, tin, iron...)",
+      "hu": ""
+    },
+    {
+      "groupId": "II",
+      "groupName": "II. csoport",
+      "index": 1,
+      "en": "ores with over 10% content",
+      "hu": ""
+    },
+    {
+      "groupId": "III",
+      "groupName": "III. csoport",
+      "index": 0,
+      "en": "aryan",
+      "hu": ""
+    },
+    {
+      "groupId": "III",
+      "groupName": "III. csoport",
+      "index": 1,
+      "en": "silver",
+      "hu": ""
+    },
+    {
+      "groupId": "III",
+      "groupName": "III. csoport",
+      "index": 2,
+      "en": "platinum",
+      "hu": ""
+    },
+    {
+      "groupId": "III",
+      "groupName": "III. csoport",
+      "index": 3,
+      "en": "alloys with at least 10% of them",
+      "hu": ""
+    },
+    {
+      "groupId": "III",
+      "groupName": "III. csoport",
+      "index": 4,
+      "en": "acids",
+      "hu": ""
+    },
+    {
+      "groupId": "III",
+      "groupName": "III. csoport",
+      "index": 5,
+      "en": "bases",
+      "hu": ""
+    },
+    {
+      "groupId": "III",
+      "groupName": "III. csoport",
+      "index": 6,
+      "en": "poisons",
+      "hu": ""
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{ "id": "ido-nyujtas-ora", "name": "Varázslat nyújtás-óra", "school": "ido", "tier": 2,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {}}},
+  "duration": {"kind": "undefined"}, "range": {"kind": "undefined"},
+  "resistance": {"kind": "school", "school": "ido"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 1, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 25},
+  "modifier": {"appliesToWholeSpell": true,
+               "addsCastingTime": {"kind": "time", "amounts": {"perc": 5}},
+               "addsDuration": {"kind": "time", "amounts": {"ora": 1}},
+               "durationPerExtraMp": {"kind": "time", "amounts": {"ora": 1}}},
+  "inputs": [], "source": "Part 8" }

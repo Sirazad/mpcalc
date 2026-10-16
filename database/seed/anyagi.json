@@ -1,0 +1,1027 @@
+[
+  {
+    "id": "anyagi-elemi-oselem-idezese",
+    "name": "Őselem idézése",
+    "school": "anyagi",
+    "subgroup": "elemi",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "formDependent"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "oppositeElement",
+      "input": "element",
+      "pairs": {
+        "ostuz": "osviz",
+        "osviz": "ostuz",
+        "osfold": "oslevego",
+        "oslevego": "osfold"
+      }
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [
+      {
+        "id": "element",
+        "label": "Őselem",
+        "type": "choice",
+        "values": [
+          "ostuz",
+          "osviz",
+          "osfold",
+          "oslevego"
+        ],
+        "labels": {
+          "ostuz": "Ős tűz",
+          "osviz": "Ős víz",
+          "osfold": "Ős föld",
+          "oslevego": "Ős levegő"
+        },
+        "descriptions": {
+          "ostuz": "Önállóan létező anyag, így a természetes tűzzel ellentétben nem kell semmi, ami táplálja. A belsejében az erősségénél tizenötször nagyobb erősségű elemi hő van (kb. 80°+20°/tűz-E). A környezetbe szétsugárzott hő viszont már normális, és a fénye sem elemi fény (belül sem).",
+          "osviz": "Teljesen tiszta átlátszó víz. Megidézésekor a környezet hőmérsékletét veszi fel (nem jön vele az elemi hideg paraelem).",
+          "osfold": "Tökéletesen száraz, szürkés, porszerű anyag. Szemcséinek a mérete a homokéhoz hasonló. A normál levegőt is kiszorítja, így a légzés benne nehézkesebbé válik.",
+          "oslevego": "Tiszta levegő. Belélegezhető. Nem kíséri hő hatás (környezet hőmérséklete) a megidézésekor. A füst, légimérgek és egyéb anyagokat kiszorítja onnan, ahol van."
+        }
+      },
+      {
+        "id": "form",
+        "label": "Forma",
+        "type": "form"
+      }
+    ],
+    "source": "Part 10a"
+  },
+  {
+    "id": "anyagi-elemi-paraelem-idezese",
+    "name": "Paraelem idézése",
+    "school": "anyagi",
+    "subgroup": "elemi",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "formDependent"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "givenParaElement",
+      "input": "paraElement"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [
+      {
+        "id": "paraElement",
+        "label": "Paraelem",
+        "type": "choice",
+        "values": [
+          "ho",
+          "fagy",
+          "feny",
+          "setet"
+        ],
+        "labels": {
+          "ho": "Elemi hő",
+          "fagy": "Elemi hideg",
+          "feny": "Elemi fény",
+          "setet": "Elemi sötétség"
+        },
+        "descriptions": {
+          "ho": "A tűz és a föld paraeleme. Megidézve minden természetes élettelen anyagot egy szempillantás alatt felmelegít az erősségnek megfelelő hőmérsékletre. Ellentétes paraeleme az elemi hideg.",
+          "fagy": "A levegő és a víz paraeleme. Megidézve minden természetes élettelen anyagot egy szempillantás alatt lehűt az erősségnek megfelelő hőmérsékletre. Ellentétes paraeleme az elemi hő.",
+          "feny": "A tűz és a levegő paraeleme. Megidézve az adott területen minden pont olyan fényességű lesz, mint az elemi fény erőssége (így az árnyékok eltűnnek). Ellentétes paraeleme az elemi sötétség.",
+          "setet": "A víz és a föld paraeleme. Megidézve az adott területen elnyeli a fényt, minden pontban olyan sötét lesz, mint ami az erősségnek megfelel. Ellentétes paraeleme az elemi fény."
+        }
+      },
+      {
+        "id": "form",
+        "label": "Forma",
+        "type": "form"
+      }
+    ],
+    "source": "Part 10a"
+  },
+  {
+    "id": "anyagi-elemi-elemi-ero-idezese",
+    "name": "Elemi erő idézése",
+    "school": "anyagi",
+    "subgroup": "elemi",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "formDependent"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "armorSfe"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [
+      {
+        "id": "form",
+        "label": "Forma",
+        "type": "form"
+      }
+    ],
+    "effect": "A mágikus energiákat felhasználva mozgatni vagy megállítani lehet tárgyakat.",
+    "source": "Part 10a"
+  },
+  {
+    "id": "anyagi-elemi-elemental-idezes",
+    "name": "Elementál idézés",
+    "school": "anyagi",
+    "subgroup": "elemi",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "duration",
+        "range"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "undefined"
+    },
+    "range": {
+      "kind": "undefined"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": null
+    },
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "source": "Part 10a"
+  },
+  {
+    "id": "anyagi-elemi-elemi-vedelem",
+    "name": "Elemi védelem",
+    "school": "anyagi",
+    "subgroup": "elemi",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "formDependent"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "none"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 10,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 10
+    },
+    "inputs": [
+      {
+        "id": "form",
+        "label": "Forma",
+        "type": "form"
+      }
+    ],
+    "source": "Part 10a"
+  },
+  {
+    "id": "anyagi-term-atformazas",
+    "name": "Átformázás",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 4
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 1,
+          "massG": 1000
+        },
+        "II": {
+          "mp": 1,
+          "massG": 500
+        },
+        "III": {
+          "mp": 1,
+          "massG": 1
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "effect": "Changes shape and colour; new object of exactly the same weight; reverts when the spell ends.",
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-atalakitas",
+    "name": "Átalakítás",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 6
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 1,
+          "massG": 1000
+        },
+        "II": {
+          "mp": 1,
+          "massG": 500
+        },
+        "III": {
+          "mp": 1,
+          "massG": 1
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "effect": "Changes quality within the group; state and shape stay; MP from the starting weight; reverts when the spell ends.",
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-teremtes",
+    "name": "Teremtés",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 3
+        }
+      }
+    },
+    "duration": {
+      "kind": "oneOff"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 5,
+          "massG": 1000
+        },
+        "II": {
+          "mp": 5,
+          "massG": 500
+        },
+        "III": {
+          "mp": 5,
+          "massG": 1
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-dezintegracio",
+    "name": "Dezintegráció",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "oneOff"
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 3,
+          "massG": 1000
+        },
+        "II": {
+          "mp": 3,
+          "massG": 500
+        },
+        "III": {
+          "mp": 3,
+          "massG": 1
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-atvaltoztatas",
+    "name": "Átváltoztatás",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 2,
+          "massG": 1000
+        },
+        "II": null,
+        "III": null
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-visszavaltoztatas",
+    "name": "Visszaváltoztatás",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 1,
+          "massG": 1000
+        },
+        "II": null,
+        "III": null
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "effect": "Recreates from the soul.",
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-transzmutacio",
+    "name": "Transzmutáció",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 10
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 2,
+          "massG": 1000
+        },
+        "II": {
+          "mp": 2,
+          "massG": 500
+        },
+        "III": {
+          "mp": 2,
+          "massG": 1
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-legiesseg",
+    "name": "Légiesség",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 3,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost"
+      ]
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionGrid",
+      "rows": [
+        "I",
+        "II",
+        "III"
+      ],
+      "columns": [
+        "I",
+        "I+II",
+        "I+II+III"
+      ],
+      "rates": null
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      },
+      {
+        "id": "passThrough",
+        "label": "Áthatolás",
+        "type": "choice",
+        "values": [
+          "I",
+          "I+II",
+          "I+II+III"
+        ]
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-lathatatlansag",
+    "name": "Láthatatlanság",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 1,
+          "massG": 10000
+        },
+        "II": {
+          "mp": 1,
+          "massG": 5000
+        },
+        "III": {
+          "mp": 1,
+          "massG": 10
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-telekinezis",
+    "name": "Telekinézis",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 2
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 1,
+          "massG": 5000
+        },
+        "II": {
+          "mp": 1,
+          "massG": 5000
+        },
+        "III": {
+          "mp": 1,
+          "massG": 5000
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-homerseklet-valtoztatas",
+    "name": "Hőmérséklet változtatás",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 4
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 1,
+          "massG": 10000
+        },
+        "II": {
+          "mp": 1,
+          "massG": 5000
+        },
+        "III": {
+          "mp": 1,
+          "massG": 10
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "anyagi-term-halmazallapotvaltas",
+    "name": "Halmazállapotváltás",
+    "school": "anyagi",
+    "subgroup": "termeszetes",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "casting",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 6
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "zone"
+    },
+    "resistance": {
+      "kind": "naturalMaterialMagic"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "compositionPerMass",
+      "rounding": null,
+      "rates": {
+        "I": {
+          "mp": 1,
+          "massG": 1000
+        },
+        "II": {
+          "mp": 1,
+          "massG": 500
+        },
+        "III": {
+          "mp": 1,
+          "massG": 1
+        }
+      }
+    },
+    "inputs": [
+      {
+        "id": "composition",
+        "label": "Összetétel",
+        "type": "composition"
+      }
+    ],
+    "source": "Part 10b"
+  }
+]

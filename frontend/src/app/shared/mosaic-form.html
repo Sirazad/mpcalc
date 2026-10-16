@@ -1,0 +1,96 @@
+<div class="form" data-testid="mosaic-form">
+  @if (mosaic().status.state === 'incomplete') {
+    <p class="warn">{{ T.builder.incomplete }}</p>
+  }
+
+  @for (i of visibleInputs(); track i.id) {
+    @switch (i.type) {
+      @case ('choice') {
+        <mat-form-field>
+          <mat-label>{{ i.label ?? i.id }}</mat-label>
+          <mat-select [ngModel]="values()[i.id]" (ngModelChange)="set(i.id, $event)" [name]="i.id" [attr.data-testid]="'input-' + i.id">
+            @for (v of i.values ?? []; track v) { <mat-option [value]="v">{{ i.labels?.[v] ?? v }}</mat-option> }
+          </mat-select>
+        </mat-form-field>
+        @if (values()[i.id]; as chosen) {
+          @if (i.descriptions?.[chosen + '']; as text) {
+            <p class="choice-description" [attr.data-testid]="'description-' + i.id">{{ text }}</p>
+          }
+        }
+      }
+      @case ('form') {
+        <mat-form-field>
+          <mat-label>{{ i.label ?? T.builder.chooseForm }}</mat-label>
+          <mat-select [ngModel]="values()[i.id]" (ngModelChange)="set(i.id, $event)" [name]="i.id" [attr.data-testid]="'input-' + i.id">
+            @for (f of allowedForms(); track f.id) { <mat-option [value]="f.id">{{ f.name }}</mat-option> }
+          </mat-select>
+        </mat-form-field>
+      }
+      @case ('number') {
+        <mat-form-field>
+          <mat-label>{{ i.label ?? i.id }}{{ i.unit ? ' (' + i.unit + ')' : '' }}</mat-label>
+          <input matInput type="number" [ngModel]="values()[i.id]" (ngModelChange)="set(i.id, $event)" [name]="i.id" [attr.data-testid]="'input-' + i.id" />
+        </mat-form-field>
+      }
+      @case ('text') {
+        <mat-form-field>
+          <mat-label>{{ i.label ?? i.id }}</mat-label>
+          <input matInput [ngModel]="values()[i.id]" (ngModelChange)="set(i.id, $event)" [name]="i.id" [attr.data-testid]="'input-' + i.id" />
+        </mat-form-field>
+      }
+      @case ('composition') {
+        <div class="composition">
+          <h4>{{ i.label ?? i.id }}</h4>
+          @for (r of rows(i.id); track $index) {
+            <div class="row">
+              <mat-form-field class="group">
+                <mat-label>{{ T.builder.group }}</mat-label>
+                <mat-select [ngModel]="r.group" (ngModelChange)="setRow(i.id, $index, { group: $event })" [name]="i.id + '-g' + $index">
+                  @for (g of groupsForRow(i.id, $index); track g.id) { <mat-option [value]="g.id">{{ g.name }}</mat-option> }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="mass">
+                <mat-label>{{ T.builder.mass }}</mat-label>
+                <input matInput type="number" min="0" [ngModel]="r.massG" (ngModelChange)="setRow(i.id, $index, { massG: $event })" [name]="i.id + '-m' + $index" />
+              </mat-form-field>
+              <button mat-button type="button" (click)="removeRow(i.id, $index)">{{ T.builder.removeRow }}</button>
+            </div>
+          }
+          <button mat-stroked-button type="button" [disabled]="!canAddRow(i.id)" (click)="addRow(i.id)" data-testid="add-row">{{ T.builder.addRow }}</button>
+        </div>
+      }
+    }
+  }
+
+  @if (power(); as p) {
+    <div class="power">
+      <span>{{ T.builder.power }}: <strong data-testid="power-e">{{ p.value }} {{ p.unit }}</strong></span>
+      @if (canRaisePower()) {
+        <button mat-stroked-button type="button" (click)="step(-1)" [disabled]="k() === 0" data-testid="k-down">−</button>
+        <span>{{ T.builder.powerStep }}: <strong data-testid="k-value">{{ k() }}</strong></span>
+        <button mat-stroked-button type="button" (click)="step(1)" data-testid="k-up">+</button>
+      }
+    </div>
+  }
+
+  @if ((mosaic().options ?? []).length) {
+    <div class="options">
+      <h4>{{ T.builder.options }}</h4>
+      @for (o of mosaic().options ?? []; track o.id) {
+        <mat-checkbox [checked]="options().includes(o.id)" (change)="toggleOption(o.id, $event.checked)">{{ o.label }}</mat-checkbox>
+      }
+    </div>
+  }
+
+  @if (isModifier()) {
+    <mat-form-field>
+      <mat-label>{{ T.builder.extraMp }}</mat-label>
+      <input matInput type="number" min="0" step="1" [ngModel]="extraMp()" (ngModelChange)="extraMp.set($event ?? 0)" name="extraMp" data-testid="extra-mp" />
+    </mat-form-field>
+    @if (!extraMpValid()) { <p class="warn" role="alert" data-testid="extra-mp-error">{{ T.wholeNumberOnly }}</p> }
+  }
+
+  <div>
+    <button mat-flat-button type="button" [disabled]="!ready()" (click)="add()" data-testid="add-mosaic">{{ T.builder.add }}</button>
+  </div>
+</div>

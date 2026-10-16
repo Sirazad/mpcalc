@@ -1,0 +1,7 @@
+{ "id": "ido-pontos-ido", "name": "Pontos idő", "school": "ido", "tier": 2,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"sz": 1}}},
+  "duration": {"kind": "time", "amounts": {"kor": 1}}, "range": {"kind": "self"},
+  "resistance": {"kind": "school", "school": "ido"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 1, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 1}, "inputs": [], "source": "Part 8" }

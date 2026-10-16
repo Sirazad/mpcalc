@@ -1,0 +1,33 @@
+[
+  {
+    "id": "I",
+    "name": "I. csoport",
+    "examples": [
+      "everything else non-magical"
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "II",
+    "name": "II. csoport",
+    "examples": [
+      "base metals (copper, tin, iron...)",
+      "ores with over 10% content"
+    ],
+    "source": "Part 10b"
+  },
+  {
+    "id": "III",
+    "name": "III. csoport",
+    "examples": [
+      "aryan",
+      "silver",
+      "platinum",
+      "alloys with at least 10% of them",
+      "acids",
+      "bases",
+      "poisons"
+    ],
+    "source": "Part 10b"
+  }
+]

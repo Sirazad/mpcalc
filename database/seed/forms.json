@@ -1,0 +1,164 @@
+[
+  {
+    "id": "nyil",
+    "name": "Nyíl",
+    "tier": 2,
+    "duration": {
+      "kind": "oneOff"
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "kitores",
+    "name": "Kitörés",
+    "tier": 2,
+    "duration": {
+      "kind": "oneOff"
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "fal",
+    "name": "Fal",
+    "tier": 2,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 5
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "szonyeg",
+    "name": "Szőnyeg",
+    "tier": 2,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "kard",
+    "name": "Kard",
+    "tier": 2,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 5
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "aura",
+    "name": "Aura",
+    "tier": 2,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 2
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "sator",
+    "name": "Sátor",
+    "tier": 3,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "kupola",
+    "name": "Kupola",
+    "tier": 3,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "eso",
+    "name": "Eső",
+    "tier": 3,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "gyuru",
+    "name": "Gyűrű",
+    "tier": 4,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "gomb",
+    "name": "Gömb",
+    "tier": 4,
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 5
+        }
+      }
+    },
+    "source": "Part 10a"
+  },
+  {
+    "id": "labda",
+    "name": "Labda",
+    "tier": 4,
+    "duration": {
+      "kind": "oneOff"
+    },
+    "source": "Part 10a"
+  }
+]

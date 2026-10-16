@@ -1,0 +1,1521 @@
+[
+  {
+    "id": "mental-beszed-olvasas",
+    "name": "Beszéd – Olvasás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 2,
+      "step": {
+        "mp": 1,
+        "e": 2
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "speech, read: glimpse into someone's mind",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-beszed-iras",
+    "name": "Beszéd – Írás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "speech, write: put in something that was not there, e.g. a memory",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-beszed-zavaras",
+    "name": "Beszéd – Zavarás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 3,
+      "step": {
+        "mp": 2,
+        "e": 3
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "effect": "speech, disrupt: make it hard to focus; jumbled",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-beszed-benitas",
+    "name": "Beszéd – Bénítás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "speech, disable: remove a thought, memory, ability or feeling",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-erzekeles-olvasas",
+    "name": "Érzékelés – Olvasás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "perception, read: glimpse into someone's mind",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-erzekeles-iras",
+    "name": "Érzékelés – Írás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "effect": "perception, write: put in something that was not there, e.g. a memory",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-erzekeles-zavaras",
+    "name": "Érzékelés – Zavarás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "perception, disrupt: make it hard to focus; jumbled",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-erzekeles-benitas",
+    "name": "Érzékelés – Bénítás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "effect": "perception, disable: remove a thought, memory, ability or feeling",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-emlek-olvasas",
+    "name": "Emlék – Olvasás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 2,
+      "step": {
+        "mp": 1,
+        "e": 2
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "memory, read: glimpse into someone's mind",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-emlek-iras",
+    "name": "Emlék – Írás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "memory, write: put in something that was not there, e.g. a memory",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-emlek-zavaras",
+    "name": "Emlék – Zavarás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "effect": "memory, disrupt: make it hard to focus; jumbled",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-emlek-benitas",
+    "name": "Emlék – Bénítás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 3,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 3
+    },
+    "inputs": [],
+    "effect": "memory, disable: remove a thought, memory, ability or feeling",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-mozgas-olvasas",
+    "name": "Mozgás – Olvasás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 2,
+      "step": {
+        "mp": 1,
+        "e": 2
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "movement, read: glimpse into someone's mind",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-mozgas-iras",
+    "name": "Mozgás – Írás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "effect": "movement, write: put in something that was not there, e.g. a memory",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-mozgas-zavaras",
+    "name": "Mozgás – Zavarás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "movement, disrupt: make it hard to focus; jumbled",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-mozgas-benitas",
+    "name": "Mozgás – Bénítás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 3,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 3
+    },
+    "inputs": [],
+    "effect": "movement, disable: remove a thought, memory, ability or feeling",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-akarat-olvasas",
+    "name": "Akarat – Olvasás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "will, read: glimpse into someone's mind",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-akarat-iras",
+    "name": "Akarat – Írás",
+    "school": "mental",
+    "tier": 3,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 4,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 4
+    },
+    "inputs": [],
+    "effect": "will, write: put in something that was not there, e.g. a memory",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-akarat-zavaras",
+    "name": "Akarat – Zavarás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 3,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 3
+    },
+    "inputs": [],
+    "effect": "will, disrupt: make it hard to focus; jumbled",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-akarat-benitas",
+    "name": "Akarat – Bénítás",
+    "school": "mental",
+    "tier": 2,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 5,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 5
+    },
+    "inputs": [],
+    "effect": "will, disable: remove a thought, memory, ability or feeling",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-fajdalom-olvasas",
+    "name": "Fájdalom – Olvasás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "pain, read: glimpse into someone's mind",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-fajdalom-iras",
+    "name": "Fájdalom – Írás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 4,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 4
+    },
+    "inputs": [],
+    "effect": "pain, write: put in something that was not there, e.g. a memory",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-fajdalom-zavaras",
+    "name": "Fájdalom – Zavarás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 3,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 3
+    },
+    "inputs": [],
+    "effect": "pain, disrupt: make it hard to focus; jumbled",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-fajdalom-benitas",
+    "name": "Fájdalom – Bénítás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 5,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 5
+    },
+    "inputs": [],
+    "effect": "pain, disable: remove a thought, memory, ability or feeling",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-igazsag-olvasas",
+    "name": "Igazság – Olvasás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 5
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 2,
+      "step": {
+        "mp": 1,
+        "e": 2
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "truth, read: glimpse into someone's mind",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-igazsag-iras",
+    "name": "Igazság – Írás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "perc": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 2,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 2
+    },
+    "inputs": [],
+    "effect": "truth, write: put in something that was not there, e.g. a memory",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-igazsag-zavaras",
+    "name": "Igazság – Zavarás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 3
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 1,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 1
+    },
+    "inputs": [],
+    "effect": "truth, disrupt: make it hard to focus; jumbled",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-igazsag-benitas",
+    "name": "Igazság – Bénítás",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "complete",
+      "missing": []
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": {
+        "mp": 3,
+        "e": 1
+      }
+    },
+    "cost": {
+      "pattern": "flat",
+      "baseMp": 3
+    },
+    "inputs": [],
+    "effect": "truth, disable: remove a thought, memory, ability or feeling",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-halo",
+    "name": "Háló",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost"
+      ]
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "effect": "A net that links people's minds together; has no strength (+E/MP '-'); MP is '?' in the source.",
+    "source": "Part 6"
+  },
+  {
+    "id": "mental-mentalleny-idezese",
+    "name": "Mentállény idézése",
+    "school": "mental",
+    "tier": 4,
+    "status": {
+      "state": "incomplete",
+      "missing": [
+        "cost",
+        "power"
+      ]
+    },
+    "castingTime": {
+      "label": "meditation",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "sz": 1
+        }
+      }
+    },
+    "duration": {
+      "kind": "time",
+      "time": {
+        "kind": "time",
+        "amounts": {
+          "kor": 1
+        }
+      }
+    },
+    "range": {
+      "kind": "meters",
+      "value": 20
+    },
+    "resistance": {
+      "kind": "school",
+      "school": "mental"
+    },
+    "power": null,
+    "cost": {
+      "pattern": "undefined"
+    },
+    "inputs": [],
+    "effect": "Summoning a mental being; power and cost depend on the type of creature pulled to the place.",
+    "source": "Part 6"
+  }
+]

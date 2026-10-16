@@ -1,0 +1,7 @@
+.form { margin: 16px 0; max-width: 720px; }
+.form mat-form-field { margin-right: 12px; }
+.tiers { display: flex; flex-wrap: wrap; gap: 8px; }
+.tier { width: 160px; }
+.hint { color: var(--mat-sys-on-surface-variant); margin-top: 0; }
+.list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+.error { color: var(--mat-sys-error); }

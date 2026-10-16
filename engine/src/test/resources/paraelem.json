@@ -1,0 +1,9 @@
+{ "id": "anyagi-elemi-paraelem-idezese", "name": "Paraelem idézése", "school": "anyagi", "subgroup": "elemi", "tier": 3,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"sz": 1}}},
+  "duration": {"kind": "formDependent"}, "range": {"kind": "zone"},
+  "resistance": {"kind": "givenParaElement", "input": "paraElement"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 2, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 2},
+  "inputs": [ {"id": "paraElement", "type": "choice", "values": ["ho", "fagy", "feny", "setet"]},
+              {"id": "form", "type": "form"} ], "source": "test" }

@@ -1,0 +1,10 @@
+{ "id": "ter-tavolbahatas", "name": "Távolbahatás", "school": "ter", "tier": 2,
+  "status": {"state": "partial", "missing": ["duration", "power"]},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"sz": 4}}},
+  "duration": {"kind": "undefined"}, "range": {"kind": "byInput"},
+  "resistance": {"kind": "school", "school": "ter"}, "power": null,
+  "cost": {"pattern": "lookup", "input": "rangeM",
+           "table": [ {"fromM": 20, "toM": 39, "mp": 10}, {"fromM": 40, "toM": 99, "mp": 18},
+                      {"fromM": 100, "toM": 999, "mp": 25}, {"fromM": 1000, "toM": 99000, "mp": 40},
+                      {"fromM": 100000, "toM": null, "mp": 50} ]},
+  "inputs": [ {"id": "rangeM", "type": "number", "unit": "m"} ], "source": "Part 3" }
