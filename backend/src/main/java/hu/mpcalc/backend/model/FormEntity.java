@@ -14,5 +14,7 @@ public class FormEntity {
     public String duration;
     /** Regenerációs idő of the form table as text (null: none); shown to the player, nothing calculates with it. */
     public String regeneration;
+    /** Hungarian description of the form (line breaks separate paragraphs); null: none. */
+    public String description;
     public String source;
 }

@@ -270,11 +270,13 @@ def check_forms(forms, mosaic_ids):
     seen = set()
     for f in forms:
         w = f"forms.json:{f.get('id', '?')}"
-        if set(f) != {"id", "name", "tier", "duration", "regeneration", "source"}:
-            err(w, "fields must be id,name,tier,duration,regeneration,source")
+        if set(f) != {"id", "name", "tier", "duration", "regeneration", "description", "source"}:
+            err(w, "fields must be id,name,tier,duration,regeneration,description,source")
             continue
         if f["regeneration"] is not None and not (isinstance(f["regeneration"], str) and f["regeneration"]):
             err(w, "regeneration must be text or null")
+        if f["description"] is not None and not (isinstance(f["description"], str) and f["description"]):
+            err(w, "description must be text or null")
         if not re.fullmatch(r"[a-z0-9]+", f["id"]) or f["id"] in seen:
             err(w, "bad or duplicate id")
         seen.add(f["id"])

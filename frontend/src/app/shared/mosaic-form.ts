@@ -42,7 +42,8 @@ export class MosaicForm {
     && this.mosaic().status.state !== 'incomplete' && (!this.isModifier() || this.extraMpValid()));
 
   /** The regenerációs idő of the chosen form, if it has one. */
-  protected regenerationOf(formId: unknown): string | null { return this.forms().find((f) => f.id === formId)?.regeneration ?? null; }
+  protected formOf(formId: unknown): Form | undefined { return this.forms().find((f) => f.id === formId); }
+  protected regenerationOf(formId: unknown): string | null { return this.formOf(formId)?.regeneration ?? null; }
 
   protected set(id: string, v: string | number | null) { this.values.update((x) => ({ ...x, [id]: v })); }
 

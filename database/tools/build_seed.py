@@ -397,9 +397,53 @@ natural = [
 anyagi = elemi + natural
 
 # ---------- forms (Part 10a) ----------
+# Descriptions of the forms (user's Hungarian text "Hat iskola forma", chunk 4, approved 2026-10-17; typos corrected; "Időtartam" lines left out)
+FORM_DESCRIPTIONS = {
+    "nyil": (
+        "Támadó varázslat. A varázsló ujjából egyetlenegy, a teremtett elemből való nyíl-lövedék tör elő (Zóna Varázsjel esetén a varázsjelből, "
+        "Távolbahatásnál vagy szimpátiánál a semmiből). Ha eltalálja a megcélzott áldozatot, az elem Sp-jével egyenlő sebet okoz neki. "
+        "(Természetesen csak akkor, ha az adott elem sebzi az illetőt.) Annak eldöntésére, hogy a varázsló eltalálja-e a kiszemelt célt, "
+        "a harci rendszer célzás szabálya az irányadó.\n\n"
+        "A Nyíl CÉ-je 30, félre nem üthető, de sebzése ellen érvényesül a páncélok SFÉ-je. E-je és sebzése egyenlő a teremtett elem E-jével és Sp-jével."
+    ),
+    "kard": (
+        "Támadó varázslat. A varázsló a megteremtett elemmel körbeveheti egy tetszés szerinti formájú, egykezes kard pengéjét. "
+        "Az elem felveszi a fegyver formáját – legyen az tőr vagy hosszúkard –, akár az aura az ember alakját, akit övez. "
+        "A fegyver a markolatánál bárki megfoghatja, ám a penge többszörösen sebez. Természetesen csak akkor, ha a Kardba formázott elem ártalmas a megtámadottra "
+        "(pl. a tűzkard éget).\n\n"
+        "A kard E-je egyenlő a teremtett elem E-jével. Éppúgy viselkedik, akár egy közönséges fegyver: éppúgy harcolni, támadni szükséges vele – "
+        "a harci rendszer szabályai szerint. Bárkinek átadható, forgatásához nem kell varázsló kasztúnak lenni. Sebzés csak sikeres támadás esetén éri az áldozatot. "
+        "Ám ez nem csak annyi Sp, amennyi a fegyvereknél feltüntetett táblázatban szerepel, hanem még plusz annyi, amennyit a teremtett elem okoz. "
+        "A túlütésre vonatkozó szabályok itt is igazak, és a páncélok SFÉ-je is érvényesül.\n\n"
+        "A kard TÉ-je és VÉ-je ugyanannyi, mint egy közönséges fegyveré, és természetesen mozgatható. "
+        "5 körig van jelen, addig használható, aztán nyomtalanul eltűnik a penge körül."
+    ),
+    "kitores": (
+        "Támadó varázslat. A teremtett elemet a varázsló annyira összesűríti, hogy az végül szétrobban. A varázsló a zónáján belül bárhol meghatározhatja azt a pontot, "
+        "de a bal kezéből elinduló varázslatnak egyenes vonalban el kell érnie addig a pontig. Amennyiben az elemnek megfelelő akadályba ütközne, akkor korábban robban fel. "
+        "Tanácsos azonban figyelni arra, hogy az elég távol essen tőle, és a robbanás ne sebezze meg őt is!\n\n"
+        "A kitörés által érintett terület nagyságát a varázsló nem képes befolyásolni, az egyedül a szétrobbanó elem mennyiségétől, azaz E-jétől függ. "
+        "A kitörés epicentruma körüli egy negyedméter sugarú körben az E egyenlő az elem E-jével, attól távolodva pedig negyedméterenként 1-gyel csökken, "
+        "míg végül nullává enyészik. Ezzel meg is határoztuk az érintett terület nagyságát: E/4 méter sugarú kör, ahol az E a Kitöréssé formázott elem E-je.\n\n"
+        "A sebzés is ehhez hasonlóan alakul: középen maximális, majd az epicentrumtól távolodva az erősséggel együtt csökken."
+    ),
+    "szonyeg": (
+        "Védő és támadó varázslat. A varázsló a megteremtett elemet az előbbiekhez képest jóval nagyobb területen osztja el. "
+        "Ezt csak egyenletesen teheti, és a terület formáját sem határozhatja meg, ez minden esetben egy szabályos kör. Ezt a kört nevezzük szőnyegnek.\n\n"
+        "A szőnyeg a föld szintjét 50 cm-es magasságban borítja be, és követi a terep egyenetlenségeit. "
+        "A kör mérete a varázslótól függ, ám nem lehet kisebb egy negyed méternél, és nem lehet nagyobb, mint 0,25 × E méter. "
+        "Középpontja a varázsló zónáján belül bárhova eshet.\n\n"
+        "A szőnyeg E-je a teremtett elem E-jének és a szőnyeg méretének függvénye. Átlagérték, amit úgy kaphatunk meg, hogy az elem E-jét elosztjuk a szőnyeg "
+        "méterben számított sugarával (24 E elem – 6 méter/4 E vagy 3 méter/8 E, vagy 2 méter/12 E). Tört érték esetén lefelé kell kerekíteni.\n\n"
+        "A szőnyeg félkörönkénti sebzése a szőnyeg E-jével arányos, és nem a teremtett elemével.\n\n"
+        "A szőnyegbe lépő lények méretüktől függően vesztenek Sp-t félkörönként.\n\n"
+        "3 körig marad együtt, azután eloszlik."
+    ),
+}
 def form(id, name, tier, dur, regen=None):
     # regen: the regenerációs idő of the user's form table as text ("-" in the table is None); nothing calculates with it
-    return {"id": id, "name": name, "tier": tier, "duration": dur, "regeneration": regen, "source": P10A}
+    return {"id": id, "name": name, "tier": tier, "duration": dur, "regeneration": regen,
+            "description": FORM_DESCRIPTIONS.get(id), "source": P10A}
 forms = [
     form("nyil", "Nyíl", 2, ONEOFF), form("kitores", "Kitörés", 2, ONEOFF),
     form("fal", "Fal", 2, DUR(kor=5), "0,5 szegmens"), form("szonyeg", "Szőnyeg", 2, DUR(kor=3), "0,5 szegmens"),

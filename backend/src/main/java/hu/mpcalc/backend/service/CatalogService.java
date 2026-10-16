@@ -45,6 +45,7 @@ public class CatalogService {
             o.put("id", f.id); o.put("name", f.name); o.put("tier", f.tier);
             o.set("duration", EngineJson.parse(f.duration));
             o.put("regeneration", f.regeneration);
+            o.put("description", f.description);
         }
         return arr.toString();
     }
