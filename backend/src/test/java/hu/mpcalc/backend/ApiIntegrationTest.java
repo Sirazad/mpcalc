@@ -420,5 +420,10 @@ class ApiIntegrationTest {
         // Elemi erő idézése: resisted by SFÉ (user decision 2026-10-16, after the table of the source)
         JsonNode ero = json(send(post("/calculate"), s, body.formatted("anyagi-elemi-elemi-ero-idezese", "\"form\":\"nyil\""), 200));
         assertEquals("armorSfe", ero.at("/mosaics/0/resistance/value/kind").asText());
+        String eroEffect = ero.at("/mosaics/0/effect/value").asText();
+        assertTrue(eroEffect.startsWith("A mágikus energiákat felhasználva"), eroEffect);
+        assertTrue(eroEffect.contains("Az elemi erőből létrehozott szőnyeg E-nként 5 kg súlyt képes megtartani."), "the user's sentence");
+        JsonNode oselem = json(send(post("/calculate"), s, body.formatted("anyagi-elemi-oselem-idezese", "\"element\":\"ostuz\",\"form\":\"nyil\""), 200));
+        assertTrue(oselem.at("/mosaics/0/effect/value").asText().startsWith("A varázsló őselemet teremt"));
     }
 }

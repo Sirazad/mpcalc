@@ -274,19 +274,76 @@ ELEMENT_DESCRIPTIONS = {
     "oslevego": "Tiszta levegő. Belélegezhető. Nem kíséri hő hatás (környezet hőmérséklete) a megidézésekor. A füst, légimérgek és egyéb anyagokat kiszorítja onnan, ahol van.",
 }
 PARA_LABELS = {"ho": "Elemi hő", "fagy": "Elemi hideg", "feny": "Elemi fény", "setet": "Elemi sötétség"}
-PARA_DESCRIPTIONS = {
+PARA_BASE_DESCRIPTIONS = {
     "ho": "A tűz és a föld paraeleme. Megidézve minden természetes élettelen anyagot egy szempillantás alatt felmelegít az erősségnek megfelelő hőmérsékletre. Ellentétes paraeleme az elemi hideg.",
     "fagy": "A levegő és a víz paraeleme. Megidézve minden természetes élettelen anyagot egy szempillantás alatt lehűt az erősségnek megfelelő hőmérsékletre. Ellentétes paraeleme az elemi hő.",
     "feny": "A tűz és a levegő paraeleme. Megidézve az adott területen minden pont olyan fényességű lesz, mint az elemi fény erőssége (így az árnyékok eltűnnek). Ellentétes paraeleme az elemi sötétség.",
     "setet": "A víz és a föld paraeleme. Megidézve az adott területen elnyeli a fényt, minden pontban olyan sötét lesz, mint ami az erősségnek megfelel. Ellentétes paraeleme az elemi fény.",
 }
+OSELEM_EFFECT = (
+    "A varázsló őselemet teremt, amit a kívánt formába zár (formázás). Ez lehet a Hat Iskolaforma egyike, vagy – ha a varázsló bír efféle tudással – "
+    "valamely Szabálytalan Elemi Forma. Azt, hogy a teremtett őselem meddig marad együtt, a formázás határozza meg. "
+    "Az ellentétes őselemek gyengítik, akár ki is oltják egymást. A varázslók az őstüzet általában támadásra, az ősvizet általában védekezésre használják, "
+    "míg a további két őselemhez egyéb céllal, vagy más létsíkok teremtményeivel szemben nyúlnak."
+)
+HO_TEXT = (
+    "Hő teremtése: A varázsló elemi hőt teremt, és a kívánt formába önti. A hőmérséklet az adott formán belül eső területen E-nként 10 °C, "
+    "függetlenül a természetes hőmérséklettől – akár sebez is, a formán túl ellenben egyáltalán nem érződik. "
+    "A sebzés körönként 100 °C-nál 1 Sp (sebzés pont), és minden további teljes 20 °C-onként 1 Sp-vel nő."
+)
+FAGY_TEXT = (
+    "Fagy teremtése: A varázsló elemi fagyot teremt, és a kívánt formába foglalja. Az azon belül eső területen hűvös van, fokozott erősítés során fagy jön létre. "
+    "A hőmérséklet E-nként −10 °C, függetlenül a természetes hőmérséklettől. "
+    "A sebzés körönként −40 °C-nál jelentkezik (1 Sp), és innen kezdve minden további teljes 20 °C-onként 1 Sp-vel nő."
+)
+FENY_LINES = [
+    "1 E: gyertya lángja", "2 E: apró gyertya lángja", "3 E: olvasógyertya lángja", "4 E: templomi gyertya lángja", "5 E: mécses lángja",
+    "6 E: fáklya lángja", "7 E: nagy fáklya lángja", "8 E: tábortűz fénye", "9 E: máglya fénye", "10 E: alkonyi fény",
+    "11 E: napfény borús időben", "12 E: fátyolos napfény", "13 E: napsütés", "14 E: déli verőfény", "15+ E: vakító fény",
+    "20+ E: nyitott szem esetén végleges vakság",
+]
+FENY_TEXT = (
+    "Fény teremtése: A varázsló a formázás megszabta területen és alakban elemi fényt teremt. Amennyiben az eredeti fényesség kisebb, akkor ott nem látszik, "
+    "de a területen mindenhol az adott fényesség lesz minimum, így például az árnyékok eltűnnek.\n\n"
+    + "\n".join(FENY_LINES) + "\n\n"
+    "Az elemi fény azt a területet, ahol érvényesül, a fenti táblázat szerint világítja meg. Ezt a természeti hatások nem befolyásolhatják, kizárólag az elemi sötét! "
+    "Ha a természetes fény erőssége nagyobb a paraeleménél, akkor ez utóbbinak a jelenlétét észre sem vesszük."
+)
+SETET_LINES = [
+    "1 E: alkonyat", "2 E: telihold", "3 E: fogyóhold", "4 E: újhold", "5 E: csillagos éjszaka", "6 E: borús éjszaka",
+    "7 E: éjszaka kivilágítatlan szobában", "8 E: barlangban", "9 E: vaksötét", "10 E: kráni sötétség", "11+ E: ultra- és infralátás sem működik",
+]
+SETET_TEXT = (
+    "Sötét teremtése: Hasonló a fény teremtéséhez, úgy szerencsés elképzelni, akár valami negatív, fekete fényt.\n\n"
+    + "\n".join(SETET_LINES) + "\n\n"
+    "A területen, ahol az elemi sötét érvényesül, a fenti táblázat mutatta fényviszonyok érvényesülnek, függetlenül a természetes fénytől. "
+    "Az elemi sötétet csak az elemi fény világíthatja be, a lámpások és a fáklyák világa vagy akár a nap ehhez nem elegendő, fényük nem is látszik, csak a hőhatásuk érvényesül."
+)
+ELEMI_ERO_FIRST = "A mágikus energiákat felhasználva mozgatni vagy megállítani lehet tárgyakat."
+ELEMI_ERO_EFFECT = (
+    ELEMI_ERO_FIRST + "\n\n"
+    "Elemi erő teremtése: A varázsló olyan mennyiségű elemi erőt teremt, amely képes megtartani 5 kg súlyú vagy ugyanekkora erővel nekifeszülő tárgyat; "
+    "avagy semlegesíteni 1 Sp-t, akár egy vért SFÉ-jét. Ez utóbbi leginkább aurára való formázás esetén fordul elő.\n\n"
+    "álló súly (-): 1 E elemi erő 5 kg-ot tart meg\nséta (×2): 2,5 kg\nfutás (×5): 1 kg\nvágta (×10): 0,5 kg\n\n"
+    "A súlyváltozás megmutatja, hogy az adott sebességgel haladó tárgy súlya mennyivel számít nagyobbnak, amikor az elemi erőnek ütközik. "
+    "Az „1 E elemi erő megtart” oszlop megadja, hogy mekkora súlyt képes megtartani 1 E elemi erő, ha az a megadott sebességgel ütközik neki. "
+    "Ha a súly meghaladja az elemi erő megtartó képességét, az semmilyen hatást nem fejt ki ellene.\n\n"
+    "Az elemi erőből teremtett nyíl annyi Sp-t (sebzés pontot) sebez, mint amennyi az E-je (ereje), vagyis amennyit a hasonló, valódi anyagból való fegyver is sebezne.\n"
+    "Kitörés esetén az epicentrumban annyi Sp-t sebez, amennyi az E-je, kifelé távolodva negyedméterenként eggyel kevesebbet; "
+    "nagy erősítés esetén feldönti a tárgyakat, embereket, kicsavarja a fákat, bokrokat.\n"
+    "Az elemi erőből létrehozott szőnyeg E-nként 5 kg súlyt képes megtartani.\n"
+    "A fal ugyanennyi súlyú nekifeszülő terhet tart távol, nem engedvén azt át magán."
+)
+
+PARA_DESCRIPTIONS = {k: v + "\n\n" + {"ho": HO_TEXT, "fagy": FAGY_TEXT, "feny": FENY_TEXT, "setet": SETET_TEXT}[k]
+                    for k, v in PARA_BASE_DESCRIPTIONS.items()}
 elemi = [
     mosaic("anyagi-elemi-oselem-idezese", "Őselem idézése", "anyagi", 2, [], cast(sz=1), FORMDEP, ZONE,
            {"kind": "oppositeElement", "input": "element", "pairs": {"ostuz": "osviz", "osviz": "ostuz", "osfold": "oslevego", "oslevego": "osfold"}},
            power(1, 1, 1), flat(1),
            [{"id": "element", "label": "Őselem", "type": "choice", "values": ["ostuz", "osviz", "osfold", "oslevego"],
              "labels": ELEMENT_LABELS, "descriptions": ELEMENT_DESCRIPTIONS},
-            form_input()], subgroup="elemi", source=P10A),
+            form_input()], subgroup="elemi", source=P10A, effect=OSELEM_EFFECT),
     mosaic("anyagi-elemi-paraelem-idezese", "Paraelem idézése", "anyagi", 3, [], cast(sz=1), FORMDEP, ZONE,
            {"kind": "givenParaElement", "input": "paraElement"}, power(1, 1, 1), flat(1),
            [{"id": "paraElement", "label": "Paraelem", "type": "choice", "values": ["ho", "fagy", "feny", "setet"],
@@ -294,7 +351,7 @@ elemi = [
             form_input()], subgroup="elemi", source=P10A),
     mosaic("anyagi-elemi-elemi-ero-idezese", "Elemi erő idézése", "anyagi", 3, [], cast(sz=1), FORMDEP, ZONE,
            {"kind": "armorSfe"}, power(1, 1, 1), flat(1), [form_input()], subgroup="elemi", source=P10A,
-           effect="A mágikus energiákat felhasználva mozgatni vagy megállítani lehet tárgyakat."),
+           effect=ELEMI_ERO_EFFECT),
     mosaic("anyagi-elemi-elemental-idezes", "Elementál idézés", "anyagi", 4, ["cost", "duration", "range"],
            cast(sz=1), UNDEF, UNDEF, NONE, power(1), UNDEF_COST, subgroup="elemi", source=P10A),
     mosaic("anyagi-elemi-elemi-vedelem", "Elemi védelem", "anyagi", 4, [], cast(sz=1), FORMDEP, ZONE, NONE,

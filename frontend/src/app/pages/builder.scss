@@ -12,6 +12,7 @@
 dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 4px 0; }
 dt { color: var(--mat-sys-on-surface-variant); }
 dd { margin: 0; }
+dd.effect { white-space: pre-line; }
 .error { color: var(--mat-sys-error); }
 .warn { color: var(--mat-sys-tertiary); }
 mat-card-actions { flex-wrap: wrap; gap: 8px; padding: 8px 16px 16px; }
