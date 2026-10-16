@@ -6,6 +6,7 @@
     "duration": {
       "kind": "oneOff"
     },
+    "regeneration": null,
     "source": "Part 10a"
   },
   {
@@ -15,6 +16,7 @@
     "duration": {
       "kind": "oneOff"
     },
+    "regeneration": null,
     "source": "Part 10a"
   },
   {
@@ -30,6 +32,7 @@
         }
       }
     },
+    "regeneration": "0,5 szegmens",
     "source": "Part 10a"
   },
   {
@@ -45,6 +48,7 @@
         }
       }
     },
+    "regeneration": "0,5 szegmens",
     "source": "Part 10a"
   },
   {
@@ -60,6 +64,7 @@
         }
       }
     },
+    "regeneration": "5 kör",
     "source": "Part 10a"
   },
   {
@@ -75,6 +80,7 @@
         }
       }
     },
+    "regeneration": "5 kör",
     "source": "Part 10a"
   },
   {
@@ -90,6 +96,7 @@
         }
       }
     },
+    "regeneration": "0,5 szegmens",
     "source": "Part 10a"
   },
   {
@@ -105,6 +112,7 @@
         }
       }
     },
+    "regeneration": null,
     "source": "Part 10a"
   },
   {
@@ -120,6 +128,7 @@
         }
       }
     },
+    "regeneration": "0,5 szegmens",
     "source": "Part 10a"
   },
   {
@@ -135,6 +144,7 @@
         }
       }
     },
+    "regeneration": "0,5 szegmens",
     "source": "Part 10a"
   },
   {
@@ -150,6 +160,7 @@
         }
       }
     },
+    "regeneration": null,
     "source": "Part 10a"
   },
   {
@@ -159,6 +170,7 @@
     "duration": {
       "kind": "oneOff"
     },
+    "regeneration": null,
     "source": "Part 10a"
   }
 ]

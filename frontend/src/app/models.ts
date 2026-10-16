@@ -10,7 +10,7 @@ export interface Resistance { kind: string; school: string | null; element?: str
 
 export interface Player { id: number; name: string; admin: boolean; }
 export interface School { id: string; name: string; hasTiers: boolean; }
-export interface Form { id: string; name: string; tier: number; duration: unknown; }
+export interface Form { id: string; name: string; tier: number; duration: unknown; regeneration?: string | null; }
 export interface MaterialGroup { id: string; name: string; examples: string[]; }
 
 export interface Character { id: number; name: string; maxMp: number; currentMp: number; tiers: Record<string, number>; }

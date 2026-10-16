@@ -384,6 +384,17 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void formsCarryTheirRegenerationTimeAsText() throws Exception {
+        MockHttpSession s = login("f-" + UUID.randomUUID());
+        java.util.Map<String, JsonNode> byId = new java.util.HashMap<>();
+        for (JsonNode f : json(send(get("/forms"), s, null, 200))) byId.put(f.get("id").asText(), f);
+        assertEquals("0,5 szegmens", byId.get("fal").get("regeneration").asText());
+        assertEquals("5 k\u00f6r", byId.get("kard").get("regeneration").asText());
+        assertTrue(byId.get("nyil").get("regeneration").isNull(), "\"-\" in the form table is null");
+        assertEquals(5, byId.get("fal").at("/duration/time/amounts/kor").asInt(), "Fal stays 5 k\u00f6r (user decision 2026-10-17)");
+    }
+
+    @Test
     void elemiMosaicsAreResistedAsTheRulesSay() throws Exception {
         MockHttpSession s = login("e-" + UUID.randomUUID());
         long id = newCharacter(s, 50, "{\"anyagi\":3}");

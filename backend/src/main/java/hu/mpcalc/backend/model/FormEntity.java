@@ -12,5 +12,7 @@ public class FormEntity {
     @ColumnTransformer(read = "duration::text", write = "?::jsonb")
     @Column(columnDefinition = "jsonb")
     public String duration;
+    /** Regenerációs idő of the form table as text (null: none); shown to the player, nothing calculates with it. */
+    public String regeneration;
     public String source;
 }

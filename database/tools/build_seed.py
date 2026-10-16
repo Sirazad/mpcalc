@@ -288,7 +288,7 @@ elemi = [
              "labels": ELEMENT_LABELS, "descriptions": ELEMENT_DESCRIPTIONS},
             form_input()], subgroup="elemi", source=P10A),
     mosaic("anyagi-elemi-paraelem-idezese", "Paraelem idézése", "anyagi", 3, [], cast(sz=1), FORMDEP, ZONE,
-           {"kind": "givenParaElement", "input": "paraElement"}, power(1, 2, 1), flat(2),
+           {"kind": "givenParaElement", "input": "paraElement"}, power(1, 1, 1), flat(1),
            [{"id": "paraElement", "label": "Paraelem", "type": "choice", "values": ["ho", "fagy", "feny", "setet"],
              "labels": PARA_LABELS, "descriptions": PARA_DESCRIPTIONS},
             form_input()], subgroup="elemi", source=P10A),
@@ -340,15 +340,16 @@ natural = [
 anyagi = elemi + natural
 
 # ---------- forms (Part 10a) ----------
-def form(id, name, tier, dur):
-    return {"id": id, "name": name, "tier": tier, "duration": dur, "source": P10A}
+def form(id, name, tier, dur, regen=None):
+    # regen: the regenerációs idő of the user's form table as text ("-" in the table is None); nothing calculates with it
+    return {"id": id, "name": name, "tier": tier, "duration": dur, "regeneration": regen, "source": P10A}
 forms = [
     form("nyil", "Nyíl", 2, ONEOFF), form("kitores", "Kitörés", 2, ONEOFF),
-    form("fal", "Fal", 2, DUR(kor=5)), form("szonyeg", "Szőnyeg", 2, DUR(kor=3)),
-    form("kard", "Kard", 2, DUR(kor=5)), form("aura", "Aura", 2, DUR(kor=2)),
-    form("sator", "Sátor", 3, DUR(kor=3)), form("kupola", "Kupola", 3, DUR(kor=3)),
-    form("eso", "Eső", 3, DUR(kor=3)),
-    form("gyuru", "Gyűrű", 4, DUR(kor=3)), form("gomb", "Gömb", 4, DUR(kor=5)),
+    form("fal", "Fal", 2, DUR(kor=5), "0,5 szegmens"), form("szonyeg", "Szőnyeg", 2, DUR(kor=3), "0,5 szegmens"),
+    form("kard", "Kard", 2, DUR(kor=5), "5 kör"), form("aura", "Aura", 2, DUR(kor=2), "5 kör"),
+    form("sator", "Sátor", 3, DUR(kor=3), "0,5 szegmens"), form("kupola", "Kupola", 3, DUR(kor=3)),
+    form("eso", "Eső", 3, DUR(kor=3), "0,5 szegmens"),
+    form("gyuru", "Gyűrű", 4, DUR(kor=3), "0,5 szegmens"), form("gomb", "Gömb", 4, DUR(kor=5)),
     form("labda", "Labda", 4, ONEOFF),
 ]
 groups = [

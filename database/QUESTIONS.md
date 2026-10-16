@@ -3,7 +3,7 @@
 Each entry: what the source says, what the seed/SQL does now (conservative), the question.
 
 1. **Életerő irányítás and Életerő átalakítás (Nekromancia, Part 9)**: set aside as instructed; not in the seed. Casting time is "2 sz per 1 MP spent", power is +3 Fp per 1 MP; no format for it. Include later, and how?
-2. **Fal duration**: table says 5 kör, description says 6 kör (Part 10a, backlog). Seed uses 5 kör (table). Which is right?
+2. **Fal duration**: table says 5 kör, description says 6 kör (Part 10a, backlog). Seed uses 5 kör (table); the user confirmed 5 kör "for now" on 2026-10-17. Open: is 6 kör from the description ever right?
 3. **Tier of empty rows**: Térzavarás, Időzavarás and Asztrál lény idézése have no tier in the source. The format says tier is null only for Alapvarázslatok. Seed: tier `null`, status incomplete, `"tier"` in `status.missing`; the DB check allows `tier IS NULL` only for alapvarazslatok or for an incomplete mosaic. Alternative: leave the 3 rows out (98 mosaics, differs from Part 13). Which?
 4. **Tier range**: format says "2 to 4 seen so far", Part 4 says 5 tiers per school. DB and validator accept 1 to 5. Restrict to 2 to 4?
 5. **Légiesség cost pattern**: the task text says incomplete mosaics get pattern `undefined`, but the approved format example uses `compositionGrid` with `rates: null`. Seed follows the format example (status incomplete). Switch to `undefined`?
@@ -25,5 +25,7 @@ Each entry: what the source says, what the seed/SQL does now (conservative), the
 21. **Current MP**: DB requires 0 <= current MP <= max MP. Part 11 says the page shows "goes negative", but a spell above current MP is not castable. Relax?
 22. **Szimpatikus mágia**: no data; the school row exists in `schools`, no seed file.
 23. **Language of names/labels**: names and input labels are Hungarian; ids ASCII.
-24. **Paraelem idézése MP**: the user's table (2026-10-16) says MP 1, +E/MP 1/1; the data stores MP 2, +E/MP 2/1. The user decided to keep 2 "for now". Open: which is right?
+24. **Paraelem idézése MP**: the user's table (2026-10-16) says MP 1, +E/MP 1/1. Resolved 2026-10-17: the user said Paraelem is 1; the data now stores MP 1, +E/MP 1/1 (V10).
 25. **Elemi erő idézése ME**: stored as SFÉ (`armorSfe`) again on 2026-10-16 (V7), following the user's table; the text of the same source also says Elemi erő is weakened by magical weapon strikes. Earlier (V6) the user's rule was Elemi erő; the later answer (SFÉ) is the current one.
+26. **Gömb**: the stored forms include Gömb (fok 4, 5 kör). It comes from the form table of the plan (Part 10a, written in the first session), not from the user's pasted form table of 2026-10-16 (11 forms, ending with Labda). Where it was taken from is unknown. Real form, or remove? No answer yet; its regenerációs idő is empty.
+27. **Regenerációs idő of the forms**: stored as text (V9), from the user's form table; nothing calculates with it, the meaning is not defined yet (the user asked only to store it). "-" in the table is empty. The text uses the decimal comma (0,5 szegmens); the table wrote 0.5.

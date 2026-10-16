@@ -25,8 +25,8 @@ for school in FILES:
               f"VALUES ({q(d['id'])}, {q(d['name'])}, {q(d['school'])}, {q(d.get('subgroup'))}, {tier}, "
               f"{q(d['status']['state'])}, {q(d['cost']['pattern'])}, {q(d['source'])}, {j(d)});")
 for f in load("forms.json"):
-    print(f"INSERT INTO forms (id, name, tier, duration, source) VALUES "
-          f"({q(f['id'])}, {q(f['name'])}, {f['tier']}, {j(f['duration'])}, {q(f['source'])});")
+    print(f"INSERT INTO forms (id, name, tier, duration, regeneration, source) VALUES "
+          f"({q(f['id'])}, {q(f['name'])}, {f['tier']}, {j(f['duration'])}, {q(f['regeneration'])}, {q(f['source'])});")
 for g in load("material_groups.json"):
     ex = "ARRAY[" + ", ".join(q(e) for e in g["examples"]) + "]::text[]"
     print(f"INSERT INTO material_groups (id, name, examples, source) VALUES "

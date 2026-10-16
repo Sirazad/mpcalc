@@ -25,6 +25,9 @@
             @for (f of allowedForms(); track f.id) { <mat-option [value]="f.id">{{ f.name }}</mat-option> }
           </mat-select>
         </mat-form-field>
+        @if (regenerationOf(values()[i.id]); as regeneration) {
+          <p class="choice-description" [attr.data-testid]="'regeneration-' + i.id">{{ T.builder.regeneration }}: {{ regeneration }}</p>
+        }
       }
       @case ('number') {
         <mat-form-field>

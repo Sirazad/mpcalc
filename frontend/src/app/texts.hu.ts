@@ -49,6 +49,7 @@ export const T = {
     mosaics: 'Mozaikok',
     back: 'Vissza',
     tier: 'Fok',
+    regeneration: 'Regenerációs idő',
     incomplete: 'Hiányos adat, nem használható',
     noMosaics: 'Ehhez a karakterhez nincs elérhető mozaik.',
     add: 'Hozzáadás',

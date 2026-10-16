@@ -41,6 +41,9 @@ export class MosaicForm {
   protected readonly ready = computed(() => missingInputs(this.mosaic(), this.values()).length === 0
     && this.mosaic().status.state !== 'incomplete' && (!this.isModifier() || this.extraMpValid()));
 
+  /** The regenerációs idő of the chosen form, if it has one. */
+  protected regenerationOf(formId: unknown): string | null { return this.forms().find((f) => f.id === formId)?.regeneration ?? null; }
+
   protected set(id: string, v: string | number | null) { this.values.update((x) => ({ ...x, [id]: v })); }
 
   protected rows(id: string): CompositionRow[] { return (this.values()[id] as CompositionRow[]) ?? []; }
