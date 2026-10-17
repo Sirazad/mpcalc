@@ -1,0 +1,11 @@
+services:
+  proxy:
+    networks:
+      edge: {}
+      platform-net:
+        aliases:
+          - mpcalc-proxy
+
+networks:
+  platform-net:
+    external: true
