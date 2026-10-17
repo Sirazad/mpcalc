@@ -361,6 +361,9 @@ class SpellCalculatorTest {
         assertEquals(Fraction.of(13), gate.apply("5", 2).totalMp().value(), "3 + 4 extra meters + 2 steps of 3");
         assertTrue(gate.apply("1.5", 0).mosaics().get(0).refused(), "only whole meters");
         assertTrue(gate.apply("0", 0).mosaics().get(0).refused(), "at least 1 m");
+        // the message names the input by its label ("Sugár"), not by its id
+        assertTrue(errorCodes(gate.apply("1.5", 0)).contains("Sugár"), errorCodes(gate.apply("1.5", 0)));
+        assertFalse(errorCodes(gate.apply("1.5", 0)).contains("radiusM"));
     }
 
     @Test void theSpeedOfAForgasSignMultipliesTheWeightCost() {

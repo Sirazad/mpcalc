@@ -128,7 +128,7 @@
               </dl>
               @if (overspent(); as o) {
                 <p class="error" role="alert" data-testid="overspend-banner">{{ T.spell.notEnough }} {{ T.overspend.missing(o) }}</p>
-              } @else if (r.valid) {
+              } @else if (r.valid && r.enoughMp) {
                 <p>{{ T.spell.enough }}</p>
               }
               @for (w of r.warnings; track $index) { <p class="warn">{{ w.text }}</p> }

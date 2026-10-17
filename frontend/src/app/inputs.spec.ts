@@ -34,8 +34,9 @@ describe('inputs', () => {
 
   it('builds the E of the chosen power step from the power data', () => {
     const m = mosaic({ power: { unit: 'E', baseE: 3, step: { mp: 2, e: 3 } } });
-    expect(powerAt(m, 2)).toEqual({ value: 9, unit: 'E' });
-    expect(powerAt(mosaic({ power: { unit: 'E', baseE: 1, step: null } }), 5)).toEqual({ value: 1, unit: 'E' });
+    expect(powerAt(m, 2)).toEqual({ value: 9, unit: 'E', infinite: false });
+    expect(powerAt(mosaic({ power: { unit: 'E', baseE: 1, step: null } }), 5)).toEqual({ value: 1, unit: 'E', infinite: false });
+    expect(powerAt(mosaic({ power: { unit: 'E', baseE: null, step: null, infinite: true } }), 0)).toEqual({ value: null, unit: 'E', infinite: true });
     expect(powerAt(mosaic({ power: null }), 1)).toBeNull();
   });
 

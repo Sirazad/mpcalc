@@ -1,5 +1,19 @@
-import { formatFraction, formatMaybe, formatResistance, formatTime } from './format';
+import { formatFraction, formatMaybe, formatResistance, formatStrength, formatTime } from './format';
 import { School } from './models';
+
+describe('formatStrength', () => {
+  const base = { infinitePower: false, powerUnit: 'E' };
+  it('says végtelen, nincs, or the number', () => {
+    expect(formatStrength({ ...base, infinitePower: true, e: { defined: false } })).toBe('végtelen');
+    expect(formatStrength({ ...base, e: { defined: false, reason: { code: 'engine.reason.noE', args: [], text: 'Ehhez a mozaikhoz nincs erősség (E) megadva.' } } })).toBe('nincs');
+    expect(formatStrength({ ...base, e: { defined: true, value: 3 } })).toBe('3 E');
+  });
+  it('keeps the reason for a strength that is missing in the source', () => {
+    const t = formatStrength({ ...base, e: { defined: false, reason: { code: 'engine.reason.powerUndefined', args: [], text: 'Az erősség a forrásban nem meghatározott.' } } });
+    expect(t).toContain('Nem meghatározott');
+    expect(t).toContain('forrásban');
+  });
+});
 
 describe('format', () => {
   it('shows a terminating fraction as a decimal and the others as a fraction', () => {

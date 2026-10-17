@@ -186,7 +186,7 @@
     "inputs": [
       {
         "id": "effectType",
-        "label": "Hatás",
+        "label": "Hatás típusa",
         "type": "choice",
         "values": [
           "ostuz",
@@ -330,7 +330,7 @@
     "inputs": [
       {
         "id": "effectType",
-        "label": "Hatás",
+        "label": "Hatás típusa",
         "type": "choice",
         "values": [
           "ostuz",
@@ -593,7 +593,7 @@
     "inputs": [
       {
         "id": "effectType",
-        "label": "Hatás",
+        "label": "Hatás típusa",
         "type": "choice",
         "values": [
           "asztral",

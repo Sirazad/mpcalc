@@ -29,7 +29,7 @@ export interface Mosaic {
   duration?: TimeValueDef | null;
   range?: { kind: string; value?: number } | null;
   resistance?: { kind: string; school?: string; input?: string; pairs?: Record<string, string> } | null;
-  power: { unit: string; baseE: number; step: { mp: number; e: number } | null } | null;
+  power: { unit: string; baseE: number | null; step: { mp: number; e: number } | null; infinite?: boolean } | null;
   cost: { pattern: string };
   modifier?: { appliesToWholeSpell: boolean; durationPerExtraMp?: unknown } | null;
   options?: MosaicOption[];

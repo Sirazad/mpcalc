@@ -595,7 +595,7 @@ def creature_input():
             "labels": {k: v[0] for k, v in CREATURE_CLASSES.items()}}
 
 def effect_type_input():
-    return {"id": "effectType", "label": "Hatás", "type": "choice", "values": list(EFFECT_TYPES),
+    return {"id": "effectType", "label": "Hatás típusa", "type": "choice", "values": list(EFFECT_TYPES),
             "labels": {k: v[0] for k, v in EFFECT_TYPES.items()},
             "requires": {k: [{"school": s, "tier": t} for s, t in v[1]] for k, v in EFFECT_TYPES.items()}}
 
@@ -731,7 +731,7 @@ def req(school, tier):
     return [{"school": school, "tier": tier}]
 
 AURA_TYPES = {"asztral": ("Asztrálmágia", "asztral"), "mental": ("Mentálmágia", "mental")}
-aura_input = {"id": "effectType", "label": "Hatás", "type": "choice", "values": list(AURA_TYPES),
+aura_input = {"id": "effectType", "label": "Hatás típusa", "type": "choice", "values": list(AURA_TYPES),
               "labels": {k: v[0] for k, v in AURA_TYPES.items()},
               "requires": {k: req(v[1], 2) for k, v in AURA_TYPES.items()}}
 variant_input = {"id": "variant", "label": "Válfaj", "type": "choice", "values": ["touch", "pass"],

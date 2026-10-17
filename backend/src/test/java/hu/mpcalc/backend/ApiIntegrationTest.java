@@ -309,7 +309,7 @@ class ApiIntegrationTest {
         JsonNode hu = json(send(post("/calculate"), s, twice, 200));
         JsonNode err = hu.at("/errors/0");
         assertEquals("engine.error.compositionDuplicateGroup", err.get("code").asText());
-        assertEquals("composition", err.at("/args/0").asText());
+        assertEquals("Összetétel", err.at("/args/0").asText(), "the message names the input by its label, not by its id");
         assertEquals("Átformázás", err.get("subject").asText());
         assertTrue(err.get("text").asText().contains("többször szerepel"), err.get("text").asText());
         assertFalse(err.get("text").asText().contains("appears"));

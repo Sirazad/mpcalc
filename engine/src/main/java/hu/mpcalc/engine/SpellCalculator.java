@@ -291,6 +291,9 @@ public final class SpellCalculator {
         }
     }
 
+    /** How an input is named in a message: its label (what the player sees), or its id when it has none. */
+    private static String name(Input in) { return in.label != null && !in.label.isBlank() ? in.label : in.id; }
+
     private void validateInputs(Eval ev, SpellRequest req) {
         Mosaic m = ev.m; Map<String, JsonNode> given = ev.sel.inputs();
         Set<String> ids = new HashSet<>();
@@ -299,24 +302,24 @@ public final class SpellCalculator {
         for (Input in : m.inputs) {
             JsonNode v = given.get(in.id);
             if (v == null || v.isNull()) {
-                if (!"text".equals(in.type)) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_MISSING, in.id));
+                if (!"text".equals(in.type)) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_MISSING, name(in)));
                 continue;
             }
             switch (in.type == null ? "" : in.type) {
                 case "choice" -> {
-                    if (!v.isTextual() || in.values == null || !in.values.contains(v.asText())) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_VALUE_NOT_ALLOWED, in.id));
+                    if (!v.isTextual() || in.values == null || !in.values.contains(v.asText())) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_VALUE_NOT_ALLOWED, name(in)));
                     else if (in.requires != null) checkRequirements(ev, req, in.requires.get(v.asText()));   // what the chosen value needs
                 }
                 case "number" -> {
-                    if (!v.isNumber() || v.decimalValue().signum() < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_A_NUMBER, in.id));
-                    else if (Boolean.TRUE.equals(in.integer) && v.decimalValue().stripTrailingZeros().scale() > 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_WHOLE, in.id));
-                    else if (in.min != null && v.decimalValue().compareTo(in.min) < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_BELOW_MIN, in.id, in.min.stripTrailingZeros().toPlainString()));
+                    if (!v.isNumber() || v.decimalValue().signum() < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_A_NUMBER, name(in)));
+                    else if (Boolean.TRUE.equals(in.integer) && v.decimalValue().stripTrailingZeros().scale() > 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_WHOLE, name(in)));
+                    else if (in.min != null && v.decimalValue().compareTo(in.min) < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_BELOW_MIN, name(in), in.min.stripTrailingZeros().toPlainString()));
                 }
-                case "text" -> { if (!v.isTextual()) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_TEXT, in.id)); }
+                case "text" -> { if (!v.isTextual()) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_TEXT, name(in))); }
                 case "form" -> {
                     Form f = null;
                     if (v.isTextual()) for (Form x : req.forms()) if (x.id.equals(v.asText())) f = x;
-                    if (f == null) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_FORM, in.id));
+                    if (f == null) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_FORM, name(in)));
                     else {
                         int have = m.school == null ? 0 : req.character().tiers.getOrDefault(m.school, 0);
                         if (f.tier == null) ev.errors.add(Msg.of(MsgCode.ERR_FORM_NO_TIER, f.id));
@@ -324,17 +327,17 @@ public final class SpellCalculator {
                     }
                 }
                 case "composition" -> {
-                    if (!v.isArray() || v.isEmpty()) { ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_EMPTY, in.id)); break; }
+                    if (!v.isArray() || v.isEmpty()) { ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_EMPTY, name(in))); break; }
                     Set<String> seen = new HashSet<>();
                     for (JsonNode p : v) {
                         if (!GROUPS.contains(p.path("group").asText("")) || !p.path("massG").isNumber() || p.get("massG").decimalValue().signum() < 0)
-                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_PART_INVALID, in.id));
+                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_PART_INVALID, name(in)));
                         // user decision: only a single row per material group
                         else if (!seen.add(p.get("group").asText()))
-                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_DUPLICATE_GROUP, in.id, p.get("group").asText()));
+                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_DUPLICATE_GROUP, name(in), p.get("group").asText()));
                     }
                 }
-                default -> ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_TYPE, in.id, in.type));
+                default -> ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_TYPE, name(in), in.type));
             }
         }
     }

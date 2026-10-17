@@ -83,6 +83,7 @@ export const T = {
     viaZone: 'Zóna varázsjelen keresztül',
     zoneLine: '+1 kör és +5 MP: a varázslat zóna varázsjelen keresztül hat',
     infinite: 'végtelen',
+    noStrength: 'nincs',
     included: 'benne foglalva',
     modifierAdds: 'hozzáadott idő',
     duration: 'Időtartam',
