@@ -98,7 +98,7 @@ export const T = {
     calculating: 'Számolás…',
   },
   actions: {
-    cast: 'Elvarázsol',
+    cast: 'Varázslás',
     newSpell: 'Új varázslat',
     save: 'Varázslat mentése',
     load: 'Varázslat betöltése',
