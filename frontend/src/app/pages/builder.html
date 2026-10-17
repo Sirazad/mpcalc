@@ -39,9 +39,9 @@
                 </button>
                 @if (openKey() === e.key) {
                   @if (e.group; as g) {
-                    <app-mosaic-group [def]="g.def" [choices]="g.choices" [forms]="session.forms()" [tiers]="c.tiers" [groups]="session.groups()" [materialNote]="session.texts()['materials.magical'] ?? null" (added)="added($event)" />
+                    <app-mosaic-group [def]="g.def" [choices]="g.choices" [forms]="session.forms()" [tiers]="c.tiers" [groups]="session.groups()" [materialNote]="session.materialNote()" (added)="added($event)" />
                   } @else if (e.mosaic; as m) {
-                    <app-mosaic-form [mosaic]="m" [forms]="session.forms()" [tiers]="c.tiers" [groups]="session.groups()" [materialNote]="session.texts()['materials.magical'] ?? null" (added)="added($event)" />
+                    <app-mosaic-form [mosaic]="m" [forms]="session.forms()" [tiers]="c.tiers" [groups]="session.groups()" [materialNote]="session.materialNote()" (added)="added($event)" />
                   }
                 }
               </div>

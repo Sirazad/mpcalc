@@ -20,6 +20,8 @@ export class SessionStore {
   readonly forms = signal<Form[]>([]);
   readonly groups = signal<MaterialGroup[]>([]);
   readonly texts = signal<Record<string, string>>({});
+  /** The lines shown under the material rows: the magical materials, and that touching objects can be cast on at once. */
+  readonly materialNote = computed(() => ['materials.magical', 'materials.touching'].map((k) => this.texts()[k]).filter(Boolean).join('\n') || null);
   readonly mosaics = signal<Mosaic[]>([]);
   readonly versions = signal<Record<string, string>>({});
 

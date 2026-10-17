@@ -393,7 +393,27 @@ class ApiIntegrationTest {
         assertTrue(byId.get("III").get("examples").get(0).asText().startsWith("Aryan, ezüst, platina"));
         JsonNode texts = json(send(get("/texts"), s, null, 200));
         assertEquals("Mágikus anyagok: Mithrill, abbitacél, drágakövek.", texts.get("materials.magical").asText());
+        assertEquals("Lehet egyben kimondani varázslatot az érintkező tárgyakra.", texts.get("materials.touching").asText());
         assertEquals(401, send(get("/texts"), null, null, 401).getResponse().getStatus(), "texts need a login like the other reference data");
+    }
+
+    @Test
+    void naturalMaterialMosaicsHaveTheirHungarianEffectText() throws Exception {
+        MockHttpSession s = login("n-" + UUID.randomUUID());
+        long id = newCharacter(s, 50, "{\"anyagi\":4}");
+        String body = "{\"characterId\":" + id + ",\"selections\":[{\"mosaicId\":\"%s\",\"inputs\":{\"composition\":[{\"group\":\"I\",\"massG\":1000}]}}]}";
+        java.util.Map<String, String> expectedStart = java.util.Map.of(
+                "anyagi-term-atformazas", "A varázslattal egy tárgy FORMÁJÁT és SZÍNÉT változtathatja meg a varázsló.",
+                "anyagi-term-atalakitas", "A varázsló az anyag MINŐSÉGÉT változtathatja meg",
+                "anyagi-term-teremtes", "Nem volt – van.",
+                "anyagi-term-visszavaltoztatas", "Lélek alapján újra alkotja.",
+                "anyagi-term-telekinezis", "Mágikus anyagra is hat a láthatatlanság illetve a telekinézis.");
+        for (var e : expectedStart.entrySet()) {
+            JsonNode r = json(send(post("/calculate"), s, body.formatted(e.getKey()), 200));
+            assertTrue(r.at("/mosaics/0/effect/value").asText().startsWith(e.getValue()), e.getKey() + ": " + r.at("/mosaics/0/effect"));
+        }
+        JsonNode none = json(send(post("/calculate"), s, body.formatted("anyagi-term-halmazallapotvaltas"), 200));
+        assertFalse(none.at("/mosaics/0/effect/defined").asBoolean(), "Halmazállapotváltás has no text in the source");
     }
 
     @Test

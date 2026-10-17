@@ -368,27 +368,54 @@ def nat(id, name, tier, c, d, rt, effect=None, source=P10B):
                   {"pattern": "compositionPerMass", "rounding": None, "rates": rt},
                   [{"id": "composition", "label": "Összetétel", "type": "composition"}],
                   subgroup="termeszetes", effect=effect, source=source)
+NAT_ATFORMAZAS = (
+    "A varázslattal egy tárgy FORMÁJÁT és SZÍNÉT változtathatja meg a varázsló. 1 Mp-ért az anyagcsoporttól függően 1 kg (I. csoport), 0,5 kg (II. csoport), "
+    "vagy 1g (III. csoport) anyag formázható át. A varázslatban egyfajta súly- és anyagmegmaradási törvény érvényesül: azaz: pontosan a kiindulásival azonos súlyú "
+    "és minőségű tárgy keletkezik. Ha kevesebb, akkor az új tárgy kialakításához fel nem használt anyag felesleg formájában megmarad. "
+    "Az alapanyagnál nagyobb súlyú tárgy nem formázható.\n\n"
+    "Több különálló tárgy is szolgáltathat alapanyagot a megformázni kívánt egyetlen holmihoz. Ilyenkor azok összeolvadnak. "
+    "Ha eleve több különböző minőségű anyagból álló tárgyat kívánunk átformázni, akkor a végtermékben is érvényesül azok egymáshoz viszonyított aránya.\n\n"
+    "Ha a varázslat időtartama lejár, a tárgy visszaalakul eredeti formájára.\n\n"
+    "Példa: sárga gömb helyett kék négyzet."
+)
+NAT_ATALAKITAS = (
+    "A varázsló az anyag MINŐSÉGÉT változtathatja meg, de csak az adott anyagcsoporton belül. A tárgy halmazállapota, formája nem változik, színe is csak akkor, "
+    "ha ezt az anyagminőség változása indokolttá teszi. Az átalakítás során az anyag térfogata mérvadó: pontosan ugyanakkora és ugyanolyan formájú marad, "
+    "ám a súlya megváltozik. A varázslat 1 kg (I), 1/2 kg (II) vagy 1g (III) anyag átalakítására használható.\n\n"
+    "Szigorú megkötés, hogy a varázsló csak olyan anyaggá képes bármit is átalakítani, amelynek összetételét ismeri. "
+    "Pl. méreggé való átalakításhoz bírnia kell a Méregkeverés vagy az alkímia, netán a herbalizmus képzettséggel.\n\n"
+    "A varázslattal élőlények is átalakíthatók bármilyen I. csoportba tartozó anyaggá (pl. kővé változtatás). Vagy éppen fordítva, sárból is gyúrható élőlény teste, "
+    "ám az efféle teremtmény nem fogja magában hordozni az élet princípiumát, ezért nem számít élőlénynek csak homonkulusznak.\n\n"
+    "Ha a varázslat időtartama lejár, a tárgy visszanyeri eredeti minőségét.\n\n"
+    "Az Mp igény kiszámításánál a kiindulási tárgy súlya a mérvadó, nem a keletkezetté.\n\n"
+    "Anyagcsoporton belül, pl. kővé változtatás."
+)
+NAT_LEGIESSEG = (
+    "Az anyagtalanságnál a megemelhető súly az anyagtalanságnak megfelelő tömeg (az Mp-ből származó és nem az anyagtalanná tett tömeg) 10%."
+)
+NAT_MAGICAL_MATERIAL_HAT = "Mágikus anyagra is hat a láthatatlanság illetve a telekinézis."
 natural = [
     nat("anyagi-term-atformazas", "Átformázás", 2, cast(sz=4), DUR(kor=2), rates((1, KG), (1, HKG), (1, G)),
-        "Changes shape and colour; new object of exactly the same weight; reverts when the spell ends."),
+        NAT_ATFORMAZAS),
     nat("anyagi-term-atalakitas", "Átalakítás", 2, cast(sz=6), DUR(kor=2), rates((1, KG), (1, HKG), (1, G)),
-        "Changes quality within the group; state and shape stay; MP from the starting weight; reverts when the spell ends."),
-    nat("anyagi-term-teremtes", "Teremtés", 3, cast(sz=3), ONEOFF, rates((5, KG), (5, HKG), (5, G))),
-    nat("anyagi-term-dezintegracio", "Dezintegráció", 2, cast(kor=1), ONEOFF, rates((3, KG), (3, HKG), (3, G))),
-    nat("anyagi-term-atvaltoztatas", "Átváltoztatás", 3, cast(kor=2), DUR(kor=2), rates((2, KG), None, None)),
+        NAT_ATALAKITAS),
+    nat("anyagi-term-teremtes", "Teremtés", 3, cast(sz=3), ONEOFF, rates((5, KG), (5, HKG), (5, G)), "Nem volt – van."),
+    nat("anyagi-term-dezintegracio", "Dezintegráció", 2, cast(kor=1), ONEOFF, rates((3, KG), (3, HKG), (3, G)), "Volt – nincs."),
+    nat("anyagi-term-atvaltoztatas", "Átváltoztatás", 3, cast(kor=2), DUR(kor=2), rates((2, KG), None, None), "Példa: macskát békává."),
     nat("anyagi-term-visszavaltoztatas", "Visszaváltoztatás", 3, cast(kor=2), DUR(kor=2), rates((1, KG), None, None),
-        "Recreates from the soul."),
-    nat("anyagi-term-transzmutacio", "Transzmutáció", 3, cast(kor=10), DUR(kor=2), rates((2, KG), (2, HKG), (2, G))),
+        "Lélek alapján újra alkotja."),
+    nat("anyagi-term-transzmutacio", "Transzmutáció", 3, cast(kor=10), DUR(kor=2), rates((2, KG), (2, HKG), (2, G)),
+        "Példa: anyagcsoportok között – követ arannyá."),
     mosaic("anyagi-term-legiesseg", "Légiesség", "anyagi", 3, ["cost"], cast(sz=2), DUR(perc=1), ZONE, NAT, None,
            {"pattern": "compositionGrid", "rows": ["I", "II", "III"], "columns": ["I", "I+II", "I+II+III"],
             "rates": None},
            [{"id": "composition", "label": "Összetétel", "type": "composition"},
             {"id": "passThrough", "label": "Áthatolás", "type": "choice", "values": ["I", "I+II", "I+II+III"]}],
-           subgroup="termeszetes", source=P10B),
+           subgroup="termeszetes", effect=NAT_LEGIESSEG, source=P10B),
     nat("anyagi-term-lathatatlansag", "Láthatatlanság", 3, cast(sz=1), DUR(kor=1),
-        rates((1, 10 * KG), (1, 5 * KG), (1, 10 * G))),
+        rates((1, 10 * KG), (1, 5 * KG), (1, 10 * G)), NAT_MAGICAL_MATERIAL_HAT),
     nat("anyagi-term-telekinezis", "Telekinézis", 2, cast(sz=2), DUR(kor=2),
-        rates((1, 5 * KG), (1, 5 * KG), (1, 5 * KG))),
+        rates((1, 5 * KG), (1, 5 * KG), (1, 5 * KG)), NAT_MAGICAL_MATERIAL_HAT),
     nat("anyagi-term-homerseklet-valtoztatas", "Hőmérséklet változtatás", 4, cast(sz=4), DUR(perc=1),
         rates((1, 10 * KG), (1, 5 * KG), (1, 10 * G))),
     nat("anyagi-term-halmazallapotvaltas", "Halmazállapotváltás", 4, cast(sz=6), DUR(perc=1),
@@ -467,6 +494,7 @@ groups = [
 # Texts that belong to no mosaic, form or group (id -> Hungarian text); the page shows them where they fit
 reference_texts = [
     {"id": "materials.magical", "text": "Mágikus anyagok: Mithrill, abbitacél, drágakövek.", "source": P10B},
+    {"id": "materials.touching", "text": "Lehet egyben kimondani varázslatot az érintkező tárgyakra.", "source": P10B},
 ]
 
 for fname, data in [("alapvarazslatok.json", alap), ("ter.json", ter), ("mental.json", mental),

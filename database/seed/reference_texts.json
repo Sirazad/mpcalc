@@ -3,5 +3,10 @@
     "id": "materials.magical",
     "text": "Mágikus anyagok: Mithrill, abbitacél, drágakövek.",
     "source": "Part 10b"
+  },
+  {
+    "id": "materials.touching",
+    "text": "Lehet egyben kimondani varázslatot az érintkező tárgyakra.",
+    "source": "Part 10b"
   }
 ]
