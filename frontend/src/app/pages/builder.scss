@@ -13,6 +13,9 @@ dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margi
 dt { color: var(--mat-sys-on-surface-variant); }
 dd { margin: 0; }
 dd.effect { white-space: pre-line; }
+.breakdown { margin: 4px 0 2px; font-size: 0.9em; color: var(--mat-sys-on-surface-variant); }
+.breakdown ul { margin: 2px 0 0; padding-left: 18px; }
+.breakdown li.extra { list-style-type: '+ '; }
 .error { color: var(--mat-sys-error); }
 .warn { color: var(--mat-sys-tertiary); }
 mat-card-actions { flex-wrap: wrap; gap: 8px; padding: 8px 16px 16px; }

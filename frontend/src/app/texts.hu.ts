@@ -75,6 +75,8 @@ export const T = {
     e: 'Erősség',
     resistance: 'Mágikus ellenállás',
     castingTime: 'Varázslás ideje',
+    castingParts: 'Összetevők',
+    modifierAdds: 'hozzáadott idő',
     duration: 'Időtartam',
     total: 'Összesen',
     totalMp: 'Összes MP',

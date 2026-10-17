@@ -94,7 +94,18 @@
               <h4>{{ T.spell.total }}</h4>
               <dl>
                 <dt>{{ T.spell.totalMp }}</dt><dd data-testid="total-mp">{{ totalMp() }}</dd>
-                <dt>{{ T.spell.castingTime }}</dt><dd>{{ totalCasting() }}</dd>
+                <dt>{{ T.spell.castingTime }}</dt>
+                <dd>
+                  {{ totalCasting() }}
+                  @if (castingLines(); as lines) {
+                    @if (lines.length) {
+                      <div class="breakdown" data-testid="casting-breakdown">
+                        <span class="breakdown-title">{{ T.spell.castingParts }}:</span>
+                        <ul>@for (l of lines; track $index) { <li [class.extra]="l.extra">{{ l.text }}</li> }</ul>
+                      </div>
+                    }
+                  }
+                </dd>
                 <dt>{{ T.spell.duration }}</dt><dd>{{ totalDuration() }}</dd>
                 <dt>{{ T.spell.remaining }}</dt><dd data-testid="remaining-mp">{{ remaining() }}</dd>
               </dl>

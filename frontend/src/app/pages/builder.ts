@@ -10,6 +10,7 @@ import { OverspendDialog } from '../dialogs/overspend-dialog';
 import { SaveDialog } from '../dialogs/save-dialog';
 import { ValidateDialog } from '../dialogs/validate-dialog';
 import { formatFraction, formatMaybe, formatNumber, formatResistance, formatTime } from '../format';
+import { castingBreakdown } from '../casting';
 import { DetailItem, chosenDescription, describeSelection } from '../inputs';
 import { Mosaic, MosaicResult, SavedSpell, Selection } from '../models';
 import { SessionStore } from '../session.store';
@@ -131,6 +132,8 @@ export class Builder {
   protected resistance(m: MosaicResult) { return formatMaybe(m.resistance, (v) => formatResistance(v, this.session.schools())); }
   protected casting(m: MosaicResult) { return formatMaybe(m.castingTime, formatTime); }
   protected duration(m: MosaicResult) { return formatMaybe(m.duration, formatTime); }
+  /** How the total casting time is put together (one line per mosaic and per extra). */
+  protected castingLines() { return castingBreakdown(this.spell.result()?.mosaics ?? []); }
   protected totalMp() { return formatMaybe(this.spell.result()?.totalMp, formatFraction); }
   protected totalCasting() { return formatMaybe(this.spell.result()?.castingTime, formatTime); }
   protected totalDuration() { return formatMaybe(this.spell.result()?.duration, formatTime); }

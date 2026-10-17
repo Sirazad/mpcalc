@@ -229,6 +229,37 @@ class SpellCalculatorTest {
         assertFalse(poor.enoughMp());
     }
 
+    // ---- the casting time is shown as its parts (user, 2026-10-17)
+    @Test void aMosaicWithoutExtrasHasOnlyItsOwnCastingTimePart() {
+        SpellResult r = run(ch(20), Selection.of(mosaic("/furkeszes.json")));
+        List<CastingPart> parts = r.mosaics().get(0).castingParts();
+        assertEquals(1, parts.size());
+        assertEquals(CastingPart.Kind.OWN, parts.get(0).kind());
+        assertEquals("1 kor", parts.get(0).time().value().toString());
+    }
+
+    @Test void aTickedOptionAndAModifierAreOwnPartsAndTheyAddUpToTheCastingTime() {
+        Mosaic withOption = Json.parseMosaic(text("/furkeszes.json").replace("\"inputs\": []",
+                "\"options\": [{\"id\": \"slow\", \"label\": \"Lassabb\", \"extraMp\": 2, \"extraCastingTime\": {\"kind\": \"time\", \"amounts\": {\"kor\": 2}}}], \"inputs\": []"));
+        SpellResult r = run(ch(20, "ido", 2), Selection.of(withOption).withOptions(java.util.Set.of("slow")), Selection.of(mosaic("/nyujtas-ora.json")));
+        MosaicResult spell = r.mosaics().get(0), ext = r.mosaics().get(1);
+        assertEquals(List.of(CastingPart.Kind.OWN, CastingPart.Kind.OPTION), spell.castingParts().stream().map(CastingPart::kind).toList());
+        assertEquals("Lassabb", spell.castingParts().get(1).label());
+        assertEquals("3 kor", spell.castingTime().value().toString(), "1 kör own + 2 kör option");
+        assertEquals(List.of(CastingPart.Kind.OWN, CastingPart.Kind.MODIFIER), ext.castingParts().stream().map(CastingPart::kind).toList());
+        assertEquals("5 perc", ext.castingParts().get(1).time().value().toString());
+        TimeValue sum = TimeValue.time(TimeAmounts.zero());
+        Maybe<TimeValue> total = Maybe.of(sum);
+        for (MosaicResult m : r.mosaics()) for (CastingPart p : m.castingParts()) total = TimeValue.add(total, p.time());
+        assertEquals(r.castingTime().value().toString(), total.value().toString(), "the parts add up to the total casting time");
+    }
+
+    @Test void aRefusedMosaicHasNoCastingParts() {
+        SpellResult r = run(ch(20), Selection.of(mosaic("/oselem.json")));   // needs inputs, so it is refused
+        assertTrue(r.mosaics().get(0).refused());
+        assertTrue(r.mosaics().get(0).castingParts().isEmpty());
+    }
+
     // ---- magic resistance of the Elemi mosaics (user decision 2026-10-16)
     @Test void oselemIsResistedByTheOppositeElement() {
         for (String[] pair : new String[][] {{"ostuz", "osviz"}, {"osviz", "ostuz"}, {"osfold", "oslevego"}, {"oslevego", "osfold"}}) {

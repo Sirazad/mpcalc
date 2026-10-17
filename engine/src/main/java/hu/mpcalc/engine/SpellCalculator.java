@@ -21,6 +21,7 @@ public final class SpellCalculator {
         Maybe<String> effect = Maybe.undefined(MsgCode.NOT_CALCULATED);
         Maybe<Resistance> resistance = Maybe.undefined(MsgCode.NOT_CALCULATED);
         Maybe<TimeValue> casting = Maybe.undefined(MsgCode.NOT_CALCULATED);
+        final List<CastingPart> castingParts = new ArrayList<>();
         Maybe<TimeValue> baseDuration = Maybe.undefined(MsgCode.NOT_CALCULATED);
         Maybe<TimeValue> modDuration; // only for modifiers
         boolean isModifier() { return m.modifier != null; }
@@ -59,7 +60,8 @@ public final class SpellCalculator {
                     ev.m.power == null ? null : ev.m.power.unit,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.effect,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.resistance,
-                    ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.casting, dur));
+                    ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.casting, dur,
+                    ev.refused() ? List.of() : List.copyOf(ev.castingParts)));
         }
 
         Set<Msg> warnings = new LinkedHashSet<>();
@@ -184,14 +186,21 @@ public final class SpellCalculator {
         ev.resistance = (m.resistance == null || m.resistance.kind == null || m.resistance.kind.equals("undefined") || missing.contains("resistance"))
                 ? Maybe.undefined(MsgCode.RESISTANCE_NOT_DEFINED) : resolveResistance(m, s);
 
-        // casting time (own + ticked options + what a modifier adds)
+        // casting time (own + ticked options + what a modifier adds); the parts are kept so the page can show how it adds up
         Maybe<TimeValue> ct;
         if (m.castingTime == null || m.castingTime.time == null || missing.contains("castingTime")) ct = Maybe.undefined(MsgCode.CASTING_TIME_NOT_DEFINED);
         else ct = m.castingTime.time.asTimeOrUndefined(MsgCode.CASTING_TIME_NOT_A_TIME);
-        for (Option o : m.options) if (s.options().contains(o.id) && o.extraCastingTime != null)
-            ct = TimeValue.add(ct, o.extraCastingTime.asTimeOrUndefined(MsgCode.OPTION_CASTING_TIME_NOT_A_TIME));
-        if (m.modifier != null)
-            ct = TimeValue.add(ct, m.modifier.addsCastingTime == null ? Maybe.undefined(MsgCode.MODIFIER_CASTING_TIME_NOT_DEFINED) : m.modifier.addsCastingTime.asTimeOrUndefined(MsgCode.MODIFIER_CASTING_TIME_NOT_A_TIME));
+        ev.castingParts.add(new CastingPart(CastingPart.Kind.OWN, null, ct));
+        for (Option o : m.options) if (s.options().contains(o.id) && o.extraCastingTime != null) {
+            Maybe<TimeValue> extra = o.extraCastingTime.asTimeOrUndefined(MsgCode.OPTION_CASTING_TIME_NOT_A_TIME);
+            ev.castingParts.add(new CastingPart(CastingPart.Kind.OPTION, o.label, extra));
+            ct = TimeValue.add(ct, extra);
+        }
+        if (m.modifier != null) {
+            Maybe<TimeValue> adds = m.modifier.addsCastingTime == null ? Maybe.undefined(MsgCode.MODIFIER_CASTING_TIME_NOT_DEFINED) : m.modifier.addsCastingTime.asTimeOrUndefined(MsgCode.MODIFIER_CASTING_TIME_NOT_A_TIME);
+            ev.castingParts.add(new CastingPart(CastingPart.Kind.MODIFIER, null, adds));
+            ct = TimeValue.add(ct, adds);
+        }
         ev.casting = ct;
 
         // duration

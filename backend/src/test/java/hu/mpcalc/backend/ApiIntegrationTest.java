@@ -417,6 +417,20 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void theCastingTimeComesWithItsParts() throws Exception {
+        MockHttpSession s = login("c-" + UUID.randomUUID());
+        long id = newCharacter(s, 60, "{\"ido\":2}");
+        String body = "{\"characterId\":" + id + ",\"selections\":[{\"mosaicId\":\"alap-furkeszes\"},{\"mosaicId\":\"ido-nyujtas-ora\"}]}";
+        JsonNode r = json(send(post("/calculate"), s, body, 200));
+        assertTrue(r.get("valid").asBoolean(), r.toString());
+        JsonNode spell = r.at("/mosaics/0/castingParts"), ext = r.at("/mosaics/1/castingParts");
+        assertEquals("OWN", spell.get(0).get("kind").asText());
+        assertTrue(spell.get(0).at("/time/defined").asBoolean());
+        assertEquals("MODIFIER", ext.get(ext.size() - 1).get("kind").asText(), "what the extension adds is its own part");
+        assertTrue(ext.get(ext.size() - 1).at("/time/value/amounts/perc").asInt() > 0);
+    }
+
+    @Test
     void formsCarryTheirRegenerationTimeAsText() throws Exception {
         MockHttpSession s = login("f-" + UUID.randomUUID());
         java.util.Map<String, JsonNode> byId = new java.util.HashMap<>();

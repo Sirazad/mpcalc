@@ -41,10 +41,13 @@ export interface MosaicsResponse { mosaics: Mosaic[]; versions: Record<string, s
 /** One mosaic in the current spell, as sent to the backend. */
 export interface Selection { mosaicId: string; inputs: Record<string, unknown>; k: number; options: string[]; extraMp: number; }
 
+/** One part of the casting time of a mosaic: its own time, the extra time of a ticked option, or what a modifier adds. */
+export interface CastingPart { kind: 'OWN' | 'OPTION' | 'MODIFIER'; label?: string | null; time: Maybe<TimeValue>; }
 export interface MosaicResult {
   mosaicId: string; name: string; refused: boolean; errors: Msg[]; warnings: Msg[];
   mp: Maybe<Fraction>; e: Maybe<number>; powerUnit: string; effect: Maybe<string>;
   resistance: Maybe<Resistance>; castingTime: Maybe<TimeValue>; duration: Maybe<TimeValue>;
+  castingParts?: CastingPart[];
 }
 export interface SpellResult {
   valid: boolean; mosaics: MosaicResult[]; totalMp: Maybe<Fraction>; castingTime: Maybe<TimeValue>; duration: Maybe<TimeValue>;
