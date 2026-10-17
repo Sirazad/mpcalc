@@ -30,11 +30,11 @@ export class Api {
   updateCharacter(id: number, body: CharacterBody) { return firstValueFrom(this.http.put<Character>(`${this.base}/characters/${id}`, body)); }
   mosaics(characterId: number) { return firstValueFrom(this.http.get<MosaicsResponse>(`${this.base}/characters/${characterId}/mosaics`)); }
 
-  calculate(characterId: number, selections: Selection[]) {
-    return firstValueFrom(this.http.post<CalculateResult>(`${this.base}/calculate`, { characterId, selections }));
+  calculate(characterId: number, selections: Selection[], inTrance = false) {
+    return firstValueFrom(this.http.post<CalculateResult>(`${this.base}/calculate`, { characterId, selections, inTrance }));
   }
-  cast(characterId: number, selections: Selection[]) {
-    return firstValueFrom(this.http.post<CastResponse>(`${this.base}/cast`, { characterId, selections }));
+  cast(characterId: number, selections: Selection[], inTrance = false) {
+    return firstValueFrom(this.http.post<CastResponse>(`${this.base}/cast`, { characterId, selections, inTrance }));
   }
   validate(body: unknown) { return firstValueFrom(this.http.post<ValidateResponse>(`${this.base}/validate`, body)); }
 

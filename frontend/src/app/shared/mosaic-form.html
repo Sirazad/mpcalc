@@ -9,7 +9,7 @@
         <mat-form-field>
           <mat-label>{{ i.label ?? i.id }}</mat-label>
           <mat-select [ngModel]="values()[i.id]" (ngModelChange)="set(i.id, $event)" [name]="i.id" [attr.data-testid]="'input-' + i.id">
-            @for (v of i.values ?? []; track v) { <mat-option [value]="v">{{ i.labels?.[v] ?? v }}</mat-option> }
+            @for (v of availableValues(i); track v) { <mat-option [value]="v">{{ i.labels?.[v] ?? v }}</mat-option> }
           </mat-select>
         </mat-form-field>
         @if (values()[i.id]; as chosen) {

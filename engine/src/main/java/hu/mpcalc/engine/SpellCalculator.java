@@ -22,15 +22,37 @@ public final class SpellCalculator {
         Maybe<Resistance> resistance = Maybe.undefined(MsgCode.NOT_CALCULATED);
         Maybe<TimeValue> casting = Maybe.undefined(MsgCode.NOT_CALCULATED);
         final List<CastingPart> castingParts = new ArrayList<>();
+        boolean infinitePower;
+        boolean includedInWrapper;
         Maybe<TimeValue> baseDuration = Maybe.undefined(MsgCode.NOT_CALCULATED);
         Maybe<TimeValue> modDuration; // only for modifiers
         boolean isModifier() { return m.modifier != null; }
+        boolean isWrapper() { return m.cost != null && "wrapper".equals(m.cost.pattern); }
         boolean refused() { return !errors.isEmpty(); }
     }
 
     public SpellResult calculate(SpellRequest req) {
         List<Eval> evals = new ArrayList<>();
         for (Selection s : req.selections()) evals.add(evaluate(s, req));
+
+        // A wrapper mosaic (Végrehajtó varázskör, ...) costs its base plus a factor times the MP of the OTHER mosaics, in any order of adding.
+        // Its casting time includes the time of those mosaics, so theirs is not added; their durations apply when the wrapper acts.
+        boolean anyWrapper = evals.stream().anyMatch(ev -> !ev.refused() && ev.isWrapper());
+        for (Eval w : evals) {
+            if (w.refused() || !w.isWrapper()) continue;
+            if (w.mp.isDefined()) {
+                Fraction sum = Fraction.ZERO; Maybe<Fraction> bad = null;
+                for (Eval o : evals) {
+                    if (o == w || o.isWrapper() || o.refused()) continue;
+                    if (!o.mp.isDefined()) { bad = Maybe.undefined(o.mp.reason().about(o.m.name)); break; }
+                    sum = sum.add(o.mp.value());
+                }
+                if (bad != null) w.mp = bad;
+                else if (w.m.cost.factor == null) w.mp = Maybe.undefined(MsgCode.RATE_UNDEFINED);
+                else w.mp = Maybe.of(w.mp.value().add(Fraction.of(w.m.cost.factor).multiply(sum)));
+            }
+        }
+        if (anyWrapper) for (Eval o : evals) if (!o.refused() && !o.isWrapper()) o.includedInWrapper = true;
 
         // Spell-level modifier duration (applies to every non-modifier mosaic).
         Maybe<TimeValue> modTotal = null;
@@ -52,7 +74,7 @@ public final class SpellCalculator {
                     boolean addsNothing = modTotal.isDefined() && modTotal.value().isTime() && modTotal.value().amounts.isZero();
                     if (!addsNothing) dur = TimeValue.add(dur, modTotal);
                 }
-                effDurations.add(dur);
+                if (!ev.includedInWrapper) effDurations.add(dur);
             }
             Maybe<Fraction> mp = ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.mp;
             results.add(new MosaicResult(ev.m.id, ev.m.name, ev.refused(), List.copyOf(ev.errors), List.copyOf(ev.warnings), mp,
@@ -61,7 +83,7 @@ public final class SpellCalculator {
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.effect,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.resistance,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.casting, dur,
-                    ev.refused() ? List.of() : List.copyOf(ev.castingParts)));
+                    ev.refused() ? List.of() : List.copyOf(ev.castingParts), ev.infinitePower, ev.includedInWrapper));
         }
 
         Set<Msg> warnings = new LinkedHashSet<>();
@@ -80,15 +102,20 @@ public final class SpellCalculator {
         else {
             Fraction sum = Fraction.ZERO; Msg why = null;
             for (MosaicResult r : results) {
+                if (r.includedInWrapper()) continue;   // its MP is already part of the wrapper's
                 if (!r.mp().isDefined()) { why = r.mp().reason().about(r.name()); break; }
                 sum = sum.add(r.mp().value());
             }
             total = why == null ? Maybe.of(sum) : Maybe.undefined(why);
         }
         Maybe<TimeValue> casting = evals.isEmpty() ? Maybe.undefined(MsgCode.NO_MOSAIC_SELECTED) : Maybe.of(TimeValue.time(TimeAmounts.zero()));
-        for (MosaicResult r : results) casting = TimeValue.add(casting, r.castingTime());
+        for (MosaicResult r : results) if (!r.includedInWrapper()) casting = TimeValue.add(casting, r.castingTime());
+        // a drawing needs a trance (10 minutes of meditation and 1 psi point), once per spell, unless the caster is already in one
+        boolean tranceNeeded = evals.stream().anyMatch(ev -> !ev.refused() && ev.m.castingTime != null && "drawing".equals(ev.m.castingTime.label));
+        boolean tranceApplied = tranceNeeded && !req.inTrance();
+        if (tranceApplied) casting = TimeValue.add(casting, Maybe.of(TimeValue.time(TimeAmounts.of(Map.of("perc", 10L)))));
         Set<String> labels = new TreeSet<>();
-        for (Eval ev : evals) if (!ev.refused() && ev.m.castingTime != null && ev.m.castingTime.label != null) labels.add(ev.m.castingTime.label);
+        for (Eval ev : evals) if (!ev.refused() && !ev.includedInWrapper && ev.m.castingTime != null && ev.m.castingTime.label != null) labels.add(ev.m.castingTime.label);
         if (labels.size() > 1) warnings.add(Msg.of(MsgCode.WARN_MIXED_CASTING_TIMES));
 
         Maybe<TimeValue> duration = totalDuration(effDurations, evals);
@@ -97,7 +124,8 @@ public final class SpellCalculator {
                 : Maybe.undefined(MsgCode.TOTAL_MP_UNDEFINED);
         boolean enough = remaining.isDefined() && remaining.value().signum() >= 0;
         if (remaining.isDefined() && !enough) warnings.add(Msg.of(MsgCode.WARN_NOT_ENOUGH_MP));
-        return new SpellResult(valid, results, total, casting, duration, remaining, enough, new ArrayList<>(warnings), errors);
+        return new SpellResult(valid, results, total, casting, duration, remaining, enough, new ArrayList<>(warnings), errors,
+                new SpellResult.Trance(tranceNeeded, tranceApplied));
     }
 
     private Maybe<TimeValue> totalDuration(List<Maybe<TimeValue>> eff, List<Eval> evals) {
@@ -137,6 +165,8 @@ public final class SpellCalculator {
             int have = req.character().tiers.getOrDefault(m.school, 0);
             if (have < m.tier) ev.errors.add(Msg.of(MsgCode.ERR_TIER_BELOW, have, m.school, m.tier));
         }
+        // extra requirements: tiers needed in other schools
+        checkRequirements(ev, req, m.requires);
 
         // power step
         if (s.k() < 0) ev.errors.add(Msg.of(MsgCode.ERR_K_NEGATIVE));
@@ -177,6 +207,7 @@ public final class SpellCalculator {
 
         // power E
         if (m.power == null) ev.e = Maybe.undefined(MsgCode.NO_E);
+        else if (Boolean.TRUE.equals(m.power.infinite)) { ev.e = Maybe.undefined(MsgCode.POWER_INFINITE); ev.infinitePower = true; }
         else if (missing.contains("power") || m.power.baseE == null) ev.e = Maybe.undefined(MsgCode.POWER_UNDEFINED);
         else if (s.k() > 0 && m.power.step.e == null) ev.e = Maybe.undefined(MsgCode.STEP_E_UNDEFINED);
         else ev.e = Maybe.of(m.power.baseE.add(m.power.step == null || s.k() == 0 ? BigDecimal.ZERO : m.power.step.e.multiply(BigDecimal.valueOf(s.k()))));
@@ -234,6 +265,16 @@ public final class SpellCalculator {
         return null;
     }
 
+    /** Every listed requirement must be met by the character; a school the character has no entry for counts as tier 0. */
+    private static void checkRequirements(Eval ev, SpellRequest req, List<Requirement> requires) {
+        if (requires == null) return;
+        for (Requirement r : requires) {
+            if (r.school == null || r.tier == null) continue;
+            int have = req.character().tiers.getOrDefault(r.school, 0);
+            if (have < r.tier) ev.errors.add(Msg.of(MsgCode.ERR_TIER_BELOW, have, r.school, r.tier));
+        }
+    }
+
     private void validateInputs(Eval ev, SpellRequest req) {
         Mosaic m = ev.m; Map<String, JsonNode> given = ev.sel.inputs();
         Set<String> ids = new HashSet<>();
@@ -246,7 +287,10 @@ public final class SpellCalculator {
                 continue;
             }
             switch (in.type == null ? "" : in.type) {
-                case "choice" -> { if (!v.isTextual() || in.values == null || !in.values.contains(v.asText())) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_VALUE_NOT_ALLOWED, in.id)); }
+                case "choice" -> {
+                    if (!v.isTextual() || in.values == null || !in.values.contains(v.asText())) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_VALUE_NOT_ALLOWED, in.id));
+                    else if (in.requires != null) checkRequirements(ev, req, in.requires.get(v.asText()));   // what the chosen value needs
+                }
                 case "number" -> { if (!v.isNumber() || v.decimalValue().signum() < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_A_NUMBER, in.id)); }
                 case "text" -> { if (!v.isTextual()) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_TEXT, in.id)); }
                 case "form" -> {
@@ -288,6 +332,9 @@ public final class SpellCalculator {
             case "compositionGrid":
                 return Maybe.undefined(MsgCode.GRID_RATES_UNDEFINED);
             case "lookup": return lookup(ev, c);
+            case "perChoice": return perChoice(ev, c);
+            case "wrapper":   // the part of the cost that does not depend on the other mosaics; the calculation adds factor x their MP
+                return c.baseMp == null ? Maybe.undefined(MsgCode.BASE_MP_UNDEFINED) : Maybe.of(Fraction.of(c.baseMp));
             case "undefined": return Maybe.undefined(MsgCode.COST_PATTERN_UNDEFINED);
             default: return Maybe.undefined(MsgCode.UNKNOWN_COST_PATTERN, c.pattern);
         }
@@ -352,6 +399,16 @@ public final class SpellCalculator {
             sum = sum.add(blockCost(Fraction.of(p.get("massG").decimalValue()), r.get("mp").decimalValue(), r.get("massG").decimalValue()));
         }
         return Maybe.of(sum);
+    }
+
+    /** MP by the chosen value of a choice input (for example the class of creature a circle keeps out). */
+    private Maybe<Fraction> perChoice(Eval ev, Cost c) {
+        if (c.input == null || c.mpByValue == null) return Maybe.undefined(MsgCode.LOOKUP_DATA_UNDEFINED);
+        JsonNode v = ev.sel.inputs().get(c.input);
+        if (v == null || !v.isTextual()) return Maybe.undefined(MsgCode.LOOKUP_INPUT_MISSING);
+        JsonNode mp = c.mpByValue.get(v.asText());
+        if (mp == null) return Maybe.undefined(MsgCode.VALUE_OUTSIDE_TABLE);
+        return mp.isNumber() ? Maybe.of(Fraction.of(mp.decimalValue())) : Maybe.undefined(MsgCode.TABLE_MP_UNDEFINED);
     }
 
     private Maybe<Fraction> lookup(Eval ev, Cost c) {

@@ -229,6 +229,81 @@ class SpellCalculatorTest {
         assertFalse(poor.enoughMp());
     }
 
+    // ---- Jelmágia (user, 2026-10-17): requirements in other schools, infinite E, cost by choice, wrapper, trance
+    private static String errorCodes(SpellResult r) { return r.mosaics().get(0).errors().toString(); }
+
+    @Test void aRequirementInAnotherSchoolIsChecked() {
+        Selection s = Selection.of(mosaic("/jel-bebortonozo.json")).withInputs(Map.of("creatureClass", j("\"felhalott\"")));
+        SpellResult no = run(ch(50, "jelmagia", 2), s);
+        assertTrue(no.mosaics().get(0).refused());
+        assertTrue(errorCodes(no).contains("nekromancia"), errorCodes(no));
+        SpellResult yes = run(ch(50, "jelmagia", 2, "nekromancia", 2), s);
+        assertTrue(yes.valid(), yes.errors().toString());
+    }
+
+    @Test void theMpOfACircleComesFromTheChosenCreatureClass() {
+        for (Object[] c : new Object[][] {{"felhalott", 20}, {"kisertet", 30}, {"demon", 40}, {"demonur", 70}}) {
+            SpellResult r = run(ch(100, "jelmagia", 2, "nekromancia", 2),
+                    Selection.of(mosaic("/jel-bebortonozo.json")).withInputs(Map.of("creatureClass", j("\"" + c[0] + "\""))));
+            assertEquals(Fraction.of((Integer) c[1]), r.totalMp().value(), (String) c[0]);
+        }
+        SpellResult bad = run(ch(100, "jelmagia", 2, "nekromancia", 2),
+                Selection.of(mosaic("/jel-bebortonozo.json")).withInputs(Map.of("creatureClass", j("\"sarkany\""))));
+        assertTrue(bad.mosaics().get(0).refused());
+    }
+
+    @Test void anInfinitePowerHasNoNumberAndIsFlagged() {
+        SpellResult r = run(ch(100, "jelmagia", 2, "nekromancia", 2),
+                Selection.of(mosaic("/jel-bebortonozo.json")).withInputs(Map.of("creatureClass", j("\"felhalott\""))));
+        MosaicResult m = r.mosaics().get(0);
+        assertTrue(m.infinitePower());
+        assertFalse(m.e().isDefined());
+        assertEquals(TimeValue.Kind.UNTIL_BROKEN, m.duration().value().kind, "until the lines are broken");
+        assertEquals(TimeValue.Kind.UNTIL_BROKEN, r.duration().value().kind);
+    }
+
+    @Test void theChosenValueNeedsItsOwnSchoolAndTheCostIsThreeMpPerE() {
+        Selection fire = Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"ostuz\""))).withK(2);
+        SpellResult onlySign = run(ch(100, "jelmagia", 2), fire);
+        assertTrue(onlySign.mosaics().get(0).refused(), "Őstűz needs Anyagi mágia 2. fok");
+        SpellResult ok = run(ch(100, "jelmagia", 2, "anyagi", 2), fire);
+        assertTrue(ok.valid(), ok.errors().toString());
+        assertEquals(Fraction.of(9), ok.totalMp().value(), "E 3 at 3 MP per E");
+        assertEquals(new BigDecimal("3"), ok.mosaics().get(0).e().value());
+        assertTrue(run(ch(100, "jelmagia", 2, "asztral", 2), Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"asztral\"")))).valid());
+    }
+
+    @Test void aWrapperCostsItsBasePlusTheOtherMosaicsInAnyOrderAndIncludesTheirTime() {
+        Selection wrapper = Selection.of(mosaic("/jel-vegrehajto.json"));
+        Selection inner = Selection.of(mosaic("/furkeszes.json"));          // 7 MP, 1 kör
+        SpellResult a = run(ch(100, "jelmagia", 3), wrapper, inner);
+        SpellResult b = run(ch(100, "jelmagia", 3), inner, wrapper);
+        assertEquals(Fraction.of(47), a.totalMp().value());
+        assertEquals(Fraction.of(47), b.totalMp().value(), "the order does not matter");
+        assertEquals(Fraction.of(40), run(ch(100, "jelmagia", 3), wrapper).totalMp().value(), "the wrapper alone shows what is left for the spell");
+        // the wrapper's 30 perc includes the time of the inner mosaic; the trance of 10 perc is added once
+        assertEquals("40 perc", a.castingTime().value().toString());
+        MosaicResult innerResult = a.mosaics().get(1);
+        assertTrue(innerResult.includedInWrapper());
+        assertFalse(a.mosaics().get(0).includedInWrapper());
+        assertEquals(TimeValue.Kind.UNTIL_BROKEN, a.duration().value().kind, "the duration of the wrapper, not of the inner mosaic");
+    }
+
+    @Test void theTranceIsAddedOnceUnlessTheCasterIsAlreadyInOne() {
+        SpellRequest inTrance = new SpellRequest(List.of(Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"asztral\""))),
+                Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"asztral\"")))), ch(100, "jelmagia", 2, "asztral", 2), forms, true);
+        SpellResult yes = calc.calculate(inTrance);
+        assertTrue(yes.trance().needed());
+        assertFalse(yes.trance().applied());
+        assertEquals("40 perc", yes.castingTime().value().toString(), "two drawings of 20 perc, no trance time");
+        SpellResult no = calc.calculate(new SpellRequest(inTrance.selections(), inTrance.character(), forms, false));
+        assertTrue(no.trance().applied());
+        assertEquals("50 perc", no.castingTime().value().toString(), "+10 perc once, not per drawing");
+        SpellResult plain = run(ch(20), Selection.of(mosaic("/furkeszes.json")));
+        assertFalse(plain.trance().needed(), "a spell without a drawing needs no trance");
+        assertEquals("1 kor", plain.castingTime().value().toString());
+    }
+
     // ---- the casting time is shown as its parts (user, 2026-10-17)
     @Test void aMosaicWithoutExtrasHasOnlyItsOwnCastingTimePart() {
         SpellResult r = run(ch(20), Selection.of(mosaic("/furkeszes.json")));

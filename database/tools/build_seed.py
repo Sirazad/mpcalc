@@ -483,6 +483,144 @@ forms = [
     form("gyuru", "Gyűrű", 4, DUR(kor=3), "0,5 szegmens"),
     form("labda", "Labda", 4, ONEOFF),
 ]
+# ---------- Jelmágia (Part 14): school text and the five varázskörök (user's Hungarian text, approved 2026-10-17; typos corrected) ----------
+P14 = "Part 14"
+JEL_SCHOOL_DESCRIPTION = (
+    "A világegyetem törvényszerűségeit nem csak szavakkal, hanem bizonyos különös vonalvezetésű jelekkel is meg lehet fogalmazni. "
+    "Ezek a jelek képesek arra, hogy rabul ejtsék a mágikus energiákat, hogy átalakítsák, kisugározzák őket, akár a varázsló elméje. "
+    "Általában nem többek, mint egyszerű végrehajtók, ám némelyikük a varázsló segítőjeként is közreműködik a varázslatok során, akár holmi egyszerű inas. "
+    "A Jelmágia nagymesterei szinte minden már megismert mágikus hatást képesek rajzolatok formájában leírni.\n\n"
+    "A mágia ezen formájának valaha élt legnagyobb ismerőjéről, Moress Nobren mágusról az a legenda terjedt el, hogy egy alkalommal fél esztendős munkával "
+    "egy egész hatalmas terem padlóját, falait és mennyezetét teleróva olyan mágikus jelrendszert alkotott, amely önálló gondolkodásra is képes volt. "
+    "Egyetlen kötetbe összefoglalt életművéből, a Magica Graphicából idézünk:\n\n"
+    "A jelek mágikus formulák, a mágikus energia anyagba rögzített megnyilvánulásai. Meghatározó tulajdonságuk nem az anyag, amelyre írják őket, hanem a forma, "
+    "a rajzolat vonalvezetése. A jelek tehát, bár nem bírnak anyagi minőséggel, mégis az anyag egy változatát jelentik, hiszen a forma, a külalak egyedül az "
+    "Anyagi Világban meghatározó attribútum…\n\n"
+    "… Az eltérő – legalábbis az eltérőnek tekinthető – formák, így rajzolatok száma végtelen, végtelen tehát a Jelmágia jeleinek száma is. "
+    "Ezzel együtt végtelen az így megidézhető mágikus módszerek és hatások sokasága is.\n\n"
+    "…A rajzolatok uralmat adnak a Világegyetem felett – nem különben és nem hitványabbak a mágikus igéknél és holmiknál. "
+    "Talán csak annyiban különböznek, hogy bizonyos mágikus operációkhoz már elfeledtük a szavakat, míg a jelek reánk maradtak az elődöktől. "
+    "Kutatjuk tartamukat, igyekszünk szétboncolni őket, hogy beléjük lássunk, egészen a vázat adó csontokig, akár a gyógyító teszi az emberi testtel. "
+    "Állítom, semmit sem tudunk még alapvető titkairól…\n\n"
+    "…A mágikus szempontból tökéletes rajzolatot a varázsló csak transzban képes megalkotni. Mivelhogy a Jelmágia nem pusztán rajzolatból áll, hanem abból a "
+    "transzban végrehajtott műveletből is, amelynek során a varázsló lelkének lenyomatát, egy lényéből kipattanó szikrát is elhelyez a vonalak között.\n"
+    "Ez az a parányi szikra, amelytől az életre kél …\n\n"
+    "A jelmágia a mágikus tartamú rajzolatokat 5 csoportba sorolja: varázskörök, varázsjelek, szimbólumok, bélyegek, pentagrammák.\n\n"
+    "Fő szabályok\n"
+    "Minden rajzolat elkészítéséhez szükséges a transz, ami tíz perces meditációt és 1 pszi pont felhasználását igényli.\n"
+    "Szimbólummágia 2. fok szükséges a felrajzolásukhoz, illetve egyes esetekben adott magasmágia ismerete.\n"
+    "Minden rajzolat elveszíti mágikus tartalmát, ha vonalai megsérülnek.\n"
+    "A jelmágiára – kevés kivétellel – nem alkalmazható Időmágia, Térmágia és Szimpatikus mágia!"
+)
+
+CIRCLE_TABLE = (
+    "Hatás – Magasmágia – Mp/E:\n"
+    "Őstűz, Ősvíz, Ősföld, Őslevegő – Anyagi mágia 2. fok – 3\n"
+    "Elemi erő – Anyagi mágia 2. fok – 3\n"
+    "Természetes anyagi mágia – Anyagi mágia 2. fok – 3\n"
+    "Asztrálmágia – Asztrálmágia 2. fok – 3\n"
+    "Térmágia – Térmágia 2. fok – 3\n"
+    "Időmágia – Időmágia 2. fok – 3\n"
+    "Mentálmágia – Mentálmágia 2. fok – 3\n"
+    "Szimpatikus mágia – Szimpatikus mágia 2. fok – 3"
+)
+CREATURE_TABLE = (
+    "Lény hovatartozása – Mp:\n"
+    "félhalottak – 20\n"
+    "kísértetek és lelkek – 30\n"
+    "alsó- és közrendű démonok – 40\n"
+    "démonurak és -hercegek – 70"
+)
+ONE_MOSAIC = ("A varázsköröknek nem kell a teljes varázslat E-jével megbirkóznia, irányulhatnak annak egyetlen mozaikja ellen is. "
+              "Ilyenkor a körön {where} csak az adott mozaik nem érvényesül, a varázslatba foglalt többi igen.")
+
+JEL_BEBORTONOZO = (
+    "A bebörtönzésre használatos varázskör a bezárt lényt megakadályozza abban, hogy a belső körívből kitörjön.\n\n"
+    "A bebörtönző varázskörök bizonyos lényeknek a belső körbe történő bezárására használatosak. Ez azt jelenti, hogy az adott lény képtelen átlépni a belső kör vonalát, "
+    "és kijutni azon belülről. Egyébként minden szempontból hasonlóak a Kirekesztő Varázskörökhöz, az Mp igényük meghatározásában az ott említett táblázat irányadó.\n\n"
+    "A varázskör az összes jelmágikus rajzolathoz hasonlóan addig fejti ki hatását, amíg vonalai sértetlenek. Maga a kiszemelt lény képtelen arra, hogy megtörje a varázskör vonalait. "
+    "Még mágikus úton sem: ez irányú varázslatai létre sem jönnek. Természetesen szép szóval, fenyegetéssel, Asztrál vagy Mentál mágiával rávehet erre bárkit.\n\n"
+    + CREATURE_TABLE
+)
+JEL_KIREKESZTO = (
+    "A kirekesztő varázskör lehetetlenné teszi, hogy a teremtmény, aki ellen alkották, a külső körív vonalát átlépje.\n\n"
+    "A kirekesztő varázskörök arra használatosak, hogy bizonyos nem természeti eredetű lényeket visszatartsanak a külső köríven belüli területekről. "
+    "Ez úgy történik, hogy az adott lény a mágikus hatások miatt képtelen átlépni a körívet, ám varázslatai átjutnak azon. "
+    "Az, hogy egy efféle varázskör mennyi Mp-be kerül, attól függ, hogy milyen lény távoltartására készült. Erről a következő táblázat tudósít.\n\n"
+    + CREATURE_TABLE + "\n\n"
+    "A kirekesztő varázskör az összes jelmágikus rajzolathoz hasonlóan addig fejti ki hatását, amíg vonalai sértetlenek. Maga a kiszemelt lény képtelen arra, hogy megtörje a varázskör vonalait. "
+    "Még mágikus úton sem: ez irányú varázslatai létre sem jönnek. Természetesen szép szóval, fenyegetéssel, Asztrál vagy Mentál mágiával rávehet erre bárkit."
+)
+JEL_KORBEZARO = (
+    "A körbezáró varázskör a hatást éppen hogy a belső kör vonalán belülre korlátozza.\n\n"
+    "A körbezáró varázskörök a védő varázskörökhöz hasonlóan működnek, azzal a különbséggel, hogy a hatást, ami ellen készítették őket, nem a külső körön kívülre korlátozzák, "
+    "hanem bezárják a belső körön belülre – megakadályozva, hogy azon túl is érvényesüljön. A hatásból annyi jut ki, amennyi a védő varázskörnél említett módon ott belülre kerülhet. "
+    "Azaz: a kijutó E egyenlő a hatás E-je mínusz a varázskör E-je.\n\n"
+    "Környezeti hatások erőssége minden esetben 15 E-nek számít.\n\n"
+    "Arról, hogy milyen típusú körbezáró varázskörök léteznek és ezek 1 E-s erősítéséhez mennyi Mp szükséges, a Védő varázsköröknél ismertetett táblázat tudósít.\n\n"
+    + CIRCLE_TABLE + "\n\n" + ONE_MOSAIC.format(where="kívül")
+)
+JEL_VEDO = (
+    "A védő varázskör bizonyos mágikus hatásoknak vet gátat, azaz a megjelölt hatás nem juthat be a külső köríven belülre.\n\n"
+    "A védő varázskörök arra használatosak, hogy egy adott mágikus hatástól megvédjék a varázskör külső körén belül eső területet (csak varázslatokat gyengítenek).\n\n"
+    "Mágikus hatás esetén: a védett területen, ha a varázskör E-je nagyobb a mágikus hatás E-jénél, a hatás nem érvényesül. Ha a varázskör E-je kisebb, akkor a hatásból csak annyi jut át "
+    "a védő varázskörön, amennyivel E-je több, mint a varázsköré (bejutott E = hatás E – varázskör E). Ebben az esetben a védett területen belül az adott hatás csak bejutott E-jének függvényében érvényesül.\n\n"
+    "Környezeti hatások erőssége minden esetben 15 E-nek számít.\n\n"
+    "Arról, hogy milyen típusú varázskörök léteznek, és ezek 1 E-s erősítéséhez mennyi Mp szükséges, a következő táblázat tudósít:\n\n"
+    + CIRCLE_TABLE + "\n\n" + ONE_MOSAIC.format(where="belül")
+)
+JEL_VEGREHAJTO = (
+    "A végrehajtó varázskörbe bármilyen mozaikokból felépített varázslat beleírható, és csak akkor aktivizálódik, ha valaki a varázskörbe lép. "
+    "Fontos megkötés, hogy a varázslat – bármekkora is legyen eredeti hatóterülete – csak a varázskör belső körívén belül eső területre, illetve az ott tartózkodókra hat, "
+    "ott azonban válogatás nélkül mindenkire.\n\n"
+    "A varázskör felrajzolása 40 mp, plusz még annyi, amennyibe a beleírt varázslat kerül. A beleírt varázslatot csak egyszer képes végrehajtani, "
+    "de a kimerült varázskör annyi mannapontért, amennyi a beleírt varázslat mp igénye, újra tölthető. "
+    "Ha vonalai megtörnek, a varázslat kiszabadul és kifejti hatását, de a rajzolat többé nem használható."
+)
+
+UNTIL_BROKEN = {"kind": "untilBroken"}
+DRAWING_RANGE = {"kind": "drawing"}
+CREATURE_CLASSES = {"felhalott": ("Félhalottak", 20), "kisertet": ("Kísértetek és lelkek", 30),
+                    "demon": ("Alsó- és közrendű démonok", 40), "demonur": ("Démonurak és -hercegek", 70)}
+EFFECT_TYPES = {  # id: (label, [(school, tier)])
+    "ostuz": ("Ős tűz", [("anyagi", 2)]), "osviz": ("Ős víz", [("anyagi", 2)]), "osfold": ("Ős föld", [("anyagi", 2)]),
+    "oslevego": ("Ős levegő", [("anyagi", 2)]), "elemiero": ("Elemi erő", [("anyagi", 2)]),
+    "termeszetesanyagi": ("Természetes anyagi mágia", [("anyagi", 2)]), "asztral": ("Asztrálmágia", [("asztral", 2)]),
+    "ter": ("Térmágia", [("ter", 2)]), "ido": ("Időmágia", [("ido", 2)]), "mental": ("Mentálmágia", [("mental", 2)]),
+    "szimpatikus": ("Szimpatikus mágia", [("szimpatikus", 2)]),
+}
+
+def creature_input():
+    return {"id": "creatureClass", "label": "Lény hovatartozása", "type": "choice", "values": list(CREATURE_CLASSES),
+            "labels": {k: v[0] for k, v in CREATURE_CLASSES.items()}}
+
+def effect_type_input():
+    return {"id": "effectType", "label": "Hatás", "type": "choice", "values": list(EFFECT_TYPES),
+            "labels": {k: v[0] for k, v in EFFECT_TYPES.items()},
+            "requires": {k: [{"school": s, "tier": t} for s, t in v[1]] for k, v in EFFECT_TYPES.items()}}
+
+def circle(id, name, tier, minutes, effect, pw, cost, inputs, requires=None):
+    d = mosaic(id, name, "jelmagia", tier, [], cast("drawing", perc=minutes), UNTIL_BROKEN, DRAWING_RANGE, {"kind": "none"},
+               pw, cost, inputs, subgroup="varazskorok", effect=effect, source=P14)
+    if requires:
+        d["requires"] = requires
+    return d
+
+INFINITE = {"unit": "E", "baseE": None, "step": None, "infinite": True}
+BY_CLASS = {"pattern": "perChoice", "input": "creatureClass", "mpByValue": {k: v[1] for k, v in CREATURE_CLASSES.items()}}
+jel = [
+    circle("jel-varazskor-bebortonozo", "Bebörtönöző varázskör", 2, 25, JEL_BEBORTONOZO, INFINITE, BY_CLASS, [creature_input()],
+           [{"school": "nekromancia", "tier": 2}]),
+    circle("jel-varazskor-kirekeszto", "Kirekesztő varázskör", 2, 25, JEL_KIREKESZTO, INFINITE, BY_CLASS, [creature_input()],
+           [{"school": "nekromancia", "tier": 2}]),
+    circle("jel-varazskor-korbezaro", "Körbezáró varázskör", 2, 20, JEL_KORBEZARO, power(1, 3, 1), flat(3), [effect_type_input()]),
+    circle("jel-varazskor-vedo", "Védő varázskör", 2, 20, JEL_VEDO, power(1, 3, 1), flat(3), [effect_type_input()]),
+    # wrapper: 40 MP plus the MP of the other mosaics of the spell; its 30 perc include their time
+    circle("jel-varazskor-vegrehajto", "Végrehajtó varázskör", 3, 30, JEL_VEGREHAJTO, None,
+           {"pattern": "wrapper", "baseMp": 40, "factor": 1}, []),
+]
+schools_extra = [{"id": "jelmagia", "name": "Jelmágia", "hasTiers": True, "description": JEL_SCHOOL_DESCRIPTION}]
+
 groups = [
     {"id": "I", "name": "I. csoport", "examples": ["Minden más nem mágikus anyag."], "source": P10B},
     {"id": "II", "name": "II. csoport",
@@ -500,6 +638,7 @@ reference_texts = [
 for fname, data in [("alapvarazslatok.json", alap), ("ter.json", ter), ("mental.json", mental),
                     ("asztral.json", asztral), ("ido.json", ido), ("nekromancia.json", nekro),
                     ("anyagi.json", anyagi), ("forms.json", forms), ("material_groups.json", groups),
-                    ("reference_texts.json", reference_texts)]:
+                    ("reference_texts.json", reference_texts),
+                    ("jelmagia.json", jel), ("schools.json", schools_extra)]:
     write(fname, data)
-print("written", sum(len(x) for x in [alap, ter, mental, asztral, ido, nekro, anyagi]), "mosaics")
+print("written", sum(len(x) for x in [alap, ter, mental, asztral, ido, nekro, anyagi, jel]), "mosaics")

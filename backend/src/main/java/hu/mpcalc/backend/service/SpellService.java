@@ -131,7 +131,8 @@ public class SpellService {
             selections.add(Selection.of(m).withInputs(inputs).withK(wholeNumber(s, "k")).withOptions(options).withExtraMp(wholeNumber(s, "extraMp")));
         }
         CharacterSheet sheet = new CharacterSheet(characters.tiersOf(c.id), BigDecimal.valueOf(c.currentMp));
-        return new Run(calculator.calculate(new SpellRequest(selections, sheet, allForms())), List.copyOf(schools));
+        boolean inTrance = root.path("inTrance").asBoolean(false);   // the caster is already in a trance: drawings add no trance time
+        return new Run(calculator.calculate(new SpellRequest(selections, sheet, allForms(), inTrance)), List.copyOf(schools));
     }
 
     /** The engine call without any database access, for searches that evaluate many spells. */

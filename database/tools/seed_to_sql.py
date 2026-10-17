@@ -5,7 +5,7 @@ import json
 import os
 
 SEED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "seed")
-FILES = ["alapvarazslatok", "anyagi", "asztral", "mental", "ter", "ido", "nekromancia"]
+FILES = ["alapvarazslatok", "anyagi", "asztral", "mental", "ter", "ido", "nekromancia", "jelmagia"]
 
 def q(s):
     return "NULL" if s is None else "'" + str(s).replace("'", "''") + "'"
@@ -18,6 +18,9 @@ def load(name):
         return json.load(f)
 
 print("BEGIN;")
+for s in load("schools.json"):
+    print(f"INSERT INTO schools (id, name, has_tiers, description) VALUES ({q(s['id'])}, {q(s['name'])}, {'true' if s['hasTiers'] else 'false'}, {q(s['description'])}) "
+          f"ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, has_tiers = EXCLUDED.has_tiers, description = EXCLUDED.description;")
 for school in FILES:
     for d in load(school + ".json"):
         tier = "NULL" if d["tier"] is None else str(d["tier"])

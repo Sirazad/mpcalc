@@ -1,0 +1,7 @@
+{ "id": "jel-varazskor-vegrehajto", "name": "Végrehajtó varázskör", "school": "jelmagia", "subgroup": "varazskorok", "tier": 3,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "drawing", "time": {"kind": "time", "amounts": {"perc": 30}}},
+  "duration": {"kind": "untilBroken"}, "range": {"kind": "drawing"}, "resistance": {"kind": "none"},
+  "power": null,
+  "cost": {"pattern": "wrapper", "baseMp": 40, "factor": 1},
+  "inputs": [], "source": "Part 14" }

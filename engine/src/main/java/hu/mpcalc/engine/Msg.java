@@ -21,6 +21,7 @@ public record Msg(String code, List<Object> args, String subject) {
             case ONE_OFF -> MsgCode.KIND_ONE_OFF;
             case PERMANENT -> MsgCode.KIND_PERMANENT;
             case FORM_DEPENDENT -> MsgCode.KIND_FORM_DEPENDENT;
+            case UNTIL_BROKEN -> MsgCode.KIND_UNTIL_BROKEN;
             case UNDEFINED -> MsgCode.KIND_UNDEFINED;
         });
     }

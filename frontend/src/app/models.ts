@@ -4,19 +4,21 @@ export interface Fraction { numerator: number; denominator: number; decimal: num
 /** A message of the engine or the backend: code and arguments, plus the text in the request's language. */
 export interface Msg { code: string; args: unknown[]; subject?: string; text: string; }
 export interface Maybe<T> { defined: boolean; value?: T; reason?: Msg; }
-export type TimeKind = 'TIME' | 'ONE_OFF' | 'PERMANENT' | 'FORM_DEPENDENT' | 'UNDEFINED';
+export type TimeKind = 'TIME' | 'ONE_OFF' | 'PERMANENT' | 'FORM_DEPENDENT' | 'UNTIL_BROKEN' | 'UNDEFINED';
 export interface TimeValue { kind: TimeKind; amounts?: Record<string, number>; }
 export interface Resistance { kind: string; school: string | null; element?: string | null; elementLabel?: string | null; }
 
 export interface Player { id: number; name: string; admin: boolean; }
-export interface School { id: string; name: string; hasTiers: boolean; }
+export interface School { id: string; name: string; hasTiers: boolean; description?: string | null; }
 export interface Form { id: string; name: string; tier: number; duration: unknown; regeneration?: string | null; description?: string | null; movable?: boolean; }
 export interface MaterialGroup { id: string; name: string; examples: string[]; }
 
 export interface Character { id: number; name: string; maxMp: number; currentMp: number; tiers: Record<string, number>; }
 export interface CharacterBody { name?: string; maxMp?: number; currentMp?: number; tiers?: Record<string, number>; }
 
-export interface MosaicInput { id: string; label?: string; type: 'choice' | 'number' | 'form' | 'composition' | 'text'; values?: string[]; labels?: Record<string, string>; descriptions?: Record<string, string>; unit?: string; }
+export interface MosaicInput { id: string; label?: string; type: 'choice' | 'number' | 'form' | 'composition' | 'text'; values?: string[]; labels?: Record<string, string>; descriptions?: Record<string, string>;
+  /** choice: the tiers needed in other schools for a value. */
+  requires?: Record<string, { school: string; tier: number }[]>; unit?: string; }
 export interface MosaicOption { id: string; label: string; extraMp: number; extraCastingTime?: unknown; }
 export interface Mosaic {
   id: string; name: string; school: string; subgroup?: string | null; tier: number | null;
@@ -48,10 +50,16 @@ export interface MosaicResult {
   mp: Maybe<Fraction>; e: Maybe<number>; powerUnit: string; effect: Maybe<string>;
   resistance: Maybe<Resistance>; castingTime: Maybe<TimeValue>; duration: Maybe<TimeValue>;
   castingParts?: CastingPart[];
+  /** The strength is infinite (e is then undefined). */
+  infinitePower?: boolean;
+  /** A wrapper mosaic (for example a Végrehajtó varázskör) is in the spell: this mosaic's time and MP are part of the wrapper's. */
+  includedInWrapper?: boolean;
 }
 export interface SpellResult {
   valid: boolean; mosaics: MosaicResult[]; totalMp: Maybe<Fraction>; castingTime: Maybe<TimeValue>; duration: Maybe<TimeValue>;
   remainingMp: Maybe<Fraction>; enoughMp: boolean; warnings: Msg[]; errors: Msg[];
+  /** needed: the spell has a drawing (10 minutes of trance); applied: that time is in the casting time. */
+  trance?: { needed: boolean; applied: boolean };
 }
 /** Result of /api/calculate: the engine result plus the overspend and the schools of the spell. */
 export interface CalculateResult extends SpellResult { overspentMp: Fraction | null; schools: string[]; }

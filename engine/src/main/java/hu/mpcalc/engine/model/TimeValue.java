@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A time value: kind TIME (with amounts), ONE_OFF, PERMANENT, FORM_DEPENDENT or UNDEFINED.
+ * A time value: kind TIME (with amounts), ONE_OFF, PERMANENT, FORM_DEPENDENT, UNTIL_BROKEN (a drawing, until its lines break) or UNDEFINED.
  * Parsing accepts {"kind":"time","amounts":{..}} and also the wrapped form {"kind":"time","time":{"kind":"time","amounts":{..}}}
  * that the format document uses for durations.
  */
 public final class TimeValue {
-    public enum Kind { TIME, ONE_OFF, PERMANENT, FORM_DEPENDENT, UNDEFINED }
+    public enum Kind { TIME, ONE_OFF, PERMANENT, FORM_DEPENDENT, UNTIL_BROKEN, UNDEFINED }
     public final Kind kind;
     public final TimeAmounts amounts;
 
@@ -44,6 +44,7 @@ public final class TimeValue {
             case "oneOff" -> { return new TimeValue(Kind.ONE_OFF, null); }
             case "permanent" -> { return new TimeValue(Kind.PERMANENT, null); }
             case "formDependent" -> { return new TimeValue(Kind.FORM_DEPENDENT, null); }
+            case "untilBroken" -> { return new TimeValue(Kind.UNTIL_BROKEN, null); }
             case "undefined" -> { return undefinedValue(); }
             default -> throw MsgException.of(MsgCode.PARSE_UNKNOWN_TIME_KIND, k);
         }

@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CompositionRow, InputValues, defaultInputs, formsAllowed, groupsFor, missingInputs, powerAt, toSelection, unusedGroup } from '../inputs';
-import { Form, MaterialGroup, Mosaic, Selection } from '../models';
+import { Form, MaterialGroup, Mosaic, MosaicInput, Selection } from '../models';
 import { T } from '../texts.hu';
 
 /** The boxes of one mosaic, generated from its `inputs`, `power`, `options` and `modifier`. */
@@ -45,6 +45,10 @@ export class MosaicForm {
 
   /** The regenerációs idő of the chosen form, if it has one. */
   protected examplesOf(groupId: string): string { return this.groups().find((g) => g.id === groupId)?.examples.join('\n') ?? ''; }
+  /** The values of a choice the character may use: a value can need a tier in another school. */
+  protected availableValues(i: MosaicInput): string[] {
+    return (i.values ?? []).filter((v) => (i.requires?.[v] ?? []).every((r) => (this.tiers()[r.school] ?? 0) >= r.tier));
+  }
   protected formOf(formId: unknown): Form | undefined { return this.forms().find((f) => f.id === formId); }
   protected regenerationOf(formId: unknown): string | null { return this.formOf(formId)?.regeneration ?? null; }
 

@@ -16,6 +16,10 @@ dd.effect { white-space: pre-line; }
 .breakdown { margin: 4px 0 2px; font-size: 0.9em; color: var(--mat-sys-on-surface-variant); }
 .breakdown ul { margin: 2px 0 0; padding-left: 18px; }
 .breakdown li.extra { list-style-type: '+ '; }
+.breakdown li.struck { text-decoration: line-through; }
+.trance { display: block; margin: 4px 0 8px; }
+.school-description { margin: 8px 0; }
+.school-description p { white-space: pre-line; margin: 6px 0 0; color: var(--mat-sys-on-surface-variant); font-size: 0.9em; }
 .error { color: var(--mat-sys-error); }
 .warn { color: var(--mat-sys-tertiary); }
 mat-card-actions { flex-wrap: wrap; gap: 8px; padding: 8px 16px 16px; }

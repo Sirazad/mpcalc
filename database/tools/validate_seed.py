@@ -8,19 +8,21 @@ import sys
 from collections import Counter, OrderedDict
 
 SEED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "seed")
-SCHOOLS = ["alapvarazslatok", "anyagi", "asztral", "mental", "ter", "ido", "szimpatikus", "nekromancia"]
+SCHOOLS = ["alapvarazslatok", "anyagi", "asztral", "mental", "ter", "ido", "szimpatikus", "nekromancia", "jelmagia"]
+JEL_GROUPS = ("varazskorok", "varazsjelek", "szimbolumok", "belyegek", "pentagrammak")
 FILES = {"alapvarazslatok": "alapvarazslatok.json", "anyagi": "anyagi.json", "asztral": "asztral.json",
-         "mental": "mental.json", "ter": "ter.json", "ido": "ido.json", "nekromancia": "nekromancia.json"}
+         "mental": "mental.json", "ter": "ter.json", "ido": "ido.json", "nekromancia": "nekromancia.json",
+         "jelmagia": "jelmagia.json"}
 STATES = ("complete", "partial", "incomplete")
 UNITS = ("sz", "kor", "perc", "ora", "nap", "ev")
-RANGES = ("zone", "self", "touch", "pentagram", "meters", "byInput", "undefined")
+RANGES = ("zone", "self", "touch", "pentagram", "meters", "byInput", "drawing", "undefined")
 RESIST = ("none", "school", "concealment", "spellMp", "givenElement", "oppositeElement", "givenParaElement", "elementalForce", "armorSfe",
           "lifeForce", "naturalMaterialMagic", "undefined")
-PATTERNS = ("flat", "perMass", "compositionPerMass", "compositionGrid", "lookup", "undefined")
+PATTERNS = ("flat", "perMass", "compositionPerMass", "compositionGrid", "lookup", "perChoice", "wrapper", "undefined")
 INPUT_TYPES = ("choice", "number", "form", "composition", "text")
 FIELDS = ["id", "name", "school", "tier", "status", "castingTime", "duration", "range", "resistance",
           "power", "cost", "inputs", "source"]
-OPTIONAL = {"subgroup", "modifier", "options", "effect"}
+OPTIONAL = {"subgroup", "modifier", "options", "effect", "requires"}
 TOP_FIELDS = set(FIELDS) | OPTIONAL
 TIER_MIN, TIER_MAX = 0, 5  # user decision: tier range 0 to 5 (basic magic = 0)
 
@@ -52,7 +54,7 @@ def check_timevalue(w, v, allow_kinds):
         check_amounts(w, v)
 
 def check_duration(w, v):
-    if not isinstance(v, dict) or v.get("kind") not in ("time", "oneOff", "permanent", "formDependent", "undefined"):
+    if not isinstance(v, dict) or v.get("kind") not in ("time", "oneOff", "permanent", "formDependent", "untilBroken", "undefined"):
         return err(w, "bad duration")
     if v["kind"] == "time":
         check_amounts(w + ".time", v.get("time"))
@@ -64,7 +66,8 @@ def check_cost(w, c, d):
     allowed = {"flat": {"pattern", "baseMp"}, "perMass": {"pattern", "rate"},
                "compositionPerMass": {"pattern", "rates", "rounding"},
                "compositionGrid": {"pattern", "rows", "columns", "rates"},
-               "lookup": {"pattern", "input", "table"}, "undefined": {"pattern"}}[p]
+               "lookup": {"pattern", "input", "table"}, "perChoice": {"pattern", "input", "mpByValue"},
+               "wrapper": {"pattern", "baseMp", "factor"}, "undefined": {"pattern"}}[p]
     if set(c) != allowed:
         err(w, f"fields {sorted(c)} != {sorted(allowed)}")
         return
@@ -86,6 +89,15 @@ def check_cost(w, c, d):
     if p == "compositionGrid":
         if c["rows"] != ["I", "II", "III"] or c["columns"] != ["I", "I+II", "I+II+III"]:
             err(w, "grid rows/columns differ from the format")
+    if p == "perChoice":
+        choice = next((i for i in d.get("inputs", []) if i.get("id") == c["input"] and i.get("type") == "choice"), None)
+        if choice is None:
+            err(w, "perChoice input must be a choice input of the mosaic")
+        elif set(c["mpByValue"]) != set(choice.get("values", [])) or not all(is_int(v, 0) for v in c["mpByValue"].values()):
+            err(w, "perChoice mpByValue needs a non-negative integer for every value of the choice")
+    if p == "wrapper":
+        if not (is_int(c["baseMp"], 0) and is_int(c["factor"], 1)):
+            err(w, "wrapper needs baseMp (integer >= 0) and factor (integer >= 1)")
     if p == "lookup":
         ids = [i.get("id") for i in d.get("inputs", [])]
         if c["input"] not in ids:
@@ -98,6 +110,14 @@ def check_cost(w, c, d):
             if prev is not None and row["fromM"] <= prev:
                 err(w, "table rows must be ascending")
             prev = row["fromM"]
+
+def check_requires(w, reqs, own_school):
+    if not isinstance(reqs, list):
+        return err(w, "requires must be a list")
+    for r in reqs:
+        if not (isinstance(r, dict) and set(r) == {"school", "tier"} and r["school"] in SCHOOLS and r["school"] != own_school
+                and is_int(r["tier"]) and 1 <= r["tier"] <= TIER_MAX):
+            err(w, f"bad requirement {r}: {{school (another school), tier 1..5}}")
 
 def check_mosaic(fname, d):
     w = f"{fname}:{d.get('id', '?')}"
@@ -120,8 +140,11 @@ def check_mosaic(fname, d):
     if d["school"] == "anyagi":
         if d.get("subgroup") not in ("elemi", "termeszetes"):
             err(w, "anyagi needs subgroup elemi|termeszetes")
+    elif d["school"] == "jelmagia":
+        if d.get("subgroup") not in JEL_GROUPS:
+            err(w, "jelmagia needs a subgroup: " + "|".join(JEL_GROUPS))
     elif "subgroup" in d:
-        err(w, "subgroup only for anyagi")
+        err(w, "subgroup only for anyagi and jelmagia")
     # status
     st = d["status"]
     if not (isinstance(st, dict) and set(st) == {"state", "missing"} and st["state"] in STATES
@@ -144,12 +167,14 @@ def check_mosaic(fname, d):
         err(w, "'tier' in missing but tier is set")
     # casting time
     ct = d["castingTime"]
-    if not (isinstance(ct, dict) and set(ct) == {"label", "time"} and ct["label"] in ("casting", "meditation")):
+    if not (isinstance(ct, dict) and set(ct) == {"label", "time"} and ct["label"] in ("casting", "meditation", "drawing")):
         err(w, "bad castingTime")
     else:
         check_timevalue(w + ".castingTime", ct["time"], ("time", "undefined"))
         if (d["school"] == "mental") != (ct["label"] == "meditation"):
             err(w, "label must be meditation exactly for mental")
+        if (d["school"] == "jelmagia") != (ct["label"] == "drawing"):
+            err(w, "label must be drawing exactly for jelmagia")
     check_duration(w + ".duration", d["duration"])
     # range
     r = d["range"]
@@ -175,13 +200,25 @@ def check_mosaic(fname, d):
                 err(w, "resistance pairs must be symmetric (fire-water, air-earth)")
     # power
     p = d["power"]
-    if p is not None:
+    if p is not None and isinstance(p, dict) and p.get("infinite") is True:
+        if not (set(p) == {"unit", "baseE", "step", "infinite"} and p["unit"] == "E" and p["baseE"] is None and p["step"] is None):
+            err(w, "an infinite power is {unit: E, baseE: null, step: null, infinite: true}")
+    elif p is not None:
         if not (isinstance(p, dict) and set(p) == {"unit", "baseE", "step"} and p["unit"] in ("E", "Fp")
                 and is_int(p["baseE"], 1)):
             err(w, "bad power")
         elif p["step"] is not None and not (isinstance(p["step"], dict) and set(p["step"]) == {"mp", "e"}
                                             and is_int(p["step"]["mp"], 1) and is_int(p["step"]["e"], 1)):
             err(w, "bad power step")
+    # requires: tiers needed in other schools
+    check_requires(w + ".requires", d.get("requires", []), d["school"])
+    for i in d.get("inputs", []):
+        if isinstance(i, dict) and "requires" in i:
+            if i.get("type") != "choice" or not isinstance(i["requires"], dict) or not set(i["requires"]) <= set(i.get("values", [])):
+                err(w, f"input {i.get('id')}: requires must map values of a choice input to lists of requirements")
+            else:
+                for val, reqs in i["requires"].items():
+                    check_requires(f"{w}.inputs.{i['id']}.requires.{val}", reqs, d["school"])
     # cost
     check_cost(w + ".cost", d["cost"], d)
     pat = d["cost"].get("pattern") if isinstance(d["cost"], dict) else None
@@ -289,6 +326,14 @@ def check_forms(forms, mosaic_ids):
         if f["duration"].get("kind") in ("undefined", "formDependent"):
             err(w, "form duration must be time or oneOff")
 
+def check_schools_extra(schools):
+    for s in schools:
+        if not (set(s) == {"id", "name", "hasTiers", "description"} and isinstance(s["id"], str) and isinstance(s["name"], str)
+                and isinstance(s["hasTiers"], bool) and isinstance(s["description"], str) and s["description"]):
+            err("schools.json", f"bad school {s.get('id')}")
+        elif s["id"] not in SCHOOLS:
+            err("schools.json", f"school {s['id']} is not in the list of schools")
+
 def check_reference_texts(texts):
     ids = [t.get("id") for t in texts]
     if len(set(ids)) != len(ids):
@@ -315,7 +360,7 @@ def cost_class(d):
     p = d["cost"]["pattern"]
     if p == "undefined" or (p == "compositionGrid" and d["cost"].get("rates") is None):
         return "incomplete"
-    return "special" if p in ("lookup", "compositionGrid") else "regular"
+    return "special" if p in ("lookup", "compositionGrid", "perChoice", "wrapper") else "regular"
 
 def main():
     all_ids = Counter()
@@ -347,7 +392,7 @@ def main():
     for i, n in all_ids.items():
         if n > 1:
             err("all files", f"duplicate id {i}")
-    for name, check in (("forms.json", check_forms), ("material_groups.json", check_groups), ("reference_texts.json", check_reference_texts)):
+    for name, check in (("forms.json", check_forms), ("material_groups.json", check_groups), ("reference_texts.json", check_reference_texts), ("schools.json", check_schools_extra)):
         with open(os.path.join(SEED, name), encoding="utf-8") as fh:
             data = json.load(fh)
         check(data, all_ids) if name == "forms.json" else check(data)

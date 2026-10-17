@@ -28,6 +28,12 @@
             <button mat-stroked-button type="button" [class.active]="school() === s.id" (click)="pickSchool(s.id)" [attr.data-testid]="'school-' + s.id">{{ s.name }}</button>
           }
         </div>
+        @if (schoolDescription(); as text) {
+          <details class="school-description" data-testid="school-description">
+            <summary>{{ T.builder.schoolDescription }}</summary>
+            <p>{{ text }}</p>
+          </details>
+        }
         @if (school()) {
           <h4>{{ T.builder.mosaics }}</h4>
           <div class="mosaic-list" role="list">
@@ -65,6 +71,7 @@
                 <div class="line">
                   <strong>{{ m.name }}</strong>
                   @if (m.refused) { <span class="tag">{{ T.spell.refused }}</span> }
+                  @if (m.includedInWrapper) { <span class="tag" data-testid="included-tag">{{ T.spell.included }}</span> }
                   <span class="spacer"></span>
                   <button mat-button type="button" (click)="spell.remove($index)">{{ T.spell.remove }}</button>
                 </div>
@@ -92,6 +99,12 @@
             }
             <div class="totals">
               <h4>{{ T.spell.total }}</h4>
+              @if (r.trance?.needed) {
+                <label class="trance">
+                  <input type="checkbox" [checked]="spell.inTrance()" (change)="setTrance($any($event.target).checked)" data-testid="in-trance" />
+                  {{ T.spell.inTrance }}
+                </label>
+              }
               <dl>
                 <dt>{{ T.spell.totalMp }}</dt><dd data-testid="total-mp">{{ totalMp() }}</dd>
                 <dt>{{ T.spell.castingTime }}</dt>
@@ -101,7 +114,7 @@
                     @if (lines.length) {
                       <div class="breakdown" data-testid="casting-breakdown">
                         <span class="breakdown-title">{{ T.spell.castingParts }}:</span>
-                        <ul>@for (l of lines; track $index) { <li [class.extra]="l.extra">{{ l.text }}</li> }</ul>
+                        <ul>@for (l of lines; track $index) { <li [class.extra]="l.extra" [class.struck]="l.struck">{{ l.text }}</li> }</ul>
                       </div>
                     }
                   }

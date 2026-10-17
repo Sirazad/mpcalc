@@ -11,6 +11,8 @@ public class Mosaic {
     public String school;
     public String subgroup;
     public Integer tier;
+    /** Extra requirements besides the tier in the own school: tiers needed in other schools (all of them). */
+    public List<Requirement> requires = List.of();
     public Status status;
     public CastingTime castingTime;
     public TimeValue duration;

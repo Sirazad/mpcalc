@@ -8,4 +8,6 @@ public class School {
     @Id public String id;
     public String name;
     @Column(name = "has_tiers") public boolean hasTiers;
+    /** The lore and the main rules of the school (Hungarian, paragraphs separated by line breaks); null: none. */
+    public String description;
 }

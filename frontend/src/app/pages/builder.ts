@@ -121,7 +121,7 @@ export class Builder {
 
   // Text of backend values for the spell panel.
   protected mp(m: MosaicResult) { return formatMaybe(m.mp, formatFraction); }
-  protected e(m: MosaicResult) { return formatMaybe(m.e, (v) => `${formatNumber(v)} ${m.powerUnit}`); }
+  protected e(m: MosaicResult) { return m.infinitePower ? T.spell.infinite : formatMaybe(m.e, (v) => `${formatNumber(v)} ${m.powerUnit}`); }
   /** The effect text of the mosaic; when it has none, the description of the chosen value (Őselem idézése: the element). */
   protected effect(m: MosaicResult, index: number) {
     const sel = this.spell.selections()[index];
@@ -133,7 +133,10 @@ export class Builder {
   protected casting(m: MosaicResult) { return formatMaybe(m.castingTime, formatTime); }
   protected duration(m: MosaicResult) { return formatMaybe(m.duration, formatTime); }
   /** How the total casting time is put together (one line per mosaic and per extra). */
-  protected castingLines() { return castingBreakdown(this.spell.result()?.mosaics ?? []); }
+  protected castingLines() { return castingBreakdown(this.spell.result()); }
+  protected async setTrance(on: boolean) { this.spell.inTrance.set(on); await this.spell.calculate(); }
+  /** The description of the chosen school (its lore and main rules), if it has one. */
+  protected readonly schoolDescription = computed(() => this.session.schools().find((s) => s.id === this.school())?.description ?? null);
   protected totalMp() { return formatMaybe(this.spell.result()?.totalMp, formatFraction); }
   protected totalCasting() { return formatMaybe(this.spell.result()?.castingTime, formatTime); }
   protected totalDuration() { return formatMaybe(this.spell.result()?.duration, formatTime); }

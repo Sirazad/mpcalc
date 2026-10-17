@@ -76,6 +76,16 @@ The power box is not listed here: the page generates it from `power` (E choices 
 - **`armorSfe`** (Elemi erő idézése): resisted by SFÉ (the table of the source says so; the kind `elementalForce`, resisted by Elemi erő itself, was used between V6 and V7 and is still understood but no mosaic uses it).
 - The engine resolves this per cast: the result's `resistance` then carries `element`, the element that resists, and `elementLabel`, its Hungarian name from the `labels` of the choice input when it has them (never `input` or `pairs`). If the choice is missing or has no pair, the resistance is "undefined" with a reason. Nothing is calculated from it yet (weakening at unequal E is not modelled).
 
+## 6b. Jelmágia additions (user decisions 2026-10-17)
+
+- **`requires`** (optional, top level): a list of `{school, tier}`, the tiers the character needs in OTHER schools, besides the mosaic's own tier in its own school (all of them). A choice input may carry `requires` too: a map from a value to such a list (the effect type of a protective circle needs the school of that effect). A missing school entry counts as tier 0. The page lists only what the character can use; the engine refuses the rest.
+- **Power `infinite`**: `{"unit": "E", "baseE": null, "step": null, "infinite": true}`. The result has `infinitePower: true` and no number; the page shows "végtelen".
+- **Range `drawing`**: the extent of the drawing itself.
+- **Duration `untilBroken`**: until the lines of the drawing break (shown "Amíg töretlen").
+- **Casting time label `drawing`**: the time of the drawing (rajzolás ideje). A spell that contains a drawing needs a trance, once per spell: +10 perc (and 1 pszi pont, text only) unless the request says `inTrance`. The result's `trance` says `needed` and `applied`.
+- **Cost `perChoice`**: `{"pattern": "perChoice", "input": "<choice input>", "mpByValue": {"<value>": mp, ...}}`: the MP of the chosen value (for example the class of creature a circle keeps out).
+- **Cost `wrapper`**: `{"pattern": "wrapper", "baseMp": n, "factor": f}`: the mosaic costs baseMp plus f times the MP of the OTHER mosaics of the spell, in any order of adding (a wrapper alone costs baseMp). Its casting time includes the time of those mosaics: they are marked `includedInWrapper`, and their time, MP and duration are not added to the spell's totals (their own values still show).
+
 ## 7. Related data (separate tables, linked by key)
 - **Forms:** `{id, name, tier, duration}`. Every form-dependent mosaic allows every form.
 - **Material groups:** `{id, name, examples}` for `I`, `II`, `III`.

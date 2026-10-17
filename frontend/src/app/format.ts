@@ -23,6 +23,7 @@ export function formatTime(t: TimeValue): string {
     case 'ONE_OFF': return T.time.oneOff;
     case 'PERMANENT': return T.time.permanent;
     case 'FORM_DEPENDENT': return T.time.formDependent;
+    case 'UNTIL_BROKEN': return T.time.untilBroken;
     default: return T.time.undefined;
   }
 }

@@ -34,7 +34,7 @@ public class CatalogService {
         ArrayNode arr = EngineJson.mapper().createArrayNode();
         schools.findAll().stream().sorted((a, b) -> a.id.compareTo(b.id)).forEach(s -> {
             ObjectNode o = arr.addObject();
-            o.put("id", s.id); o.put("name", s.name); o.put("hasTiers", s.hasTiers);
+            o.put("id", s.id); o.put("name", s.name); o.put("hasTiers", s.hasTiers); o.put("description", s.description);
         });
         return arr.toString();
     }
@@ -90,12 +90,19 @@ public class CatalogService {
         return out.toString();
     }
 
-    /** Mosaics the character may use, ordered by school, tier and name. */
+    /** Mosaics the character may use, ordered by school, tier and name: the tier in the own school and every extra requirement in other schools. */
     @Transactional(readOnly = true)
     public List<MosaicEntity> available(GameCharacter c) {
         Map<String, Integer> tiers = characters.tiersOf(c.id);
         return mosaics.findAllByOrderBySchoolAscTierAscNameAsc().stream()
-                .filter(m -> m.tier != null && tiers.getOrDefault(m.school, 0) >= m.tier).toList();
+                .filter(m -> m.tier != null && tiers.getOrDefault(m.school, 0) >= m.tier && meetsRequirements(m, tiers)).toList();
+    }
+
+    /** The extra requirements of a mosaic (`requires` in its definition): a tier needed in other schools, all of them. */
+    private static boolean meetsRequirements(MosaicEntity m, Map<String, Integer> tiers) {
+        for (com.fasterxml.jackson.databind.JsonNode r : EngineJson.parse(m.definition).path("requires"))
+            if (tiers.getOrDefault(r.path("school").asText(), 0) < r.path("tier").asInt()) return false;
+        return true;
     }
 
     /** Changes whenever the mosaic is edited (the admin edit sets updated_at). */

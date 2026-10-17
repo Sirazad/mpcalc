@@ -1,0 +1,9 @@
+{ "id": "jel-varazskor-bebortonozo", "name": "Bebörtönöző varázskör", "school": "jelmagia", "subgroup": "varazskorok", "tier": 2,
+  "requires": [{"school": "nekromancia", "tier": 2}],
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "drawing", "time": {"kind": "time", "amounts": {"perc": 25}}},
+  "duration": {"kind": "untilBroken"}, "range": {"kind": "drawing"}, "resistance": {"kind": "none"},
+  "power": {"unit": "E", "baseE": null, "step": null, "infinite": true},
+  "cost": {"pattern": "perChoice", "input": "creatureClass", "mpByValue": {"felhalott": 20, "kisertet": 30, "demon": 40, "demonur": 70}},
+  "inputs": [{"id": "creatureClass", "label": "Lény hovatartozása", "type": "choice", "values": ["felhalott", "kisertet", "demon", "demonur"]}],
+  "source": "Part 14" }

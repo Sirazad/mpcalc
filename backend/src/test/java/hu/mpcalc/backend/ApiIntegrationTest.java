@@ -64,7 +64,7 @@ class ApiIntegrationTest {
 
     @Test
     void flywayLoadedTheSeed() {
-        assertEquals(101, mosaics.count());
+        assertEquals(106, mosaics.count());
         assertEquals(11, jdbc.queryForObject("select count(*) from forms", Integer.class), "the 11 forms of the user's form table");
         assertEquals(3, jdbc.queryForObject("select count(*) from material_groups", Integer.class));
     }
@@ -428,6 +428,59 @@ class ApiIntegrationTest {
         assertTrue(spell.get(0).at("/time/defined").asBoolean());
         assertEquals("MODIFIER", ext.get(ext.size() - 1).get("kind").asText(), "what the extension adds is its own part");
         assertTrue(ext.get(ext.size() - 1).at("/time/value/amounts/perc").asInt() > 0);
+    }
+
+    @Test
+    void jelmagiaIsASchoolWithItsLoreAndItsMosaicsFollowTheirRequirements() throws Exception {
+        MockHttpSession s = login("j-" + UUID.randomUUID());
+        JsonNode jel = null;
+        for (JsonNode sc : json(send(get("/schools"), s, null, 200))) if (sc.get("id").asText().equals("jelmagia")) jel = sc;
+        assertNotNull(jel);
+        assertEquals("Jelmágia", jel.get("name").asText());
+        assertTrue(jel.get("hasTiers").asBoolean());
+        assertTrue(jel.get("description").asText().startsWith("A világegyetem törvényszerűségeit"), "the lore of the school");
+
+        // the list shows only what the character can use: Védő/Körbezáró need Jelmágia 2, Kirekesztő also Nekromancia 2, Végrehajtó Jelmágia 3
+        java.util.function.BiFunction<String, String, java.util.Set<String>> visible = (tiers, who) -> {
+            try {
+                MockHttpSession own = login("j-" + who + "-" + UUID.randomUUID());   // a character name is unique per player
+                long id = newCharacter(own, 100, tiers);
+                java.util.Set<String> ids = new java.util.TreeSet<>();
+                for (JsonNode m : json(send(get("/characters/" + id + "/mosaics"), own, null, 200)).get("mosaics"))
+                    if (m.get("id").asText().startsWith("jel-")) ids.add(m.get("id").asText().replace("jel-varazskor-", ""));
+                return ids;
+            } catch (Exception e) { throw new RuntimeException(e); }
+        };
+        assertEquals(java.util.Set.of(), visible.apply("{\"jelmagia\":1}", "low"));
+        assertEquals(java.util.Set.of("korbezaro", "vedo"), visible.apply("{\"jelmagia\":2}", "two"));
+        assertEquals(java.util.Set.of("bebortonozo", "kirekeszto", "korbezaro", "vedo"), visible.apply("{\"jelmagia\":2,\"nekromancia\":2}", "necro"));
+        assertEquals(java.util.Set.of("korbezaro", "vedo", "vegrehajto"), visible.apply("{\"jelmagia\":3}", "three"));
+    }
+
+    @Test
+    void aCircleNeedsTheSchoolOfItsChosenEffectAndAWrapperAddsItsMpAndTheTrance() throws Exception {
+        MockHttpSession s = login("w-" + UUID.randomUUID());
+        long id = newCharacter(s, 100, "{\"jelmagia\":3,\"anyagi\":2}");
+        String protect = "{\"mosaicId\":\"jel-varazskor-vedo\",\"inputs\":{\"effectType\":\"%s\"},\"k\":2}";
+        String wrapper = "{\"mosaicId\":\"jel-varazskor-vegrehajto\"}";
+        // Őstűz needs Anyagi 2 (the character has it); Asztrálmágia needs Asztrál 2 (not)
+        JsonNode fire = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"selections\":[" + protect.formatted("ostuz") + "]}", 200));
+        assertTrue(fire.get("valid").asBoolean(), fire.toString());
+        assertEquals("9", fire.at("/totalMp/value/decimal").asText().replace(".0", ""), "E 3 at 3 MP per E");
+        JsonNode astral = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"selections\":[" + protect.formatted("asztral") + "]}", 200));
+        assertFalse(astral.get("valid").asBoolean());
+        // wrapper: 40 + the other mosaics (9), in any order; the casting time is the wrapper's 30 perc plus the trance of 10 perc
+        JsonNode both = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"selections\":[" + wrapper + "," + protect.formatted("ostuz") + "]}", 200));
+        assertEquals(49, both.at("/totalMp/value/numerator").asInt() / Math.max(1, both.at("/totalMp/value/denominator").asInt()));
+        assertTrue(both.at("/trance/needed").asBoolean());
+        assertTrue(both.at("/trance/applied").asBoolean());
+        assertEquals(40, both.at("/castingTime/value/amounts/perc").asInt());
+        assertTrue(both.at("/mosaics/1/includedInWrapper").asBoolean());
+        // already in a trance: no extra 10 perc
+        JsonNode inTrance = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"inTrance\":true,\"selections\":[" + wrapper + "]}", 200));
+        assertFalse(inTrance.at("/trance/applied").asBoolean());
+        assertEquals(30, inTrance.at("/castingTime/value/amounts/perc").asInt());
+        assertEquals(40, inTrance.at("/totalMp/value/numerator").asInt() / Math.max(1, inTrance.at("/totalMp/value/denominator").asInt()), "the wrapper alone shows what is left for the spell");
     }
 
     @Test

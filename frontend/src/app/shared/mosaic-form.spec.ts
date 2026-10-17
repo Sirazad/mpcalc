@@ -80,6 +80,18 @@ describe('MosaicForm', () => {
     expect(el.querySelector('[data-testid="material-note"]')?.textContent?.trim()).toBe('Mágikus anyagok: Mithrill.');
   });
 
+  it('lists only the choice values whose required tier in another school the character has', async () => {
+    const circle: Mosaic = {
+      ...oselem,
+      inputs: [{ id: 'effectType', label: 'Hatás', type: 'choice', values: ['ostuz', 'asztral'],
+        labels: { ostuz: 'Ős tűz', asztral: 'Asztrálmágia' },
+        requires: { ostuz: [{ school: 'anyagi', tier: 2 }], asztral: [{ school: 'asztral', tier: 2 }] } }],
+    };
+    const fixture = create(circle, { jelmagia: 2, anyagi: 2 });
+    await fixture.whenStable();
+    expect((fixture.componentInstance as unknown as { availableValues(i: unknown): string[] }).availableValues(circle.inputs![0])).toEqual(['ostuz']);
+  });
+
   it('raises the power step and emits the selection with k', async () => {
     const fixture = create({ ...oselem, inputs: [] }, { anyagi: 2 });
     await fixture.whenStable();

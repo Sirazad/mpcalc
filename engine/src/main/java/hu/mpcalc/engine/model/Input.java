@@ -16,5 +16,7 @@ public class Input {
     public List<String> values;
     @JsonInclude(JsonInclude.Include.NON_NULL) public Map<String, String> labels;
     @JsonInclude(JsonInclude.Include.NON_NULL) public Map<String, String> descriptions;
+    /** choice: value to the tiers needed for that value, for example the effect type of a protective circle. */
+    @JsonInclude(JsonInclude.Include.NON_NULL) public Map<String, List<Requirement>> requires;
     public String unit;
 }

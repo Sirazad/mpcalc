@@ -20,6 +20,7 @@ public enum MsgCode {
     OPTION_WITHOUT_EXTRA_MP("engine.reason.optionWithoutExtraMp"),                 // {0} option id
     NO_E("engine.reason.noE"),
     POWER_UNDEFINED("engine.reason.powerUndefined"),
+    POWER_INFINITE("engine.reason.powerInfinite"),
     STEP_E_UNDEFINED("engine.reason.stepEUndefined"),
     EFFECT_NOT_DEFINED("engine.reason.effectNotDefined"),
     RESISTANCE_NOT_DEFINED("engine.reason.resistanceNotDefined"),
@@ -95,6 +96,7 @@ public enum MsgCode {
     KIND_ONE_OFF("engine.kind.oneOff"),
     KIND_PERMANENT("engine.kind.permanent"),
     KIND_FORM_DEPENDENT("engine.kind.formDependent"),
+    KIND_UNTIL_BROKEN("engine.kind.untilBroken"),
     KIND_UNDEFINED("engine.kind.undefined"),
 
     // ---- input could not be parsed (MsgException)

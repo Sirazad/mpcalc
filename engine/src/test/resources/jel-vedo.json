@@ -1,0 +1,9 @@
+{ "id": "jel-varazskor-vedo", "name": "Védő varázskör", "school": "jelmagia", "subgroup": "varazskorok", "tier": 2,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "drawing", "time": {"kind": "time", "amounts": {"perc": 20}}},
+  "duration": {"kind": "untilBroken"}, "range": {"kind": "drawing"}, "resistance": {"kind": "none"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 3, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 3},
+  "inputs": [{"id": "effect", "label": "Hatás", "type": "choice", "values": ["ostuz", "asztral"],
+              "requires": {"ostuz": [{"school": "anyagi", "tier": 2}], "asztral": [{"school": "asztral", "tier": 2}]}}],
+  "source": "Part 14" }
