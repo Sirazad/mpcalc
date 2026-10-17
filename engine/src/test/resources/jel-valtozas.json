@@ -1,0 +1,8 @@
+{ "id": "jel-varazsjel-valtozas", "name": "Változás varázsjel", "school": "jelmagia", "subgroup": "varazsjelek", "tier": 2,
+  "requires": [{"school": "anyagi", "tier": 2}],
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "drawing", "time": {"kind": "time", "amounts": {"perc": 5}}},
+  "duration": {"kind": "untilBroken"}, "range": {"kind": "drawing"}, "resistance": {"kind": "none"},
+  "power": null,
+  "cost": {"pattern": "wrapper", "baseMp": 0, "factor": 3, "wraps": [{"school": "anyagi", "subgroup": "termeszetes", "label": "Természetes anyagi mágia"}]},
+  "inputs": [], "source": "Part 14" }

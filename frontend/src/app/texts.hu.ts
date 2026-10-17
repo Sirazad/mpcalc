@@ -80,6 +80,8 @@ export const T = {
     tranceLine: '+10 perc és 1 pszi pont: transz, ha még nincs transzban',
     tranceDone: '(már transzban van: nem számít bele)',
     inTrance: 'Már transzban vagyok',
+    viaZone: 'Zóna varázsjelen keresztül',
+    zoneLine: '+1 kör és +5 MP: a varázslat zóna varázsjelen keresztül hat',
     infinite: 'végtelen',
     included: 'benne foglalva',
     modifierAdds: 'hozzáadott idő',

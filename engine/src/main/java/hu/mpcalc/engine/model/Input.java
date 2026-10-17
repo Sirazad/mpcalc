@@ -19,4 +19,8 @@ public class Input {
     /** choice: value to the tiers needed for that value, for example the effect type of a protective circle. */
     @JsonInclude(JsonInclude.Include.NON_NULL) public Map<String, List<Requirement>> requires;
     public String unit;
+    /** number: only whole numbers are accepted (for example the radius of a sphere in whole meters). */
+    @JsonInclude(JsonInclude.Include.NON_NULL) public Boolean integer;
+    /** number: the smallest accepted value. */
+    @JsonInclude(JsonInclude.Include.NON_NULL) public java.math.BigDecimal min;
 }

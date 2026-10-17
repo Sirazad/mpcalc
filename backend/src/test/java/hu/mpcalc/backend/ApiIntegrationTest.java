@@ -64,7 +64,7 @@ class ApiIntegrationTest {
 
     @Test
     void flywayLoadedTheSeed() {
-        assertEquals(106, mosaics.count());
+        assertEquals(128, mosaics.count());
         assertEquals(11, jdbc.queryForObject("select count(*) from forms", Integer.class), "the 11 forms of the user's form table");
         assertEquals(3, jdbc.queryForObject("select count(*) from material_groups", Integer.class));
     }
@@ -447,7 +447,7 @@ class ApiIntegrationTest {
                 long id = newCharacter(own, 100, tiers);
                 java.util.Set<String> ids = new java.util.TreeSet<>();
                 for (JsonNode m : json(send(get("/characters/" + id + "/mosaics"), own, null, 200)).get("mosaics"))
-                    if (m.get("id").asText().startsWith("jel-")) ids.add(m.get("id").asText().replace("jel-varazskor-", ""));
+                    if (m.get("id").asText().startsWith("jel-varazskor-")) ids.add(m.get("id").asText().replace("jel-varazskor-", ""));
                 return ids;
             } catch (Exception e) { throw new RuntimeException(e); }
         };
@@ -481,6 +481,38 @@ class ApiIntegrationTest {
         assertFalse(inTrance.at("/trance/applied").asBoolean());
         assertEquals(30, inTrance.at("/castingTime/value/amounts/perc").asInt());
         assertEquals(40, inTrance.at("/totalMp/value/numerator").asInt() / Math.max(1, inTrance.at("/totalMp/value/denominator").asInt()), "the wrapper alone shows what is left for the spell");
+    }
+
+    @Test
+    void theSignsSymbolsAndStampsFollowTheirRequirementsAndTheNewRulesWork() throws Exception {
+        MockHttpSession s = login("s-" + UUID.randomUUID());
+        long two = newCharacter(s, 200, "{\"jelmagia\":2}");
+        java.util.Set<String> ids = new java.util.TreeSet<>();
+        for (JsonNode m : json(send(get("/characters/" + two + "/mosaics"), s, null, 200)).get("mosaics"))
+            if (m.get("id").asText().startsWith("jel-")) ids.add(m.get("id").asText());
+        assertEquals(java.util.Set.of("jel-varazskor-korbezaro", "jel-varazskor-vedo", "jel-varazsjel-zona", "jel-varazsjel-szemelyes-aura",
+                "jel-varazsjel-magikus-aura", "jel-varazsjel-kisugarzo", "jel-varazsjel-tapadas", "jel-varazsjel-forgas",
+                "jel-szimbolum-asztral", "jel-szimbolum-mental"), ids, "only what needs Jelmágia 2 and no other school");
+
+        // a Változás varázsjel triples a natural-material mosaic: 30 kg of group I (30 MP) become 90 MP, and the sign is drawn in 5 perc + the trance
+        MockHttpSession t = login("v-" + UUID.randomUUID());
+        long id = newCharacter(t, 200, "{\"jelmagia\":2,\"anyagi\":2}");
+        String body = "{\"characterId\":" + id + ",\"selections\":[{\"mosaicId\":\"jel-varazsjel-valtozas\"},"
+                + "{\"mosaicId\":\"anyagi-term-atformazas\",\"inputs\":{\"composition\":[{\"group\":\"I\",\"massG\":30000}]}}]%s}";
+        JsonNode r = json(send(post("/calculate"), t, body.formatted(""), 200));
+        assertTrue(r.get("valid").asBoolean(), r.toString());
+        assertEquals(90, r.at("/totalMp/value/numerator").asInt() / Math.max(1, r.at("/totalMp/value/denominator").asInt()));
+        assertEquals(15, r.at("/castingTime/value/amounts/perc").asInt());
+        assertEquals("UNTIL_BROKEN", r.at("/duration/value/kind").asText());
+        // cast through a Zóna varázsjel: +5 MP once and +1 kör
+        JsonNode via = json(send(post("/calculate"), t, body.formatted(",\"viaZoneSign\":true"), 200));
+        assertEquals(95, via.at("/totalMp/value/numerator").asInt() / Math.max(1, via.at("/totalMp/value/denominator").asInt()));
+        assertEquals(1, via.at("/castingTime/value/amounts/kor").asInt());
+        assertTrue(via.get("viaZoneSign").asBoolean());
+        // another kind of mosaic in the same spell is refused with a clear message
+        JsonNode wrong = json(send(post("/calculate"), t, "{\"characterId\":" + id + ",\"selections\":[{\"mosaicId\":\"jel-varazsjel-valtozas\"},{\"mosaicId\":\"alap-furkeszes\"}]}", 200));
+        assertFalse(wrong.get("valid").asBoolean());
+        assertTrue(wrong.toString().contains("Természetes anyagi mágia"), wrong.toString());
     }
 
     @Test

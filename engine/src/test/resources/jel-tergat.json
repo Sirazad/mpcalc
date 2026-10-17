@@ -1,0 +1,8 @@
+{ "id": "jel-varazsjel-tergat", "name": "Térgát varázsjel", "school": "jelmagia", "subgroup": "varazsjelek", "tier": 2,
+  "requires": [{"school": "ter", "tier": 2}],
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "drawing", "time": {"kind": "time", "amounts": {"perc": 5}}},
+  "duration": {"kind": "untilBroken"}, "range": {"kind": "byInput"}, "resistance": {"kind": "none"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 3, "e": 1}},
+  "cost": {"pattern": "linear", "input": "radiusM", "baseMp": 3, "freeUnits": 1, "mpPerUnit": 1},
+  "inputs": [{"id": "radiusM", "label": "Sugár", "type": "number", "unit": "m", "integer": true, "min": 1}], "source": "Part 14" }

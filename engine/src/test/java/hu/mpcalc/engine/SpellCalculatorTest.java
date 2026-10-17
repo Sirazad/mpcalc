@@ -304,6 +304,86 @@ class SpellCalculatorTest {
         assertEquals("1 kor", plain.castingTime().value().toString());
     }
 
+    // ---- Jelmágia, the rest of the signs (user, 2026-10-17)
+    private static JsonNode comp(int massG) { return j("[{\"group\":\"I\",\"massG\":" + massG + "}]"); }
+
+    @Test void aValtozasSignCostsThreeTimesTheNaturalMaterialMosaicAndLastsUntilBroken() {
+        Selection inner = Selection.of(mosaic("/atformazas.json")).withInputs(Map.of("composition", comp(30000)));   // 30 kg of group I: 30 MP
+        SpellResult r = run(ch(200, "jelmagia", 2, "anyagi", 2), Selection.of(mosaic("/jel-valtozas.json")), inner);
+        assertTrue(r.valid(), r.errors().toString());
+        assertEquals(Fraction.of(90), r.totalMp().value(), "3 x 30 MP, not 4 x");
+        assertEquals("15 perc", r.castingTime().value().toString(), "5 perc of the sign + the trance, not the 4 sz of the mosaic");
+        assertEquals(TimeValue.Kind.UNTIL_BROKEN, r.duration().value().kind);
+    }
+
+    @Test void aValtozasSignRefusesAnyOtherKindOfMosaic() {
+        SpellResult r = run(ch(200, "jelmagia", 2, "anyagi", 2), Selection.of(mosaic("/jel-valtozas.json")), Selection.of(mosaic("/furkeszes.json")));
+        assertFalse(r.valid());
+        assertTrue(r.mosaics().get(0).refused());
+        assertTrue(errorCodes(r).contains("Természetes anyagi mágia"), errorCodes(r));
+    }
+
+    @Test void aWrapperBaseCanDependOnAChoice() {
+        for (Object[] v : new Object[][] {{"touch", 27}, {"pass", 37}}) {
+            SpellResult r = run(ch(200, "jelmagia", 2), Selection.of(mosaic("/jel-kisugarzo.json")).withInputs(Map.of("variant", j("\"" + v[0] + "\""))),
+                    Selection.of(mosaic("/furkeszes.json")));
+            assertEquals(Fraction.of((Integer) v[1]), r.totalMp().value(), (String) v[0]);
+        }
+    }
+
+    @Test void aSymbolCostsWhatItHoldsAndKeepsItsDurationAndAcceptsOnlyItsSchool() {
+        SpellResult r = run(ch(100, "jelmagia", 2, "asztral", 2), Selection.of(mosaic("/jel-szimbolum-asztral.json")), Selection.of(mosaic("/asztral-test.json")));
+        assertTrue(r.valid(), r.errors().toString());
+        assertEquals(Fraction.of(1), r.totalMp().value());
+        assertEquals("40 perc", r.castingTime().value().toString(), "30 perc of the drawing + the trance");
+        assertEquals("1 perc", r.duration().value().toString(), "the duration of the spell drawn in it");
+        SpellResult wrong = run(ch(100, "jelmagia", 2), Selection.of(mosaic("/jel-szimbolum-asztral.json")), Selection.of(mosaic("/furkeszes.json")));
+        assertTrue(wrong.mosaics().get(0).refused());
+    }
+
+    @Test void aBelyegPricesTheMosaicAtAFixedStrengthRegardlessOfTheChosenOne() {
+        Selection stamp = Selection.of(mosaic("/jel-belyeg-asztral.json"));
+        SpellResult r = run(ch(100, "jelmagia", 2, "asztral", 2), stamp, Selection.of(mosaic("/asztral-test.json")).withK(3));   // chosen E 4, priced at E 15
+        assertTrue(r.valid(), r.errors().toString());
+        assertEquals(Fraction.of(15), r.totalMp().value(), "1 MP + 14 steps of 1 MP");
+        assertTrue(r.mosaics().get(0).infinitePower());
+        // a mosaic whose strength cannot be raised cannot be priced at 15 E
+        Mosaic fixed = Json.parseMosaic(text("/asztral-test.json").replace("\"step\": {\"mp\": 1, \"e\": 1}", "\"step\": null"));
+        SpellResult no = run(ch(100, "jelmagia", 2, "asztral", 2), stamp, Selection.of(fixed));
+        assertFalse(no.totalMp().isDefined());
+    }
+
+    @Test void theSphereOfATergatCostsOneMpPerExtraWholeMeter() {
+        java.util.function.BiFunction<String, Integer, SpellResult> gate = (radius, k) ->
+                run(ch(100, "jelmagia", 2, "ter", 2), Selection.of(mosaic("/jel-tergat.json")).withInputs(Map.of("radiusM", j(radius))).withK(k));
+        assertEquals(Fraction.of(3), gate.apply("1", 0).totalMp().value());
+        assertEquals(Fraction.of(7), gate.apply("5", 0).totalMp().value());
+        assertEquals(Fraction.of(13), gate.apply("5", 2).totalMp().value(), "3 + 4 extra meters + 2 steps of 3");
+        assertTrue(gate.apply("1.5", 0).mosaics().get(0).refused(), "only whole meters");
+        assertTrue(gate.apply("0", 0).mosaics().get(0).refused(), "at least 1 m");
+    }
+
+    @Test void theSpeedOfAForgasSignMultipliesTheWeightCost() {
+        java.util.function.BiFunction<String, Integer, SpellResult> spin = (kg, speed) ->
+                run(ch(100, "jelmagia", 2), Selection.of(mosaic("/jel-forgas.json")).withInputs(Map.of("weightKg", j(kg), "speed", j("" + speed))));
+        assertEquals(Fraction.of(4), spin.apply("20", 1).totalMp().value());
+        assertEquals(Fraction.of(12), spin.apply("20", 3).totalMp().value());
+        assertEquals(Fraction.of(2), spin.apply("5.1", 1).totalMp().value(), "a started block of 5 kg is charged");
+        assertTrue(spin.apply("20", 0).mosaics().get(0).refused());
+    }
+
+    @Test void castingThroughAZoneSignAddsFiveMpOnceAndOneKor() {
+        SpellRequest base = new SpellRequest(List.of(Selection.of(mosaic("/furkeszes.json"))), ch(50), forms, false, false);
+        SpellResult plain = calc.calculate(base);
+        SpellResult zone = calc.calculate(new SpellRequest(base.selections(), base.character(), forms, false, true));
+        assertEquals(Fraction.of(7), plain.totalMp().value());
+        assertEquals(Fraction.of(12), zone.totalMp().value());
+        assertEquals("2 kor", zone.castingTime().value().toString(), "1 kör + 1 kör");
+        assertTrue(zone.viaZoneSign());
+        assertFalse(plain.viaZoneSign());
+        assertEquals(Fraction.of(38), zone.remainingMp().value(), "the remaining MP follows the total");
+    }
+
     // ---- the casting time is shown as its parts (user, 2026-10-17)
     @Test void aMosaicWithoutExtrasHasOnlyItsOwnCastingTimePart() {
         SpellResult r = run(ch(20), Selection.of(mosaic("/furkeszes.json")));

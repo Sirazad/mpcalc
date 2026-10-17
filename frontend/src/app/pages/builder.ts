@@ -135,6 +135,7 @@ export class Builder {
   /** How the total casting time is put together (one line per mosaic and per extra). */
   protected castingLines() { return castingBreakdown(this.spell.result()); }
   protected async setTrance(on: boolean) { this.spell.inTrance.set(on); await this.spell.calculate(); }
+  protected async setZoneSign(on: boolean) { this.spell.viaZoneSign.set(on); await this.spell.calculate(); }
   /** The description of the chosen school (its lore and main rules), if it has one. */
   protected readonly schoolDescription = computed(() => this.session.schools().find((s) => s.id === this.school())?.description ?? null);
   protected totalMp() { return formatMaybe(this.spell.result()?.totalMp, formatFraction); }

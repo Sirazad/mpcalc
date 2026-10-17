@@ -13,6 +13,8 @@ export class SpellStore {
   readonly selections = signal<Selection[]>([]);
   /** The caster is already in a trance: a drawing then adds no trance time (10 minutes) to the casting time. */
   readonly inTrance = signal(false);
+  /** The spell is cast through a Zóna varázsjel: +5 MP once and +1 kör. */
+  readonly viaZoneSign = signal(false);
   readonly result = signal<CalculateResult | null>(null);
   readonly busy = signal(false);
   readonly error = signal<string | null>(null);
@@ -34,6 +36,7 @@ export class SpellStore {
   async clear() {
     this.selections.set([]);
     this.inTrance.set(false);
+    this.viaZoneSign.set(false);
     this.result.set(null);
     this.error.set(null);
   }
@@ -49,7 +52,7 @@ export class SpellStore {
     if (!c || this.selections().length === 0) { this.result.set(null); return; }
     this.busy.set(true);
     try {
-      this.result.set(await this.api.calculate(c.id, this.selections(), this.inTrance()));
+      this.result.set(await this.api.calculate(c.id, this.selections(), this.inTrance(), this.viaZoneSign()));
       this.error.set(null);
     } catch (e) {
       this.result.set(null);
@@ -65,7 +68,7 @@ export class SpellStore {
     if (!c) return null;
     this.busy.set(true);
     try {
-      const r = await this.api.cast(c.id, this.selections(), this.inTrance());
+      const r = await this.api.cast(c.id, this.selections(), this.inTrance(), this.viaZoneSign());
       this.session.setCurrentMp(r.currentMp);
       this.error.set(null);
       await this.calculate();
@@ -113,6 +116,7 @@ export class SpellStore {
       forms,
       selections: this.selections(),
       inTrance: this.inTrance(),
+      viaZoneSign: this.viaZoneSign(),
       displayedTotalMp: total?.defined && total.value ? { numerator: total.value.numerator, denominator: total.value.denominator } : null,
       savedSpellIds: this.knownSpellIds(),
     });

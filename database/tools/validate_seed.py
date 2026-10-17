@@ -15,10 +15,10 @@ FILES = {"alapvarazslatok": "alapvarazslatok.json", "anyagi": "anyagi.json", "as
          "jelmagia": "jelmagia.json"}
 STATES = ("complete", "partial", "incomplete")
 UNITS = ("sz", "kor", "perc", "ora", "nap", "ev")
-RANGES = ("zone", "self", "touch", "pentagram", "meters", "byInput", "drawing", "undefined")
+RANGES = ("zone", "self", "touch", "pentagram", "meters", "byInput", "drawing", "sight", "body", "feet", "byChoice", "undefined")
 RESIST = ("none", "school", "concealment", "spellMp", "givenElement", "oppositeElement", "givenParaElement", "elementalForce", "armorSfe",
           "lifeForce", "naturalMaterialMagic", "undefined")
-PATTERNS = ("flat", "perMass", "compositionPerMass", "compositionGrid", "lookup", "perChoice", "wrapper", "undefined")
+PATTERNS = ("flat", "perMass", "compositionPerMass", "compositionGrid", "lookup", "perChoice", "wrapper", "linear", "undefined")
 INPUT_TYPES = ("choice", "number", "form", "composition", "text")
 FIELDS = ["id", "name", "school", "tier", "status", "castingTime", "duration", "range", "resistance",
           "power", "cost", "inputs", "source"]
@@ -67,7 +67,14 @@ def check_cost(w, c, d):
                "compositionPerMass": {"pattern", "rates", "rounding"},
                "compositionGrid": {"pattern", "rows", "columns", "rates"},
                "lookup": {"pattern", "input", "table"}, "perChoice": {"pattern", "input", "mpByValue"},
-               "wrapper": {"pattern", "baseMp", "factor"}, "undefined": {"pattern"}}[p]
+               "wrapper": {"pattern", "baseMp", "factor"}, "linear": {"pattern", "input", "baseMp", "freeUnits", "mpPerUnit"},
+               "undefined": {"pattern"}}[p]
+    if p == "perMass":
+        allowed = allowed | ({"multiplierInput"} & set(c))
+    if p == "wrapper":
+        allowed = allowed | ({"wraps", "keepsDuration", "innerE"} & set(c))
+        if "baseMpByValue" in c:   # the base depends on a choice instead of one baseMp
+            allowed = (allowed - {"baseMp"}) | {"input", "baseMpByValue"}
     if set(c) != allowed:
         err(w, f"fields {sorted(c)} != {sorted(allowed)}")
         return
@@ -95,9 +102,32 @@ def check_cost(w, c, d):
             err(w, "perChoice input must be a choice input of the mosaic")
         elif set(c["mpByValue"]) != set(choice.get("values", [])) or not all(is_int(v, 0) for v in c["mpByValue"].values()):
             err(w, "perChoice mpByValue needs a non-negative integer for every value of the choice")
+    if p == "perMass" and "multiplierInput" in c:
+        mult = next((i for i in d.get("inputs", []) if i.get("id") == c["multiplierInput"] and i.get("type") == "number"), None)
+        if mult is None or mult.get("integer") is not True:
+            err(w, "multiplierInput must be a whole-number input of the mosaic")
+    if p == "linear":
+        inp = next((i for i in d.get("inputs", []) if i.get("id") == c["input"] and i.get("type") == "number"), None)
+        if inp is None:
+            err(w, "linear input must be a number input of the mosaic")
+        if not (is_int(c["baseMp"], 0) and is_int(c["freeUnits"], 0) and is_int(c["mpPerUnit"], 1)):
+            err(w, "linear needs baseMp, freeUnits (>= 0) and mpPerUnit (>= 1) as whole numbers")
     if p == "wrapper":
-        if not (is_int(c["baseMp"], 0) and is_int(c["factor"], 1)):
-            err(w, "wrapper needs baseMp (integer >= 0) and factor (integer >= 1)")
+        if "baseMpByValue" in c:
+            choice = next((i for i in d.get("inputs", []) if i.get("id") == c["input"] and i.get("type") == "choice"), None)
+            if choice is None or set(c["baseMpByValue"]) != set(choice.get("values", [])) or not all(is_int(v, 0) for v in c["baseMpByValue"].values()):
+                err(w, "wrapper baseMpByValue needs a whole MP for every value of its choice input")
+        elif not is_int(c["baseMp"], 0):
+            err(w, "wrapper needs baseMp (integer >= 0)")
+        if not is_int(c["factor"], 1):
+            err(w, "wrapper needs factor (integer >= 1)")
+        if "innerE" in c and not is_int(c["innerE"], 1):
+            err(w, "innerE must be a positive whole number")
+        if "keepsDuration" in c and c["keepsDuration"] is not True:
+            err(w, "keepsDuration must be true when present")
+        for x in c.get("wraps", []):
+            if not (isinstance(x, dict) and set(x) <= {"school", "subgroup", "label"} and x.get("school") in SCHOOLS and isinstance(x.get("label"), str)):
+                err(w, f"bad wraps entry {x}")
     if p == "lookup":
         ids = [i.get("id") for i in d.get("inputs", [])]
         if c["input"] not in ids:
@@ -180,8 +210,13 @@ def check_mosaic(fname, d):
     r = d["range"]
     if not (isinstance(r, dict) and r.get("kind") in RANGES):
         err(w, "bad range")
-    elif r["kind"] == "meters" and not (isinstance(r.get("value"), (int, float)) and r["value"] > 0):
-        err(w, "meters needs value")
+    elif r["kind"] in ("meters", "feet") and not (isinstance(r.get("value"), (int, float)) and r["value"] > 0):
+        err(w, f"{r['kind']} needs value")
+    elif r["kind"] == "byChoice":
+        ch = next((i for i in d.get("inputs", []) if i.get("id") == r.get("input") and i.get("type") == "choice"), None)
+        if ch is None or not isinstance(r.get("values"), dict) or set(r["values"]) != set(ch.get("values", [])) \
+                or not all(isinstance(v, dict) and v.get("kind") in RANGES and v.get("kind") != "byChoice" for v in r["values"].values()):
+            err(w, "byChoice range needs a range for every value of its choice input")
     # resistance
     rs = d["resistance"]
     if not (isinstance(rs, dict) and rs.get("kind") in RESIST):
@@ -264,6 +299,10 @@ def check_mosaic(fname, d):
                         err(w, f"input {i['id']}: {extra} must be a map from values of a choice input to non-empty text")
             if i["type"] == "number" and not isinstance(i.get("unit"), str):
                 err(w, f"number input {i['id']} needs unit")
+            if "integer" in i and (i["type"] != "number" or i["integer"] is not True):
+                err(w, f"input {i['id']}: integer must be true on a number input")
+            if "min" in i and (i["type"] != "number" or not isinstance(i["min"], (int, float)) or isinstance(i["min"], bool)):
+                err(w, f"input {i['id']}: min must be a number on a number input")
     if (d["duration"].get("kind") == "formDependent") != ("form" in types):
         err(w, "duration formDependent <=> a form input")
     if pat in ("compositionPerMass", "compositionGrid") and "composition" not in types:
@@ -296,7 +335,8 @@ def check_mosaic(fname, d):
         if name in missing and not is_undef:
             err(w, f"'{name}' in missing but the value is defined")
         # a modifier mosaic carries its time via the modifier, so castingTime/duration/range may be empty
-        exempt = m is not None and name in ("duration", "range")
+        keeps = isinstance(d["cost"], dict) and d["cost"].get("keepsDuration") is True
+        exempt = (m is not None and name in ("duration", "range")) or (keeps and name == "duration")
         if is_undef and name not in missing and not exempt:
             err(w, f"{name} is undefined but not listed in missing")
     for name in missing:

@@ -86,6 +86,15 @@ The power box is not listed here: the page generates it from `power` (E choices 
 - **Cost `perChoice`**: `{"pattern": "perChoice", "input": "<choice input>", "mpByValue": {"<value>": mp, ...}}`: the MP of the chosen value (for example the class of creature a circle keeps out).
 - **Cost `wrapper`**: `{"pattern": "wrapper", "baseMp": n, "factor": f}`: the mosaic costs baseMp plus f times the MP of the OTHER mosaics of the spell, in any order of adding (a wrapper alone costs baseMp). Its casting time includes the time of those mosaics: they are marked `includedInWrapper`, and their time, MP and duration are not added to the spell's totals (their own values still show).
 
+### 6c. More Jelmágia additions (the signs, symbols and stamps, 2026-10-17)
+
+- **Wrapper options** (all optional, in `cost`): `wraps` (a list of `{school, subgroup?, label}`: the only mosaics the wrapper accepts; another mosaic in the spell makes the engine refuse the wrapper with a clear message; no list means any mosaic); `keepsDuration: true` (the wrapped mosaics keep their own durations: the duration of a symbol is that of the spell drawn in it; the wrapper's own duration is then `undefined`); `innerE: n` (the wrapped mosaics are priced at strength n E, whatever E was chosen: an asztrálbélyeg costs what the spell costs at 15 E, a mentálbélyeg at 20 E; a mosaic whose E cannot reach n exactly makes the MP undefined); `baseMpByValue` with `input` instead of `baseMp` (the base depends on a choice: the two variants of a Kisugárzó varázsjel).
+- **Cost `linear`**: `{"pattern": "linear", "input": "<number input>", "baseMp": n, "freeUnits": f, "mpPerUnit": u}`: baseMp plus u for every unit of the input above f (the sphere of a Térgát varázsjel: 3 MP for 1 m, +1 MP per extra meter).
+- **Cost `perMass` with `multiplierInput`**: the weight cost is multiplied by a whole-number input (the speed of a Forgás varázsjel); that input is not the weight input.
+- **Number input `integer: true` and `min`**: only whole numbers, and the smallest value; the engine refuses other values.
+- **Range kinds** `sight` (whoever sees it), `body` (the body it is placed on), `feet` (`{value}`, láb) and `byChoice` (`{input, values: {value: range}}`).
+- **Cast through a Zóna varázsjel** is a property of the whole spell, not of a mosaic: the request has `viaZoneSign`, the spell then costs +5 MP once and takes +1 kör, and the result has `viaZoneSign: true`.
+
 ## 7. Related data (separate tables, linked by key)
 - **Forms:** `{id, name, tier, duration}`. Every form-dependent mosaic allows every form.
 - **Material groups:** `{id, name, examples}` for `I`, `II`, `III`.

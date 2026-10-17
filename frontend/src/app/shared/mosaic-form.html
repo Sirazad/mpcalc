@@ -38,7 +38,7 @@
       @case ('number') {
         <mat-form-field>
           <mat-label>{{ i.label ?? i.id }}{{ i.unit ? ' (' + i.unit + ')' : '' }}</mat-label>
-          <input matInput type="number" [ngModel]="values()[i.id]" (ngModelChange)="set(i.id, $event)" [name]="i.id" [attr.data-testid]="'input-' + i.id" />
+          <input matInput type="number" [attr.min]="i.min ?? null" [attr.step]="i.integer ? 1 : 'any'" [ngModel]="values()[i.id]" (ngModelChange)="set(i.id, $event)" [name]="i.id" [attr.data-testid]="'input-' + i.id" />
         </mat-form-field>
       }
       @case ('text') {

@@ -45,6 +45,16 @@ describe('castingBreakdown', () => {
     expect(lines[1].struck).toBe(false);
   });
 
+  it('adds the zone sign line before the trance line', () => {
+    const wrapper = mosaic('Végrehajtó varázskör', [{ kind: 'OWN', time: time({ perc: 30 }) }]);
+    const result = { ...spell([wrapper], { needed: true, applied: true }), viaZoneSign: true } as SpellResult;
+    expect(castingBreakdown(result).map((l) => l.text)).toEqual([
+      'Végrehajtó varázskör: 30 perc',
+      '+1 kör és +5 MP: a varázslat zóna varázsjelen keresztül hat',
+      '+10 perc és 1 pszi pont: transz, ha még nincs transzban',
+    ]);
+  });
+
   it('shows the trance line struck through when the caster is already in a trance, and none without a drawing', () => {
     const wrapper = mosaic('Végrehajtó varázskör', [{ kind: 'OWN', time: time({ perc: 30 }) }]);
     const struck = castingBreakdown(spell([wrapper], { needed: true, applied: false }));

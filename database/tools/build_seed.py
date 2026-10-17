@@ -619,6 +619,186 @@ jel = [
     circle("jel-varazskor-vegrehajto", "Végrehajtó varázskör", 3, 30, JEL_VEGREHAJTO, None,
            {"pattern": "wrapper", "baseMp": 40, "factor": 1}, []),
 ]
+# ---------- Jelmágia, the signs, symbols, stamps and pentagrams (lines 6 to 27; user's Hungarian text, approved 2026-10-17; typos corrected) ----------
+SIGN = "Soha nem nagyobb egy ezüstpénznél."
+SYMBOL_INTRO = "Embermagasságnál nagyobb mágikus jel vagy felirat."
+STAMP_BLOCK = ("Néhány centiméter átmérőjű jel, a megbélyegzett testén. Hatásukat arra fejtik ki, akinek a testén a varázsló elhelyezi őket. "
+               "Az alany egészen addig áldozata a bélyeg hordozta mágiának, ameddig az el nem távolíttatik a testéről. "
+               "A bélyegek oly erősen sugározzák a beléjük foglalt mágikus hatást, hogy velük szemben mágiaellenállásnak helye nincs.")
+
+T_VALTOZAS_VJ = SIGN + "\n\n" + (
+    "Minden a Természeti Anyag Mágiájának fejezete alá tartozó hatás leírható Változás Varázsjellel. A varázsjelet arra a tárgyra kell rajzolni, amelyet a varázsjellel a varázsló megváltoztatni kíván, "
+    "hatása ellen nem véd a Személyes Aura sem. Az adott hatás nem ér véget a mozaiknál feltüntetett időtartam lejártával, hanem mindaddig érvényesül, ameddig a tárgyon a varázsjel töretlen. "
+    "A Változás Varázsjel megrajzolása háromszor annyi Mp-be kerül, mint a hasonló varázslat mozaik, ám erőssége ugyanannyi marad.")
+T_ZONA_VJ = SIGN + "\n\n" + (
+    "A zóna varázsjel körüli 20 láb sugarú gömb a varázsló zónájának számít, akárcsak a teste körüli hasonló méretű terület. Vagyis, ahol ezt a varázsjelet a varázsló elhelyezi, ott újabb Zóna jön létre, "
+    "amelyen belül majdnem úgy varázsolhat távolbahatás nélkül is, ahogyan azt a teste körüli zónában teheti. A különbség csupán annyi, hogy a zóna varázsjelen keresztül végrehajtott varázslatok "
+    "varázslási ideje minden esetben +1 körrel nő, s az eredeti mannapont igényéhez +5 mp járul.\n\n"
+    "A varázslók éppen ezért gyakran helyeznek el zóna varázsjelet olyan helyeken, ahová később varázsolni kívánnak. Nem egyszer apróbb tárgyakra írják, és azokat szolgákkal vitetik el a világ azon "
+    "távoli pontjaira, ahová mágikus befolyásukat kiterjeszteni készülnek.\n\n"
+    "A Zóna varázsjel másik felmérhetetlenül hasznos tulajdonsága, hogy lehetővé teszi a varázsló számára, hogy arra a helyre teleportáljon, vagy kaput nyisson, ahol a jel található.\n\n"
+    "Minden zóna varázsjel egyéni, azaz minden varázslónak saját jele van – ami az avatott szem fel is ismerheti. Minden varázsló csak saját zóna varázsjelét használhatja távolba varázslásra és térmágiára.\n\n"
+    "Hátránya, hogy a tárgy szimpátia viszonyban áll a varázslóval, így ellenséges szándékú varázsló kezében veszélyessé lehet.")
+T_SZEMELYES_AURA_VJ = SIGN + "\n\n" + (
+    "A tárgy, amelyen a varázsló elhelyezi a varázsjelet, Személyes Aurájának védelme alá kerül. Ez azt jelenti, hogy attól kezdve az aura védelme az adott tárgyra is kiterjed. "
+    "Természetesen a varázsló nem csak saját, hanem valaki más Személyes Aurájának is részévé tehet ily módon bármely holmit, ehhez az illetőnek magának kell a varázsjelbe mágikus rúnákkal beleírnia a nevét. "
+    "Ami persze okozhat némi nehézséget, hiszen a rúnák pontos leírását egyedül a varázslók tanulják. Nem varázsló karakternek ahhoz, hogy saját nevét rúnákkal képes legyen hibátlanul leírni, "
+    "3 hétig minden nap legalább két órát kell gyakorolnia.")
+T_MAGIKUS_AURA_VJ = SIGN + "\n\n" + (
+    "A tárgy, amelyre a varázsló felírja a Mágikus Aura Varázsjelét, attól kezdve mágikusnak számít, miáltal nem hat rá a Természeti Anyag Mágiája. "
+    "Rúnamágiával készített varázstárgyaknál a Mágikus Aura Varázsjel terjeszti ki a rúna mágikus hatását az adott tárgyra. (ld. Varázstárgyak)")
+T_LELEKCSAPDA_VJ = SIGN + "\n\nLásd: Nekromancia (kell hozzá Nekromancia 2. fok)."
+T_KISUGARZO_VJ = SIGN + "\n\n" + (
+    "A végrehajtó varázskör ikertestvére; hatása és működése is ahhoz hasonló. Két válfaja ismeretes: az elsőnél a beleírt varázslat arra hat, aki a varázsjelet megérinti, a másodiknál a varázsjel előtt "
+    "karnyújtásnyira (1 láb) távolságon belül elhaladókra – válogatás nélkül. A hatás megnyilvánulása és az érintettek elleni hatékonysága a varázsjelbe írt varázslat természetétől és erősségétől függ "
+    "(pl. a kicsapó tűznyíl nem feltétlenül találja el az áldozatot).\n\n"
+    "Az első változat 20 mp, plusz amibe a varázslat kerül, a második 10 mp-vel több.")
+T_SZIMPATIA_VJ = SIGN + "\n\n" + (
+    "Jelpár, amely tárgy-tárgy szimpátiát hoz létre két tárgy között, melyekre írják őket. Ha bármelyik rajzolat megsérül, a szimpátia azonnal megszűnik.")
+T_KEMSZEM_VJ = SIGN + "\n\n" + (
+    "Jelpár, amely egymással szimpátia viszonyban álló varázsjelből és bélyegből áll. Az első bárhol, bármilyen tárgyon elhelyezhető, míg a második arra a személyre írandó, aki a varázsjellel látni fog.\n\n"
+    "A bélyeg viselője – ha akarja – képes a varázsjellel úgy látni, mintha az saját szeme lenne. Ilyenkor saját szemével természetesen nem lát. Ha valaki úgy rajzolja fel a bélyeget, hogy az egyszerre "
+    "több varázsjellel is kapcsolatban áll, tetszése szerint válogathat azok között, egyikről a másikra váltva egymás után több helyszínt is szemmel tarthat. Fontos megjegyezni, hogy a kémszem nem forgatható, "
+    "azaz egyetlen, meghatározott irányba mered. Forgatásáról, mozgatásáról más varázslattal, netán kahrei mechanikával szükséges gondoskodni.\n\n"
+    "A rajzolat felírásának mp igénye a bélyeg és a varázsjel maximális távolságától függ. Ha ennél távolabb kerülnek egymástól, a szimpátia viszony szünetel, így a kémszem ideiglenesen megvakul, "
+    "s csak akkor használható újból, ha ismét hatótávba kerül.\n\n"
+    "Hatótáv – Mp igény:\n0–10 láb – 55 mp\n11–39 láb – 60 mp\n40–99 láb – 68 mp\n100–999 láb – 75 mp\nEnnél nagyobb távolságra nem alkalmazható.\n\n"
+    "A fent feltüntetett Mana-pontok a teljes jelpárra vonatkoznak; a szimpátia viszony miatt közös transzban kell megrajzolni őket. Több varázsjel egy bélyeghez csatlakoztatása esetén a bélyeget is minden "
+    "alkalommal újra kell rajzolni, bár vonalai tökéletesen fedhetik a korábban felírt bélyegekét. Az újabb és újabb jelpárok természetesen már újabb és újabb transzban is megalkothatóak – így minden pár "
+    "felrajzolása után nyílik mód mana-pont gyűjtésre.\n\n"
+    "A kémszem addig működőképes, ameddig mindkét rajzolat töretlen.")
+T_TERGAT_VJ = SIGN + "\n\n" + (
+    "A Térgát varázsjel Ynev várainak, palotáinak, erősségeinek mindennapos kelléke, a rúnatornyok leggyakoribb jele. Az adott területet belül gátat szab minden térmágiának: a területről és a területre "
+    "teleportálni, távolbahatni, térkaput nyitni lehetetlen, hacsak a térmágia erőssége meg nem haladja a varázsjelét. Alapterület, amiben gátol: egy 1 méter sugarú gömb, amit méterenként 1 MP-ért lehet növelni.")
+T_TERCSAPDA_VJ = SIGN + "\n\n" + (
+    "A Tércsapda varázsjel a Térgát varázsjel különleges változata. Hatóterületén nem gátat szab a térmágiának, hanem a varázsjelhez vonzza. "
+    "Minden térmágikus hatás a varázsjelen ill. annak közvetlen szomszédságában jön létre.")
+T_TAPADAS_VJ = SIGN + "\n\n" + (
+    "Varázsjel pár, amelyet két különálló tárgyon kell elhelyezni: a két jel tükörképe egymásnak, pontosan egymáshoz illesztve összetapadnak. Minél erősebb a beléjük foglalt mágia, annál nehezebben "
+    "választhatóak szét, azaz annál nagyobb a súly, amelynek megtartására alkalmasak. Szét lehet választani őket erővel, de újra összetapadnak, ha a jelek töretlenek.")
+T_FORGAS_VJ = SIGN + "\n\n" + (
+    "A tapadáshoz hasonló jel pár, ám az összeillesztett tárgyak, a rögzítetlen vagy kisebb súlyú, a varázsjelek képezte tengely körül forognak. A jelek kicsik, de a tárgy lehet nagyobb; a forgás tengelye ott van, "
+    "ahol a két jel találkozik. Egy tenyérnyi korong 5 szegmens alatt tesz meg egy teljes kört; ha a teljes mp igényt megduplázod, a sebesség duplázódik, háromszorosával triplázódik stb.")
+
+T_SYMBOL_COMMON = (
+    "Az Asztrál és Mentál mágiáról szóló fejezetben leírt összes varázslat felrajzolható ebben a formában. Hatásukat arra fejtik ki, aki megpillantja őket – ám az illető csak akkor válik a varázslat áldozatává, "
+    "ha Mágia ellenállását elvéteti. Egy szimbólum elkészítése annyi mp-be kerül, amennyibe a belefoglalt varázslat.")
+T_ASZTRAL_SZIMBOLUM = SYMBOL_INTRO + "\n\n" + T_SYMBOL_COMMON + "\n\n" + (
+    "Az asztrálszimbólumok akkor fejtik ki hatásukat, amikor az áldozat megpillantja őket. Szimbólumként bármely az asztrál fejezetben leírt varázslat felírható. Ennek Mp igénye annyi, amennyi az azonos "
+    "asztrál varázslaté és erőssége, valamint időtartama is azével egyenlő.\n\n"
+    "Az asztrál szimbólumok ellen az áldozat dobhat asztrális mágiaellenállást, melynek sikere esetén mentesül a szimbólum hatása alól.")
+T_MENTAL_SZIMBOLUM = SYMBOL_INTRO + "\n\n" + T_SYMBOL_COMMON + "\n\n" + (
+    "A mentál szimbólumok az asztrál szimbólumokhoz hasonlóak. Hatásukat arra fejtik ki, aki megpillantja őket. Szimbólumként bármely mentál varázslat felírható, ennek mp igénye annyi, amennyi az azonos "
+    "hatású mentál varázslaté, ugyanez igaz az erősségre és időtartamra is.\n\n"
+    "A mentálszimbólumok ellen az áldozat dobhat mentális ellenállást, melynek sikere esetén mentesül a szimbólum hatása alól.")
+
+T_ASZTRAL_BELYEG = STAMP_BLOCK + "\n\n" + (
+    "Az asztrálbélyegek alkalmasak arra, hogy viselőjüket az adott asztrálmágia hatása alá helyezzék. Transzban tudja az áldozat testére rajzolni. Annyi manna, amennyibe az adott varázslat kerülne 15 E erősség "
+    "esetén. Viszont nincs ellene ellenállás. Az áldozat adott esetben letörölheti magáról.\n\n"
+    "Asztrálbélyeg esetén a jeleknek tartalmazniuk kell az érzelem irányát is.")
+T_MENTAL_BELYEG = STAMP_BLOCK + "\n\n" + (
+    "A mentálbélyegek viselőjüket az adott mentálmágia hatása alá helyezik. Transzban az áldozat testére kell festeni, de letörölhető. Annyi manna, amennyibe az adott mentál varázslat 20 E erősség esetén kerülne.\n\n"
+    "A mentális operációk közül a kábítás és bénítás mentálbélyegben való elhelyezése nem jelent különösebb nehézséget, ám az olvasással és az írással merőben más a helyzet. Hiszen ilyenkor a varázsló és az áldozat "
+    "agya között folyamatosan fennálló kapcsolatra van szükség, ami megköveteli, hogy a varázsló testén is legyen egy hasonló, csak néhány vonásában különböző bélyeg, továbbá, hogy az olvasás, írás ideje alatt "
+    "a varázsló a kapcsolatra összpontosítson.")
+T_VALTOZAS_BELYEG = STAMP_BLOCK + "\n\nA Változás varázsjel, amelyet személyre, élőlényre írnak. Ereje nem végtelen, a mozaik erejével egyezik meg, háromszoros mannaáron."
+T_LELEKCSAPDA_BELYEG = STAMP_BLOCK + "\n\nLásd: Nekromancia."
+T_HALOTTMOZGATAS_BELYEG = STAMP_BLOCK + "\n\nLásd: Nekromancia."
+T_FELRUHAZAS_BELYEG = STAMP_BLOCK + "\n\nHárom fajtája ismeretes: értelemmel, tudattal, személyiséggel felruházás, ahogy a boszorkánymesteri varázslatoknál érvényesül."
+T_PENTAGRAMMA = ("A pentagramma ötágú csillag, melyet a varázsló olykor csúcsait érintő körbe foglal. Méretére jellemző, hogy ennek a körnek – akár létezik, akár csak képzeletbeli – "
+                 "legalább egy lépésnyi átmérőjűnek kell lennie.")
+
+WRAP_NATURAL = [{"school": "anyagi", "subgroup": "termeszetes", "label": "Természetes anyagi mágia"}]
+WRAP_ASZTRAL = [{"school": "asztral", "label": "Asztrál mágia"}]
+WRAP_MENTAL = [{"school": "mental", "label": "Mentál mágia"}]
+
+def sign(id, name, subgroup, text, cast_t, cost, pw=None, inputs=None, requires=None, rng=None, res=None, dur=None, missing=()):
+    d = mosaic(id, name, "jelmagia", 2, list(missing), cast_t, dur or UNTIL_BROKEN, rng or DRAWING_RANGE, res or {"kind": "none"},
+               pw, cost, inputs or [], subgroup=subgroup, effect=text, source=P14)
+    if requires:
+        d["requires"] = requires
+    return d
+
+def number_input(id, label, unit, integer=False, minimum=None):
+    d = {"id": id, "label": label, "type": "number", "unit": unit}
+    if integer:
+        d["integer"] = True
+    if minimum is not None:
+        d["min"] = minimum
+    return d
+
+def req(school, tier):
+    return [{"school": school, "tier": tier}]
+
+AURA_TYPES = {"asztral": ("Asztrálmágia", "asztral"), "mental": ("Mentálmágia", "mental")}
+aura_input = {"id": "effectType", "label": "Hatás", "type": "choice", "values": list(AURA_TYPES),
+              "labels": {k: v[0] for k, v in AURA_TYPES.items()},
+              "requires": {k: req(v[1], 2) for k, v in AURA_TYPES.items()}}
+variant_input = {"id": "variant", "label": "Válfaj", "type": "choice", "values": ["touch", "pass"],
+                 "labels": {"touch": "Megérintőre hat (20 MP)", "pass": "Elhaladókra hat, 1 láb (30 MP)"}}
+felruhazas_input = {"id": "kind", "label": "Fajta", "type": "choice", "values": ["ertelem", "tudat", "szemelyiseg"],
+                    "labels": {"ertelem": "Értelemmel felruházás", "tudat": "Tudattal felruházás", "szemelyiseg": "Személyiséggel felruházás"}}
+RADIUS = lambda: number_input("radiusM", "Sugár", "m", integer=True, minimum=1)
+SPHERE_COST = lambda base: {"pattern": "linear", "input": "radiusM", "baseMp": base, "freeUnits": 1, "mpPerUnit": 1}
+PER_5KG = {"mp": 1, "massG": 5000}
+jel += [
+    # ---- varázsjelek (lines 6 to 17)
+    sign("jel-varazsjel-valtozas", "Változás varázsjel", "varazsjelek", T_VALTOZAS_VJ, cast("drawing", perc=5),
+         {"pattern": "wrapper", "baseMp": 0, "factor": 3, "wraps": WRAP_NATURAL}, requires=req("anyagi", 2)),
+    sign("jel-varazsjel-zona", "Zóna varázsjel", "varazsjelek", T_ZONA_VJ, cast("drawing", perc=5), flat(25)),
+    sign("jel-varazsjel-szemelyes-aura", "Személyes aura varázsjel", "varazsjelek", T_SZEMELYES_AURA_VJ, cast("drawing", perc=5), flat(40), inputs=[aura_input]),
+    sign("jel-varazsjel-magikus-aura", "Mágikus aura varázsjel", "varazsjelek", T_MAGIKUS_AURA_VJ, cast("drawing", perc=5), flat(33)),
+    sign("jel-varazsjel-lelekcsapda", "Lélekcsapda varázsjel", "varazsjelek", T_LELEKCSAPDA_VJ, cast("drawing", perc=3), flat(35), requires=req("nekromancia", 2)),
+    sign("jel-varazsjel-kisugarzo", "Kisugárzó varázsjel", "varazsjelek", T_KISUGARZO_VJ, cast("drawing", perc=3),
+         {"pattern": "wrapper", "input": "variant", "baseMpByValue": {"touch": 20, "pass": 30}, "factor": 1}, inputs=[variant_input],
+         rng={"kind": "byChoice", "input": "variant", "values": {"touch": {"kind": "touch"}, "pass": {"kind": "feet", "value": 1}}}),
+    sign("jel-varazsjel-szimpatia", "Szimpátia varázsjel", "varazsjelek", T_SZIMPATIA_VJ, cast("drawing", perc=6), flat(20), pw=power(1), requires=req("szimpatikus", 2)),
+    sign("jel-varazsjel-kemszem", "Kémszem varázsjel", "varazsjelek", T_KEMSZEM_VJ, cast("drawing", perc=10),
+         {"pattern": "lookup", "input": "distanceFt",
+          "table": [{"fromM": 0, "toM": 10, "mp": 55}, {"fromM": 11, "toM": 39, "mp": 60}, {"fromM": 40, "toM": 99, "mp": 68}, {"fromM": 100, "toM": 999, "mp": 75}]},
+         pw=power(1), inputs=[number_input("distanceFt", "Legnagyobb távolság a jel és a bélyeg között", "láb", integer=True, minimum=0)],
+         requires=req("szimpatikus", 2), rng={"kind": "byInput"}),
+    sign("jel-varazsjel-tergat", "Térgát varázsjel", "varazsjelek", T_TERGAT_VJ, cast("drawing", perc=5), SPHERE_COST(3), pw=power(1, 3, 1),
+         inputs=[RADIUS()], requires=req("ter", 2), rng={"kind": "byInput"}),
+    sign("jel-varazsjel-tercsapda", "Tércsapda varázsjel", "varazsjelek", T_TERCSAPDA_VJ, cast("drawing", perc=5), SPHERE_COST(8), pw=power(1, 3, 1),
+         inputs=[RADIUS()], requires=req("ter", 3), rng={"kind": "byInput"}),
+    sign("jel-varazsjel-tapadas", "Tapadás varázsjel", "varazsjelek", T_TAPADAS_VJ, cast("drawing", kor=2),
+         {"pattern": "perMass", "rate": PER_5KG}, pw=power(1, 1, 1), inputs=[number_input("weightKg", "Tartott súly", "kg")]),
+    sign("jel-varazsjel-forgas", "Forgás varázsjel", "varazsjelek", T_FORGAS_VJ, cast("drawing", kor=2),
+         {"pattern": "perMass", "rate": PER_5KG, "multiplierInput": "speed"}, pw=power(1, 1, 1),
+         inputs=[number_input("weightKg", "Forgatott súly", "kg"), number_input("speed", "Sebesség (szorzó)", "×", integer=True, minimum=1)]),
+    # ---- szimbólumok (lines 18, 19): the duration and the strength are those of the spell drawn in them
+    sign("jel-szimbolum-asztral", "Asztrálszimbólum", "szimbolumok", T_ASZTRAL_SZIMBOLUM, cast("drawing", perc=30),
+         {"pattern": "wrapper", "baseMp": 0, "factor": 1, "keepsDuration": True, "wraps": WRAP_ASZTRAL},
+         rng={"kind": "sight"}, res=res_school("asztral"), dur=UNDEF),
+    sign("jel-szimbolum-mental", "Mentálszimbólum", "szimbolumok", T_MENTAL_SZIMBOLUM, cast("drawing", perc=35),
+         {"pattern": "wrapper", "baseMp": 0, "factor": 1, "keepsDuration": True, "wraps": WRAP_MENTAL},
+         rng={"kind": "sight"}, res=res_school("mental"), dur=UNDEF),
+    # ---- bélyegek (lines 20 to 25)
+    sign("jel-belyeg-asztral", "Asztrálbélyeg", "belyegek", T_ASZTRAL_BELYEG, cast("drawing", perc=5),
+         {"pattern": "wrapper", "baseMp": 0, "factor": 1, "innerE": 15, "wraps": WRAP_ASZTRAL}, pw=dict(INFINITE),
+         requires=req("asztral", 2), rng={"kind": "body"}),
+    sign("jel-belyeg-mental", "Mentálbélyeg", "belyegek", T_MENTAL_BELYEG, cast("drawing", perc=5),
+         {"pattern": "wrapper", "baseMp": 0, "factor": 1, "innerE": 20, "wraps": WRAP_MENTAL}, pw=dict(INFINITE),
+         requires=req("mental", 2), rng={"kind": "body"}),
+    sign("jel-belyeg-valtozas", "Változás bélyege", "belyegek", T_VALTOZAS_BELYEG, cast("drawing", perc=5),
+         {"pattern": "wrapper", "baseMp": 0, "factor": 3, "wraps": WRAP_NATURAL}, requires=req("anyagi", 3), rng={"kind": "body"}),
+    sign("jel-belyeg-lelekcsapda", "Lélekcsapda bélyeg", "belyegek", T_LELEKCSAPDA_BELYEG, cast("drawing", perc=5), flat(39),
+         requires=req("nekromancia", 2), rng={"kind": "body"}),
+    sign("jel-belyeg-halottmozgatas", "Halottmozgatás bélyege", "belyegek", T_HALOTTMOZGATAS_BELYEG, cast("drawing", perc=5), flat(52),
+         requires=req("nekromancia", 3), rng={"kind": "body"}),
+    # the prices of the three kinds come from the boszorkánymester chapter (the user will give them later): incomplete
+    sign("jel-belyeg-felruhazas", "Felruházás bélyege", "belyegek", T_FELRUHAZAS_BELYEG, cast("drawing", perc=5), UNDEF_COST, pw=dict(INFINITE),
+         inputs=[felruhazas_input], requires=req("nekromancia", 3), rng={"kind": "body"}, missing=["cost"]),
+    # ---- pentagrammák (lines 26, 27): only a name and a requirement in the source: incomplete
+    sign("jel-pentagramma-idezo", "Idéző pentagramma", "pentagrammak", T_PENTAGRAMMA, UNDEF_CAST("drawing"), UNDEF_COST,
+         requires=req("nekromancia", 2), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
+         missing=["cost", "castingTime", "duration", "resistance", "power"]),
+    sign("jel-pentagramma-terkapu", "Térkapu pentagramma", "pentagrammak", T_PENTAGRAMMA, UNDEF_CAST("drawing"), UNDEF_COST,
+         requires=req("ter", 3), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
+         missing=["cost", "castingTime", "duration", "resistance", "power"]),
+]
+
 schools_extra = [{"id": "jelmagia", "name": "Jelmágia", "hasTiers": True, "description": JEL_SCHOOL_DESCRIPTION}]
 
 groups = [

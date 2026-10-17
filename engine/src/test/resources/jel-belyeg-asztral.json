@@ -1,0 +1,8 @@
+{ "id": "jel-belyeg-asztral", "name": "Asztrálbélyeg", "school": "jelmagia", "subgroup": "belyegek", "tier": 2,
+  "requires": [{"school": "asztral", "tier": 2}],
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "drawing", "time": {"kind": "time", "amounts": {"perc": 5}}},
+  "duration": {"kind": "untilBroken"}, "range": {"kind": "body"}, "resistance": {"kind": "none"},
+  "power": {"unit": "E", "baseE": null, "step": null, "infinite": true},
+  "cost": {"pattern": "wrapper", "baseMp": 0, "factor": 1, "innerE": 15, "wraps": [{"school": "asztral", "label": "Asztrál mágia"}]},
+  "inputs": [], "source": "Part 14" }

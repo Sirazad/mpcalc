@@ -99,6 +99,10 @@
             }
             <div class="totals">
               <h4>{{ T.spell.total }}</h4>
+              <label class="trance">
+                <input type="checkbox" [checked]="spell.viaZoneSign()" (change)="setZoneSign($any($event.target).checked)" data-testid="via-zone" />
+                {{ T.spell.viaZone }}
+              </label>
               @if (r.trance?.needed) {
                 <label class="trance">
                   <input type="checkbox" [checked]="spell.inTrance()" (change)="setTrance($any($event.target).checked)" data-testid="in-trance" />

@@ -1,0 +1,7 @@
+{ "id": "asztral-test", "name": "Asztrál teszt", "school": "asztral", "tier": 2,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "casting", "time": {"kind": "time", "amounts": {"sz": 1}}},
+  "duration": {"kind": "time", "time": {"kind": "time", "amounts": {"perc": 1}}}, "range": {"kind": "zone"},
+  "resistance": {"kind": "school", "school": "asztral"},
+  "power": {"unit": "E", "baseE": 1, "step": {"mp": 1, "e": 1}},
+  "cost": {"pattern": "flat", "baseMp": 1}, "inputs": [], "source": "Part 7" }

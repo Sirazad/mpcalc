@@ -18,7 +18,9 @@ export interface CharacterBody { name?: string; maxMp?: number; currentMp?: numb
 
 export interface MosaicInput { id: string; label?: string; type: 'choice' | 'number' | 'form' | 'composition' | 'text'; values?: string[]; labels?: Record<string, string>; descriptions?: Record<string, string>;
   /** choice: the tiers needed in other schools for a value. */
-  requires?: Record<string, { school: string; tier: number }[]>; unit?: string; }
+  requires?: Record<string, { school: string; tier: number }[]>; unit?: string;
+  /** number: only whole numbers, and the smallest value. */
+  integer?: boolean; min?: number; }
 export interface MosaicOption { id: string; label: string; extraMp: number; extraCastingTime?: unknown; }
 export interface Mosaic {
   id: string; name: string; school: string; subgroup?: string | null; tier: number | null;
@@ -60,6 +62,8 @@ export interface SpellResult {
   remainingMp: Maybe<Fraction>; enoughMp: boolean; warnings: Msg[]; errors: Msg[];
   /** needed: the spell has a drawing (10 minutes of trance); applied: that time is in the casting time. */
   trance?: { needed: boolean; applied: boolean };
+  /** The spell was cast through a Zóna varázsjel (+5 MP and +1 kör are in the totals). */
+  viaZoneSign?: boolean;
 }
 /** Result of /api/calculate: the engine result plus the overspend and the schools of the spell. */
 export interface CalculateResult extends SpellResult { overspentMp: Fraction | null; schools: string[]; }

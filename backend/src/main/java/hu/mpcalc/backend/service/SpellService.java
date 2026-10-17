@@ -132,7 +132,8 @@ public class SpellService {
         }
         CharacterSheet sheet = new CharacterSheet(characters.tiersOf(c.id), BigDecimal.valueOf(c.currentMp));
         boolean inTrance = root.path("inTrance").asBoolean(false);   // the caster is already in a trance: drawings add no trance time
-        return new Run(calculator.calculate(new SpellRequest(selections, sheet, allForms(), inTrance)), List.copyOf(schools));
+        boolean viaZoneSign = root.path("viaZoneSign").asBoolean(false);   // cast through a Zóna varázsjel: +5 MP once and +1 kör
+        return new Run(calculator.calculate(new SpellRequest(selections, sheet, allForms(), inTrance, viaZoneSign)), List.copyOf(schools));
     }
 
     /** The engine call without any database access, for searches that evaluate many spells. */

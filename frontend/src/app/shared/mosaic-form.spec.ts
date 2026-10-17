@@ -92,6 +92,18 @@ describe('MosaicForm', () => {
     expect((fixture.componentInstance as unknown as { availableValues(i: unknown): string[] }).availableValues(circle.inputs![0])).toEqual(['ostuz']);
   });
 
+  it('limits a whole-number input to whole numbers and its smallest value', async () => {
+    const gate: Mosaic = {
+      ...oselem,
+      inputs: [{ id: 'radiusM', label: 'Sugár', type: 'number', unit: 'm', integer: true, min: 1 }],
+    };
+    const fixture = create(gate, { jelmagia: 2 });
+    await fixture.whenStable();
+    const input = (fixture.nativeElement as HTMLElement).querySelector('[data-testid="input-radiusM"]') as HTMLInputElement;
+    expect(input.getAttribute('min')).toBe('1');
+    expect(input.getAttribute('step')).toBe('1');
+  });
+
   it('raises the power step and emits the selection with k', async () => {
     const fixture = create({ ...oselem, inputs: [] }, { anyagi: 2 });
     await fixture.whenStable();

@@ -8,7 +8,8 @@ export interface BreakdownLine { text: string; extra: boolean; /** shown, but no
 /**
  * How the casting time of the spell is put together: the own time of every mosaic, the extra time of its ticked options
  * and what a modifier adds. The lines add up to the total shown next to them. Refused mosaics are left out, and so are the
- * mosaics a wrapper includes (the wrapper's time already contains theirs). A drawing adds the trance as its own last line.
+ * mosaics a wrapper includes (the wrapper's time already contains theirs). A spell cast through a Zóna varázsjel adds its +1 kör,
+ * and a drawing adds the trance, each as its own line.
  */
 export function castingBreakdown(result: SpellResult | null): BreakdownLine[] {
   const lines: BreakdownLine[] = [];
@@ -30,6 +31,7 @@ export function castingBreakdown(result: SpellResult | null): BreakdownLine[] {
       }
     }
   }
+  if (result?.viaZoneSign) lines.push({ text: T.spell.zoneLine, extra: true });
   if (result?.trance?.needed) {
     lines.push({ text: result.trance.applied ? T.spell.tranceLine : `${T.spell.tranceLine} ${T.spell.tranceDone}`, extra: true, struck: !result.trance.applied });
   }

@@ -1,0 +1,7 @@
+{ "id": "jel-szimbolum-asztral", "name": "Asztrálszimbólum", "school": "jelmagia", "subgroup": "szimbolumok", "tier": 2,
+  "status": {"state": "complete", "missing": []},
+  "castingTime": {"label": "drawing", "time": {"kind": "time", "amounts": {"perc": 30}}},
+  "duration": {"kind": "undefined"}, "range": {"kind": "sight"}, "resistance": {"kind": "school", "school": "asztral"},
+  "power": null,
+  "cost": {"pattern": "wrapper", "baseMp": 0, "factor": 1, "keepsDuration": true, "wraps": [{"school": "asztral", "label": "Asztrál mágia"}]},
+  "inputs": [], "source": "Part 14" }
