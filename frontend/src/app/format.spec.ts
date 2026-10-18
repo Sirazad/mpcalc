@@ -1,5 +1,18 @@
-import { formatFraction, formatMaybe, formatResistance, formatStrength, formatTime } from './format';
+import { formatDerived, formatFraction, formatMaybe, formatResistance, formatStrength, formatTime } from './format';
 import { School } from './models';
+
+describe('formatDerived', () => {
+  const kg = (value: number) => ({ id: 'capacityKg', label: 'Áteresztőképesség', unit: 'kg', value: { defined: true, value } });
+  it('writes kilos, and from one tonne up the tonnes too', () => {
+    expect(formatDerived(kg(377500))).toBe('377\u00a0500 kg (377,5 tonna)');
+    expect(formatDerived(kg(120000))).toBe('120\u00a0000 kg (120 tonna)');
+    expect(formatDerived(kg(750))).toBe('750 kg');
+  });
+  it('keeps another unit as it is and shows an undefined value with its reason', () => {
+    expect(formatDerived({ id: 'x', label: 'x', unit: 'm', value: { defined: true, value: 12 } })).toBe('12 m');
+    expect(formatDerived({ id: 'x', label: 'x', unit: 'kg', value: { defined: false, reason: { code: 'c', args: [], text: 'nincs megadva' } } })).toContain('Nem meghatározott');
+  });
+});
 
 describe('formatStrength', () => {
   const base = { infinitePower: false, powerUnit: 'E' };

@@ -45,6 +45,8 @@ export interface MosaicsResponse { mosaics: Mosaic[]; versions: Record<string, s
 /** One mosaic in the current spell, as sent to the backend. */
 export interface Selection { mosaicId: string; inputs: Record<string, unknown>; k: number; options: string[]; extraMp: number; }
 
+/** A value the engine calculated for a mosaic besides its cost (for example the capacity of a Térkapu in kg). */
+export interface DerivedValue { id: string; label: string; unit: string; value: Maybe<number>; }
 /** One part of the casting time of a mosaic: its own time, the extra time of a ticked option, or what a modifier adds. */
 export interface CastingPart { kind: 'OWN' | 'OPTION' | 'MODIFIER'; label?: string | null; time: Maybe<TimeValue>; }
 export interface MosaicResult {
@@ -52,6 +54,7 @@ export interface MosaicResult {
   mp: Maybe<Fraction>; e: Maybe<number>; powerUnit: string; effect: Maybe<string>;
   resistance: Maybe<Resistance>; castingTime: Maybe<TimeValue>; duration: Maybe<TimeValue>;
   castingParts?: CastingPart[];
+  derived?: DerivedValue[];
   /** The strength is infinite (e is then undefined). */
   infinitePower?: boolean;
   /** A wrapper mosaic (for example a Végrehajtó varázskör) is in the spell: this mosaic's time and MP are part of the wrapper's. */

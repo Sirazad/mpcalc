@@ -88,6 +88,9 @@
                 <dl>
                   <dt>{{ T.spell.mp }}</dt><dd data-testid="mosaic-mp">{{ mp(m) }}</dd>
                   <dt>{{ T.spell.e }}</dt><dd>{{ e(m) }}</dd>
+                  @for (d of m.derived ?? []; track d.id) {
+                    <dt>{{ d.label }}</dt><dd [attr.data-testid]="'derived-' + d.id">{{ derived(d) }}</dd>
+                  }
                   <dt>{{ T.spell.effect }}</dt><dd class="effect">{{ effect(m, $index) }}</dd>
                   <dt>{{ T.spell.resistance }}</dt><dd>{{ resistance(m) }}</dd>
                   <dt>{{ T.spell.castingTime }}</dt><dd>{{ casting(m) }}</dd>

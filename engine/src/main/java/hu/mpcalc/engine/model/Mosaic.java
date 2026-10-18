@@ -23,6 +23,8 @@ public class Mosaic {
     public Modifier modifier;
     public List<Option> options = List.of();
     public List<Input> inputs = List.of();
+    /** Values calculated for the page, for example the capacity of a Térkapu in kg. */
+    public List<Derived> derived = List.of();
     public String effect;
     public String source;
 }

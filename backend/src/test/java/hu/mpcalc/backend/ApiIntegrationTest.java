@@ -516,6 +516,27 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void theTerkapuCostsItsSizeTimesItsBaseAndShowsItsCapacity() throws Exception {
+        MockHttpSession s = login("t-" + UUID.randomUUID());
+        long id = newCharacter(s, 500, "{\"ter\":3}");
+        String body = "{\"characterId\":" + id + ",\"selections\":[{\"mosaicId\":\"ter-terkapu\",\"inputs\":{\"size\":3},\"k\":10}]%s}";
+        JsonNode r = json(send(post("/calculate"), s, body.formatted(""), 200));
+        assertTrue(r.get("valid").asBoolean(), r.toString());
+        assertEquals(214, r.at("/totalMp/value/numerator").asInt() / Math.max(1, r.at("/totalMp/value/denominator").asInt()), "3 x 68 + 10");
+        JsonNode capacity = r.at("/mosaics/0/derived/0");
+        assertEquals("Áteresztőképesség", capacity.get("label").asText());
+        assertEquals("kg", capacity.get("unit").asText());
+        assertEquals(377500, capacity.at("/value/value").asInt(), "3 x 120 t + 10 x 1750 kg");
+        JsonNode via = json(send(post("/calculate"), s, body.formatted(",\"viaZoneSign\":true"), 200));
+        assertEquals(219, via.at("/totalMp/value/numerator").asInt() / Math.max(1, via.at("/totalMp/value/denominator").asInt()));
+        assertEquals(377500, via.at("/mosaics/0/derived/0/value/value").asInt(), "the zone sign's 5 MP is not spent on the gate");
+        assertTrue(r.at("/mosaics/0/effect/value").asText().startsWith("A térkapun összesen legfeljebb 120 tonna anyag juthat át"));
+        // the size must be a whole number of at least 1
+        String bad = body.formatted("").replace("\"size\":3", "\"size\":0");
+        assertFalse(json(send(post("/calculate"), s, bad, 200)).get("valid").asBoolean());
+    }
+
+    @Test
     void formsCarryTheirRegenerationTimeAsText() throws Exception {
         MockHttpSession s = login("f-" + UUID.randomUUID());
         java.util.Map<String, JsonNode> byId = new java.util.HashMap<>();

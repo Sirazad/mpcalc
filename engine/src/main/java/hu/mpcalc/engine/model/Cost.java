@@ -32,7 +32,7 @@ public class Cost {
     /** linear: MP = baseMp + mpPerUnit for every unit of the number input `input` above freeUnits. */
     public BigDecimal freeUnits;
     public BigDecimal mpPerUnit;
-    /** perMass: a whole-number input the weight cost is multiplied by (the speed of a Forgás varázsjel). */
+    /** flat and perMass: a whole-number input the cost is multiplied by (the speed of a Forgás varázsjel, the size of a Térkapu). */
     public String multiplierInput;
     public static class Row { public BigDecimal fromM; public BigDecimal toM; public BigDecimal mp; }
 }

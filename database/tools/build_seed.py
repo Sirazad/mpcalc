@@ -815,6 +815,20 @@ reference_texts = [
     {"id": "materials.touching", "text": "Lehet egyben kimondani varázslatot az érintkező tárgyakra.", "source": P10B},
 ]
 
+# Térkapu (user, 2026-10-18): a capacity of matter that can pass, a size multiplier, extra MP for capacity; the capacity is shown as a derived value.
+T_TERKAPU = (
+    "A térkapun összesen legfeljebb 120 tonna anyag juthat át, bármi lehet: szél, víz, láva, emberek. Amint átment a teljes áteresztőképesség, a kapu azonnal megszűnik; "
+    "ha ez nem történik meg előbb, 3 perc után szűnik meg.\n\n"
+    "A kapu mérete a MP duplázásával duplázódik, triplázásával triplázódik, és az áteresztőképessége vele együtt nő. Az áteresztőképesség = (a ráfordított MP − a növelésre fordított MP) ÷ 68 × 120 tonna "
+    "+ a növelésre fordított MP × 1750 kg. A növelésre fordított MP-t a kapu első megnyitásakor lehet hozzáadni.")
+for m in ter:
+    if m["id"] == "ter-terkapu":
+        m["cost"] = {"pattern": "flat", "baseMp": 68, "multiplierInput": "size"}
+        m["inputs"] = [number_input("size", "Méret (szorzó)", "×", integer=True, minimum=1)]
+        m["derived"] = [{"id": "capacityKg", "label": "Áteresztőképesség", "unit": "kg",
+                         "terms": [{"input": "size", "perUnit": 120000}, {"steps": True, "perStep": 1750}]}]
+        m["effect"] = T_TERKAPU
+
 for fname, data in [("alapvarazslatok.json", alap), ("ter.json", ter), ("mental.json", mental),
                     ("asztral.json", asztral), ("ido.json", ido), ("nekromancia.json", nekro),
                     ("anyagi.json", anyagi), ("forms.json", forms), ("material_groups.json", groups),

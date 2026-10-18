@@ -3,7 +3,7 @@
   <groupId>hu.mpcalc</groupId>
   <artifactId>mpcalc-engine</artifactId>
   <versioning>
-    <lastUpdated>20261017031430</lastUpdated>
+    <lastUpdated>20261018134251</lastUpdated>
     <snapshot>
       <localCopy>true</localCopy>
     </snapshot>
@@ -11,12 +11,12 @@
       <snapshotVersion>
         <extension>jar</extension>
         <value>0.1.0-SNAPSHOT</value>
-        <updated>20261017031430</updated>
+        <updated>20261018134251</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
         <value>0.1.0-SNAPSHOT</value>
-        <updated>20261017031430</updated>
+        <updated>20261018134251</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

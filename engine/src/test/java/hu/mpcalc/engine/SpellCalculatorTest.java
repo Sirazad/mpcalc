@@ -304,6 +304,39 @@ class SpellCalculatorTest {
         assertEquals("1 kor", plain.castingTime().value().toString());
     }
 
+    // ---- Térkapu (user, 2026-10-18): size multiplier, extra MP for capacity, capacity as a derived value
+    private SpellResult gate(String size, int extraMp, boolean viaZone) {
+        SpellRequest rq = new SpellRequest(List.of(Selection.of(mosaic("/terkapu.json")).withInputs(Map.of("size", j(size))).withK(extraMp)), ch(900, "ter", 3), forms, false, viaZone);
+        return calc.calculate(rq);
+    }
+    private static BigDecimal capacity(SpellResult r) { return r.mosaics().get(0).derived().get(0).value().value(); }
+
+    @Test void aTerkapuCostsItsBaseTimesTheSizePlusTheExtraMpAndItsCapacityFollows() {
+        Object[][] cases = {   // size, extra MP, total MP, capacity in kg
+                {"1", 0, 68, 120000}, {"1", 10, 78, 137500}, {"3", 0, 204, 360000}, {"3", 10, 214, 377500}, {"2", 5, 141, 248750}};
+        for (Object[] c : cases) {
+            SpellResult r = gate((String) c[0], (Integer) c[1], false);
+            assertTrue(r.valid(), r.errors().toString());
+            assertEquals(Fraction.of((Integer) c[2]), r.totalMp().value(), "size " + c[0] + ", +" + c[1] + " MP");
+            assertEquals(0, new BigDecimal((Integer) c[3]).compareTo(capacity(r)), "capacity at size " + c[0] + ", +" + c[1] + " MP: " + capacity(r));
+            assertEquals("Áteresztőképesség", r.mosaics().get(0).derived().get(0).label());
+            assertEquals("kg", r.mosaics().get(0).derived().get(0).unit());
+        }
+        assertEquals(new BigDecimal("11"), gate("3", 10, false).mosaics().get(0).e().value(), "E = 1 + the extra steps");
+    }
+
+    @Test void theSizeOfATerkapuIsAWholeNumberOfAtLeastOne() {
+        assertTrue(gate("0", 0, false).mosaics().get(0).refused());
+        assertTrue(gate("2.5", 0, false).mosaics().get(0).refused());
+        assertTrue(errorCodes(gate("2.5", 0, false)).contains("Méret"), errorCodes(gate("2.5", 0, false)));
+    }
+
+    @Test void aZoneSignAddsItsFiveMpToTheTerkapuWithoutChangingItsCapacity() {
+        SpellResult r = gate("3", 10, true);
+        assertEquals(Fraction.of(219), r.totalMp().value());
+        assertEquals(0, new BigDecimal(377500).compareTo(capacity(r)), "the +5 MP is not spent on the gate");
+    }
+
     // ---- Jelmágia, the rest of the signs (user, 2026-10-17)
     private static JsonNode comp(int massG) { return j("[{\"group\":\"I\",\"massG\":" + massG + "}]"); }
 

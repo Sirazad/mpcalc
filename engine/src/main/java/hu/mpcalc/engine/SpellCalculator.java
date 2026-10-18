@@ -27,6 +27,7 @@ public final class SpellCalculator {
         final List<CastingPart> castingParts = new ArrayList<>();
         boolean infinitePower;
         boolean includedInWrapper;
+        final List<DerivedValue> derived = new ArrayList<>();
         Maybe<TimeValue> baseDuration = Maybe.undefined(MsgCode.NOT_CALCULATED);
         Maybe<TimeValue> modDuration; // only for modifiers
         boolean isModifier() { return m.modifier != null; }
@@ -96,7 +97,8 @@ public final class SpellCalculator {
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.effect,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.resistance,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.casting, dur,
-                    ev.refused() ? List.of() : List.copyOf(ev.castingParts), ev.infinitePower, ev.includedInWrapper));
+                    ev.refused() ? List.of() : List.copyOf(ev.castingParts), ev.infinitePower, ev.includedInWrapper,
+                    ev.refused() ? List.of() : List.copyOf(ev.derived)));
         }
 
         Set<Msg> warnings = new LinkedHashSet<>();
@@ -228,6 +230,21 @@ public final class SpellCalculator {
         else if (s.k() > 0 && m.power.step.e == null) ev.e = Maybe.undefined(MsgCode.STEP_E_UNDEFINED);
         else ev.e = Maybe.of(m.power.baseE.add(m.power.step == null || s.k() == 0 ? BigDecimal.ZERO : m.power.step.e.multiply(BigDecimal.valueOf(s.k()))));
 
+        // derived values (for example the capacity of a Térkapu in kg): inputs and power steps times their rates
+        for (Derived d : m.derived) {
+            BigDecimal sum = BigDecimal.ZERO; Msg why = null;
+            for (Derived.Term t : d.terms) {
+                if (t.input != null) {
+                    JsonNode v = s.inputs().get(t.input);
+                    if (v == null || !v.isNumber() || t.perUnit == null) { why = Msg.of(MsgCode.LOOKUP_INPUT_MISSING); break; }
+                    sum = sum.add(v.decimalValue().multiply(t.perUnit));
+                } else if (Boolean.TRUE.equals(t.steps) && t.perStep != null) {
+                    sum = sum.add(BigDecimal.valueOf(s.k()).multiply(t.perStep));
+                }
+            }
+            ev.derived.add(new DerivedValue(d.id, d.label, d.unit, why == null ? Maybe.of(sum) : Maybe.undefined(why)));
+        }
+
         // effect, resistance
         ev.effect = (m.effect == null || m.effect.isBlank() || missing.contains("effect")) ? Maybe.undefined(MsgCode.EFFECT_NOT_DEFINED) : Maybe.of(m.effect);
         ev.resistance = (m.resistance == null || m.resistance.kind == null || m.resistance.kind.equals("undefined") || missing.contains("resistance"))
@@ -348,8 +365,13 @@ public final class SpellCalculator {
         Cost c = ev.m.cost;
         if (c == null || c.pattern == null) return Maybe.undefined(MsgCode.NO_COST_DATA);
         switch (c.pattern) {
-            case "flat":
-                return c.baseMp == null ? Maybe.undefined(MsgCode.BASE_MP_UNDEFINED) : Maybe.of(Fraction.of(c.baseMp));
+            case "flat": {
+                if (c.baseMp == null) return Maybe.undefined(MsgCode.BASE_MP_UNDEFINED);
+                Fraction base = Fraction.of(c.baseMp);
+                if (c.multiplierInput == null) return Maybe.of(base);
+                JsonNode n = ev.sel.inputs().get(c.multiplierInput);   // for example the size of a Térkapu: the base MP times a whole number
+                return n != null && n.isNumber() ? Maybe.of(base.multiply(Fraction.of(n.decimalValue()))) : Maybe.undefined(MsgCode.LOOKUP_INPUT_MISSING);
+            }
             case "perMass": return perMass(ev, c);
             case "compositionPerMass": return compositionPerMass(ev, c);
             case "compositionGrid":
