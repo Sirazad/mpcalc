@@ -77,7 +77,7 @@
 
   @if (power(); as p) {
     <div class="power">
-      <span>{{ T.builder.power }}: <strong data-testid="power-e">{{ p.value }} {{ p.unit }}</strong></span>
+      <span>{{ T.builder.power }}: <strong data-testid="power-e">{{ p.infinite ? T.spell.infinite : p.value + ' ' + p.unit }}</strong></span>
       @if (canRaisePower()) {
         <button mat-stroked-button type="button" (click)="step(-1)" [disabled]="k() === 0" data-testid="k-down">−</button>
         <span>{{ T.builder.powerStep }}: <strong data-testid="k-value">{{ k() }}</strong></span>

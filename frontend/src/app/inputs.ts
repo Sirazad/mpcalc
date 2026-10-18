@@ -57,9 +57,10 @@ export function toSelection(m: Mosaic, values: InputValues, k: number, options: 
 }
 
 /** E of the chosen power step, from the mosaic's power data (the format document: the page generates E choices from `power`). */
-export function powerAt(m: Mosaic, k: number): { value: number; unit: string } | null {
+export function powerAt(m: Mosaic, k: number): { value: number | null; unit: string; infinite: boolean } | null {
   if (!m.power) return null;
-  return { value: m.power.baseE + (m.power.step ? k * m.power.step.e : 0), unit: m.power.unit };
+  if (m.power.infinite) return { value: null, unit: m.power.unit, infinite: true };   // an infinite strength has no number
+  return { value: (m.power.baseE ?? 0) + (m.power.step ? k * m.power.step.e : 0), unit: m.power.unit, infinite: false };
 }
 
 /** Schools of the mosaics the character may use, in the order of the schools list. */

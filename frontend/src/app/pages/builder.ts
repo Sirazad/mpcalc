@@ -9,10 +9,10 @@ import { LoadDialog } from '../dialogs/load-dialog';
 import { OverspendDialog } from '../dialogs/overspend-dialog';
 import { SaveDialog } from '../dialogs/save-dialog';
 import { ValidateDialog } from '../dialogs/validate-dialog';
-import { formatFraction, formatMaybe, formatNumber, formatResistance, formatTime } from '../format';
+import { formatDerived, formatFraction, formatMaybe, formatNumber, formatResistance, formatStrength, formatTime } from '../format';
 import { castingBreakdown } from '../casting';
 import { DetailItem, chosenDescription, describeSelection } from '../inputs';
-import { Mosaic, MosaicResult, SavedSpell, Selection } from '../models';
+import { DerivedValue, Mosaic, MosaicResult, SavedSpell, Selection } from '../models';
 import { SessionStore } from '../session.store';
 import { ChatBox } from '../shared/chat-box';
 import { MosaicForm } from '../shared/mosaic-form';
@@ -121,7 +121,8 @@ export class Builder {
 
   // Text of backend values for the spell panel.
   protected mp(m: MosaicResult) { return formatMaybe(m.mp, formatFraction); }
-  protected e(m: MosaicResult) { return m.infinitePower ? T.spell.infinite : formatMaybe(m.e, (v) => `${formatNumber(v)} ${m.powerUnit}`); }
+  protected e(m: MosaicResult) { return formatStrength(m); }
+  protected derived(d: DerivedValue) { return formatDerived(d); }
   /** The effect text of the mosaic; when it has none, the description of the chosen value (Őselem idézése: the element). */
   protected effect(m: MosaicResult, index: number) {
     const sel = this.spell.selections()[index];

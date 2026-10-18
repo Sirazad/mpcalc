@@ -1,4 +1,4 @@
-import { Fraction, Maybe, Resistance, School, TimeValue } from './models';
+import { DerivedValue, Fraction, Maybe, MosaicResult, Resistance, School, TimeValue } from './models';
 import { T } from './texts.hu';
 
 const UNIT_ORDER = ['ev', 'nap', 'ora', 'perc', 'kor', 'sz'];
@@ -47,6 +47,18 @@ export function formatResistance(r: Resistance, schools: School[]): string {
     return `Iskola: ${name}`;
   }
   return RESISTANCE_NAMES[r.kind] ?? r.kind;
+}
+
+/** The strength of a mosaic in the spell: végtelen, nincs (the mosaic has none), or the number with its unit. */
+export function formatStrength(m: Pick<MosaicResult, 'e' | 'infinitePower' | 'powerUnit'>): string {
+  if (m.infinitePower) return T.spell.infinite;
+  if (!m.e.defined && m.e.reason?.code === 'engine.reason.noE') return T.spell.noStrength;
+  return formatMaybe(m.e, (v) => `${formatNumber(v)} ${m.powerUnit}`);
+}
+
+/** A calculated value of a mosaic: kilos as kilos and, from one tonne up, in tonnes too ("377 500 kg (377,5 tonna)"). */
+export function formatDerived(d: DerivedValue): string {
+  return formatMaybe(d.value, (v) => (d.unit === 'kg' && v >= 1000 ? `${formatNumber(v)} kg (${formatNumber(v / 1000)} tonna)` : `${formatNumber(v)} ${d.unit}`));
 }
 
 /** A value that may be undefined: the text, or "Nem meghatározott" with the engine's reason. */

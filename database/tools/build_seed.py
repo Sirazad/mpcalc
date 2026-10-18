@@ -595,7 +595,7 @@ def creature_input():
             "labels": {k: v[0] for k, v in CREATURE_CLASSES.items()}}
 
 def effect_type_input():
-    return {"id": "effectType", "label": "Hatás", "type": "choice", "values": list(EFFECT_TYPES),
+    return {"id": "effectType", "label": "Hatás típusa", "type": "choice", "values": list(EFFECT_TYPES),
             "labels": {k: v[0] for k, v in EFFECT_TYPES.items()},
             "requires": {k: [{"school": s, "tier": t} for s, t in v[1]] for k, v in EFFECT_TYPES.items()}}
 
@@ -708,6 +708,11 @@ T_FELRUHAZAS_BELYEG = STAMP_BLOCK + "\n\nHárom fajtája ismeretes: értelemmel,
 T_PENTAGRAMMA = ("A pentagramma ötágú csillag, melyet a varázsló olykor csúcsait érintő körbe foglal. Méretére jellemző, hogy ennek a körnek – akár létezik, akár csak képzeletbeli – "
                  "legalább egy lépésnyi átmérőjűnek kell lennie.")
 
+T_IDEZO_PENTAGRAMMA = ("A pentagramma leggyakrabban az idézésekhez használatos. Ilyenkor a varázsló litániát kántál, a megidézett ennek végeztével jelenik meg. "
+                       "A litánia hossza az idézett teremtmény nekrográfiabeli besorolásától függ, ahogyan az is, hogy mennyi MP szükséges az idézéshez. "
+                       "Az MP a litánia elmondásakor használódik fel. A pentagrammába mágikus rúnákkal bele kell írni a megidézni kívánt lény megnevezését. "
+                       "A részletek a többletpontokról és a lényekről a Nekromancia résznél találhatók.")
+
 WRAP_NATURAL = [{"school": "anyagi", "subgroup": "termeszetes", "label": "Természetes anyagi mágia"}]
 WRAP_ASZTRAL = [{"school": "asztral", "label": "Asztrál mágia"}]
 WRAP_MENTAL = [{"school": "mental", "label": "Mentál mágia"}]
@@ -731,7 +736,7 @@ def req(school, tier):
     return [{"school": school, "tier": tier}]
 
 AURA_TYPES = {"asztral": ("Asztrálmágia", "asztral"), "mental": ("Mentálmágia", "mental")}
-aura_input = {"id": "effectType", "label": "Hatás", "type": "choice", "values": list(AURA_TYPES),
+aura_input = {"id": "effectType", "label": "Hatás típusa", "type": "choice", "values": list(AURA_TYPES),
               "labels": {k: v[0] for k, v in AURA_TYPES.items()},
               "requires": {k: req(v[1], 2) for k, v in AURA_TYPES.items()}}
 variant_input = {"id": "variant", "label": "Válfaj", "type": "choice", "values": ["touch", "pass"],
@@ -791,9 +796,9 @@ jel += [
     sign("jel-belyeg-felruhazas", "Felruházás bélyege", "belyegek", T_FELRUHAZAS_BELYEG, cast("drawing", perc=5), UNDEF_COST, pw=dict(INFINITE),
          inputs=[felruhazas_input], requires=req("nekromancia", 3), rng={"kind": "body"}, missing=["cost"]),
     # ---- pentagrammák (lines 26, 27): only a name and a requirement in the source: incomplete
-    sign("jel-pentagramma-idezo", "Idéző pentagramma", "pentagrammak", T_PENTAGRAMMA, UNDEF_CAST("drawing"), UNDEF_COST,
+    sign("jel-pentagramma-idezo", "Idéző pentagramma", "pentagrammak", T_PENTAGRAMMA + "\n\n" + T_IDEZO_PENTAGRAMMA, cast("drawing", perc=30), flat(40),
          requires=req("nekromancia", 2), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
-         missing=["cost", "castingTime", "duration", "resistance", "power"]),
+         missing=["duration", "resistance", "power"]),
     sign("jel-pentagramma-terkapu", "Térkapu pentagramma", "pentagrammak", T_PENTAGRAMMA, UNDEF_CAST("drawing"), UNDEF_COST,
          requires=req("ter", 3), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
          missing=["cost", "castingTime", "duration", "resistance", "power"]),
@@ -814,6 +819,22 @@ reference_texts = [
     {"id": "materials.magical", "text": "Mágikus anyagok: Mithrill, abbitacél, drágakövek.", "source": P10B},
     {"id": "materials.touching", "text": "Lehet egyben kimondani varázslatot az érintkező tárgyakra.", "source": P10B},
 ]
+
+# Térkapu (user, 2026-10-18): a capacity of matter that can pass, a size multiplier, extra MP for capacity; the capacity is shown as a derived value.
+T_TERKAPU = (
+    "A térkapun összesen legfeljebb 120 tonna anyag juthat át, bármi lehet: szél, víz, láva, emberek. Amint átment a teljes áteresztőképesség, a kapu azonnal megszűnik; "
+    "ha ez nem történik meg előbb, 3 perc után szűnik meg.\n\n"
+    "A kapu mérete 3 × 3 méter, és a 68 MP minden további többszörösével 3 méterrel nő mindkét irányban (2 × 68 MP: 6 × 6 m, 3 × 68 MP: 9 × 9 m). "
+    "Az áteresztőképesség a mérettől független: 120 tonna, és a növelésre fordított minden további MP 1750 kg-mal növeli. "
+    "A növelésre fordított MP-t a kapu első megnyitásakor lehet hozzáadni.")
+for m in ter:
+    if m["id"] == "ter-terkapu":
+        m["cost"] = {"pattern": "flat", "baseMp": 68, "multiplierInput": "size"}
+        m["inputs"] = [number_input("size", "Méret (szorzó)", "×", integer=True, minimum=1)]
+        m["derived"] = [{"id": "capacityKg", "label": "Áteresztőképesség", "unit": "kg",
+                         "terms": [{"constant": 120000}, {"steps": True, "perStep": 1750}]},
+                        {"id": "sideM", "label": "Méret (a × a)", "unit": "m", "terms": [{"input": "size", "perUnit": 3}]}]
+        m["effect"] = T_TERKAPU
 
 for fname, data in [("alapvarazslatok.json", alap), ("ter.json", ter), ("mental.json", mental),
                     ("asztral.json", asztral), ("ido.json", ido), ("nekromancia.json", nekro),

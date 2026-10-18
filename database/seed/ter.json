@@ -211,10 +211,48 @@
     },
     "cost": {
       "pattern": "flat",
-      "baseMp": 68
+      "baseMp": 68,
+      "multiplierInput": "size"
     },
-    "inputs": [],
-    "source": "Part 3"
+    "inputs": [
+      {
+        "id": "size",
+        "label": "Méret (szorzó)",
+        "type": "number",
+        "unit": "×",
+        "integer": true,
+        "min": 1
+      }
+    ],
+    "source": "Part 3",
+    "derived": [
+      {
+        "id": "capacityKg",
+        "label": "Áteresztőképesség",
+        "unit": "kg",
+        "terms": [
+          {
+            "constant": 120000
+          },
+          {
+            "steps": true,
+            "perStep": 1750
+          }
+        ]
+      },
+      {
+        "id": "sideM",
+        "label": "Méret (a × a)",
+        "unit": "m",
+        "terms": [
+          {
+            "input": "size",
+            "perUnit": 3
+          }
+        ]
+      }
+    ],
+    "effect": "A térkapun összesen legfeljebb 120 tonna anyag juthat át, bármi lehet: szél, víz, láva, emberek. Amint átment a teljes áteresztőképesség, a kapu azonnal megszűnik; ha ez nem történik meg előbb, 3 perc után szűnik meg.\n\nA kapu mérete 3 × 3 méter, és a 68 MP minden további többszörösével 3 méterrel nő mindkét irányban (2 × 68 MP: 6 × 6 m, 3 × 68 MP: 9 × 9 m). Az áteresztőképesség a mérettől független: 120 tonna, és a növelésre fordított minden további MP 1750 kg-mal növeli. A növelésre fordított MP-t a kapu első megnyitásakor lehet hozzáadni."
   },
   {
     "id": "ter-terzavaras",

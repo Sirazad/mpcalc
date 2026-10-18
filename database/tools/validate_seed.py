@@ -22,7 +22,7 @@ PATTERNS = ("flat", "perMass", "compositionPerMass", "compositionGrid", "lookup"
 INPUT_TYPES = ("choice", "number", "form", "composition", "text")
 FIELDS = ["id", "name", "school", "tier", "status", "castingTime", "duration", "range", "resistance",
           "power", "cost", "inputs", "source"]
-OPTIONAL = {"subgroup", "modifier", "options", "effect", "requires"}
+OPTIONAL = {"subgroup", "modifier", "options", "effect", "requires", "derived"}
 TOP_FIELDS = set(FIELDS) | OPTIONAL
 TIER_MIN, TIER_MAX = 0, 5  # user decision: tier range 0 to 5 (basic magic = 0)
 
@@ -69,7 +69,7 @@ def check_cost(w, c, d):
                "lookup": {"pattern", "input", "table"}, "perChoice": {"pattern", "input", "mpByValue"},
                "wrapper": {"pattern", "baseMp", "factor"}, "linear": {"pattern", "input", "baseMp", "freeUnits", "mpPerUnit"},
                "undefined": {"pattern"}}[p]
-    if p == "perMass":
+    if p in ("perMass", "flat"):
         allowed = allowed | ({"multiplierInput"} & set(c))
     if p == "wrapper":
         allowed = allowed | ({"wraps", "keepsDuration", "innerE"} & set(c))
@@ -102,7 +102,7 @@ def check_cost(w, c, d):
             err(w, "perChoice input must be a choice input of the mosaic")
         elif set(c["mpByValue"]) != set(choice.get("values", [])) or not all(is_int(v, 0) for v in c["mpByValue"].values()):
             err(w, "perChoice mpByValue needs a non-negative integer for every value of the choice")
-    if p == "perMass" and "multiplierInput" in c:
+    if p in ("perMass", "flat") and "multiplierInput" in c:
         mult = next((i for i in d.get("inputs", []) if i.get("id") == c["multiplierInput"] and i.get("type") == "number"), None)
         if mult is None or mult.get("integer") is not True:
             err(w, "multiplierInput must be a whole-number input of the mosaic")
@@ -140,6 +140,29 @@ def check_cost(w, c, d):
             if prev is not None and row["fromM"] <= prev:
                 err(w, "table rows must be ascending")
             prev = row["fromM"]
+
+def check_derived(w, derived, d):
+    if not isinstance(derived, list) or not derived:
+        return err(w, "derived must be a non-empty list")
+    for x in derived:
+        if not (isinstance(x, dict) and set(x) == {"id", "label", "unit", "terms"} and all(isinstance(x[k], str) and x[k] for k in ("id", "label", "unit"))
+                and isinstance(x["terms"], list) and x["terms"]):
+            err(w, f"bad derived value {x.get('id') if isinstance(x, dict) else x}")
+            continue
+        for t in x["terms"]:
+            if isinstance(t, dict) and set(t) == {"input", "perUnit"}:
+                inp = next((i for i in d.get("inputs", []) if i.get("id") == t["input"] and i.get("type") == "number"), None)
+                if inp is None or not isinstance(t["perUnit"], (int, float)) or t["perUnit"] <= 0:
+                    err(w, f"derived {x['id']}: a term needs a number input of the mosaic and a positive perUnit")
+            elif isinstance(t, dict) and set(t) == {"steps", "perStep"}:
+                if t["steps"] is not True or not isinstance(t["perStep"], (int, float)) or t["perStep"] <= 0 \
+                        or not (isinstance(d.get("power"), dict) and d["power"].get("step")):
+                    err(w, f"derived {x['id']}: a steps term needs a power with steps and a positive perStep")
+            elif isinstance(t, dict) and set(t) == {"constant"}:
+                if not isinstance(t["constant"], (int, float)) or t["constant"] <= 0:
+                    err(w, f"derived {x['id']}: a constant term needs a positive number")
+            else:
+                err(w, f"derived {x['id']}: bad term {t}")
 
 def check_requires(w, reqs, own_school):
     if not isinstance(reqs, list):
@@ -245,6 +268,8 @@ def check_mosaic(fname, d):
         elif p["step"] is not None and not (isinstance(p["step"], dict) and set(p["step"]) == {"mp", "e"}
                                             and is_int(p["step"]["mp"], 1) and is_int(p["step"]["e"], 1)):
             err(w, "bad power step")
+    if "derived" in d:
+        check_derived(w + ".derived", d["derived"], d)
     # requires: tiers needed in other schools
     check_requires(w + ".requires", d.get("requires", []), d["school"])
     for i in d.get("inputs", []):

@@ -27,6 +27,7 @@ public final class SpellCalculator {
         final List<CastingPart> castingParts = new ArrayList<>();
         boolean infinitePower;
         boolean includedInWrapper;
+        final List<DerivedValue> derived = new ArrayList<>();
         Maybe<TimeValue> baseDuration = Maybe.undefined(MsgCode.NOT_CALCULATED);
         Maybe<TimeValue> modDuration; // only for modifiers
         boolean isModifier() { return m.modifier != null; }
@@ -96,7 +97,8 @@ public final class SpellCalculator {
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.effect,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.resistance,
                     ev.refused() ? Maybe.undefined(MsgCode.MOSAIC_REFUSED) : ev.casting, dur,
-                    ev.refused() ? List.of() : List.copyOf(ev.castingParts), ev.infinitePower, ev.includedInWrapper));
+                    ev.refused() ? List.of() : List.copyOf(ev.castingParts), ev.infinitePower, ev.includedInWrapper,
+                    ev.refused() ? List.of() : List.copyOf(ev.derived)));
         }
 
         Set<Msg> warnings = new LinkedHashSet<>();
@@ -228,6 +230,23 @@ public final class SpellCalculator {
         else if (s.k() > 0 && m.power.step.e == null) ev.e = Maybe.undefined(MsgCode.STEP_E_UNDEFINED);
         else ev.e = Maybe.of(m.power.baseE.add(m.power.step == null || s.k() == 0 ? BigDecimal.ZERO : m.power.step.e.multiply(BigDecimal.valueOf(s.k()))));
 
+        // derived values (for example the capacity of a Térkapu in kg): inputs and power steps times their rates
+        for (Derived d : m.derived) {
+            BigDecimal sum = BigDecimal.ZERO; Msg why = null;
+            for (Derived.Term t : d.terms) {
+                if (t.input != null) {
+                    JsonNode v = s.inputs().get(t.input);
+                    if (v == null || !v.isNumber() || t.perUnit == null) { why = Msg.of(MsgCode.LOOKUP_INPUT_MISSING); break; }
+                    sum = sum.add(v.decimalValue().multiply(t.perUnit));
+                } else if (t.constant != null) {
+                    sum = sum.add(t.constant);
+                } else if (Boolean.TRUE.equals(t.steps) && t.perStep != null) {
+                    sum = sum.add(BigDecimal.valueOf(s.k()).multiply(t.perStep));
+                }
+            }
+            ev.derived.add(new DerivedValue(d.id, d.label, d.unit, why == null ? Maybe.of(sum) : Maybe.undefined(why)));
+        }
+
         // effect, resistance
         ev.effect = (m.effect == null || m.effect.isBlank() || missing.contains("effect")) ? Maybe.undefined(MsgCode.EFFECT_NOT_DEFINED) : Maybe.of(m.effect);
         ev.resistance = (m.resistance == null || m.resistance.kind == null || m.resistance.kind.equals("undefined") || missing.contains("resistance"))
@@ -291,6 +310,9 @@ public final class SpellCalculator {
         }
     }
 
+    /** How an input is named in a message: its label (what the player sees), or its id when it has none. */
+    private static String name(Input in) { return in.label != null && !in.label.isBlank() ? in.label : in.id; }
+
     private void validateInputs(Eval ev, SpellRequest req) {
         Mosaic m = ev.m; Map<String, JsonNode> given = ev.sel.inputs();
         Set<String> ids = new HashSet<>();
@@ -299,24 +321,24 @@ public final class SpellCalculator {
         for (Input in : m.inputs) {
             JsonNode v = given.get(in.id);
             if (v == null || v.isNull()) {
-                if (!"text".equals(in.type)) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_MISSING, in.id));
+                if (!"text".equals(in.type)) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_MISSING, name(in)));
                 continue;
             }
             switch (in.type == null ? "" : in.type) {
                 case "choice" -> {
-                    if (!v.isTextual() || in.values == null || !in.values.contains(v.asText())) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_VALUE_NOT_ALLOWED, in.id));
+                    if (!v.isTextual() || in.values == null || !in.values.contains(v.asText())) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_VALUE_NOT_ALLOWED, name(in)));
                     else if (in.requires != null) checkRequirements(ev, req, in.requires.get(v.asText()));   // what the chosen value needs
                 }
                 case "number" -> {
-                    if (!v.isNumber() || v.decimalValue().signum() < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_A_NUMBER, in.id));
-                    else if (Boolean.TRUE.equals(in.integer) && v.decimalValue().stripTrailingZeros().scale() > 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_WHOLE, in.id));
-                    else if (in.min != null && v.decimalValue().compareTo(in.min) < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_BELOW_MIN, in.id, in.min.stripTrailingZeros().toPlainString()));
+                    if (!v.isNumber() || v.decimalValue().signum() < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_A_NUMBER, name(in)));
+                    else if (Boolean.TRUE.equals(in.integer) && v.decimalValue().stripTrailingZeros().scale() > 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_WHOLE, name(in)));
+                    else if (in.min != null && v.decimalValue().compareTo(in.min) < 0) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_BELOW_MIN, name(in), in.min.stripTrailingZeros().toPlainString()));
                 }
-                case "text" -> { if (!v.isTextual()) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_TEXT, in.id)); }
+                case "text" -> { if (!v.isTextual()) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_NOT_TEXT, name(in))); }
                 case "form" -> {
                     Form f = null;
                     if (v.isTextual()) for (Form x : req.forms()) if (x.id.equals(v.asText())) f = x;
-                    if (f == null) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_FORM, in.id));
+                    if (f == null) ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_FORM, name(in)));
                     else {
                         int have = m.school == null ? 0 : req.character().tiers.getOrDefault(m.school, 0);
                         if (f.tier == null) ev.errors.add(Msg.of(MsgCode.ERR_FORM_NO_TIER, f.id));
@@ -324,17 +346,17 @@ public final class SpellCalculator {
                     }
                 }
                 case "composition" -> {
-                    if (!v.isArray() || v.isEmpty()) { ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_EMPTY, in.id)); break; }
+                    if (!v.isArray() || v.isEmpty()) { ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_EMPTY, name(in))); break; }
                     Set<String> seen = new HashSet<>();
                     for (JsonNode p : v) {
                         if (!GROUPS.contains(p.path("group").asText("")) || !p.path("massG").isNumber() || p.get("massG").decimalValue().signum() < 0)
-                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_PART_INVALID, in.id));
+                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_PART_INVALID, name(in)));
                         // user decision: only a single row per material group
                         else if (!seen.add(p.get("group").asText()))
-                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_DUPLICATE_GROUP, in.id, p.get("group").asText()));
+                            ev.errors.add(Msg.of(MsgCode.ERR_COMPOSITION_DUPLICATE_GROUP, name(in), p.get("group").asText()));
                     }
                 }
-                default -> ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_TYPE, in.id, in.type));
+                default -> ev.errors.add(Msg.of(MsgCode.ERR_INPUT_UNKNOWN_TYPE, name(in), in.type));
             }
         }
     }
@@ -345,8 +367,13 @@ public final class SpellCalculator {
         Cost c = ev.m.cost;
         if (c == null || c.pattern == null) return Maybe.undefined(MsgCode.NO_COST_DATA);
         switch (c.pattern) {
-            case "flat":
-                return c.baseMp == null ? Maybe.undefined(MsgCode.BASE_MP_UNDEFINED) : Maybe.of(Fraction.of(c.baseMp));
+            case "flat": {
+                if (c.baseMp == null) return Maybe.undefined(MsgCode.BASE_MP_UNDEFINED);
+                Fraction base = Fraction.of(c.baseMp);
+                if (c.multiplierInput == null) return Maybe.of(base);
+                JsonNode n = ev.sel.inputs().get(c.multiplierInput);   // for example the size of a Térkapu: the base MP times a whole number
+                return n != null && n.isNumber() ? Maybe.of(base.multiply(Fraction.of(n.decimalValue()))) : Maybe.undefined(MsgCode.LOOKUP_INPUT_MISSING);
+            }
             case "perMass": return perMass(ev, c);
             case "compositionPerMass": return compositionPerMass(ev, c);
             case "compositionGrid":

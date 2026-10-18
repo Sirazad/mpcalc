@@ -104,6 +104,15 @@ describe('MosaicForm', () => {
     expect(input.getAttribute('step')).toBe('1');
   });
 
+  it('shows végtelen for an infinite strength, and no step buttons', async () => {
+    const circle: Mosaic = { ...oselem, inputs: [], power: { unit: 'E', baseE: null, step: null, infinite: true } };
+    const fixture = create(circle, { jelmagia: 2 });
+    await fixture.whenStable();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('[data-testid="power-e"]')?.textContent?.trim()).toBe('végtelen');
+    expect(el.querySelector('[data-testid="k-up"]')).toBeNull();
+  });
+
   it('raises the power step and emits the selection with k', async () => {
     const fixture = create({ ...oselem, inputs: [] }, { anyagi: 2 });
     await fixture.whenStable();
