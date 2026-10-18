@@ -1547,10 +1547,8 @@
     "subgroup": "pentagrammak",
     "tier": 2,
     "status": {
-      "state": "incomplete",
+      "state": "partial",
       "missing": [
-        "cost",
-        "castingTime",
         "duration",
         "resistance",
         "power"
@@ -1559,7 +1557,10 @@
     "castingTime": {
       "label": "drawing",
       "time": {
-        "kind": "undefined"
+        "kind": "time",
+        "amounts": {
+          "perc": 30
+        }
       }
     },
     "duration": {
@@ -1573,10 +1574,11 @@
     },
     "power": null,
     "cost": {
-      "pattern": "undefined"
+      "pattern": "flat",
+      "baseMp": 40
     },
     "inputs": [],
-    "effect": "A pentagramma ötágú csillag, melyet a varázsló olykor csúcsait érintő körbe foglal. Méretére jellemző, hogy ennek a körnek – akár létezik, akár csak képzeletbeli – legalább egy lépésnyi átmérőjűnek kell lennie.",
+    "effect": "A pentagramma ötágú csillag, melyet a varázsló olykor csúcsait érintő körbe foglal. Méretére jellemző, hogy ennek a körnek – akár létezik, akár csak képzeletbeli – legalább egy lépésnyi átmérőjűnek kell lennie.\n\nA pentagramma leggyakrabban az idézésekhez használatos. Ilyenkor a varázsló litániát kántál, a megidézett ennek végeztével jelenik meg. A litánia hossza az idézett teremtmény nekrográfiabeli besorolásától függ, ahogyan az is, hogy mennyi MP szükséges az idézéshez. Az MP a litánia elmondásakor használódik fel. A pentagrammába mágikus rúnákkal bele kell írni a megidézni kívánt lény megnevezését. A részletek a többletpontokról és a lényekről a Nekromancia résznél találhatók.",
     "source": "Part 14",
     "requires": [
       {

@@ -708,6 +708,11 @@ T_FELRUHAZAS_BELYEG = STAMP_BLOCK + "\n\nHárom fajtája ismeretes: értelemmel,
 T_PENTAGRAMMA = ("A pentagramma ötágú csillag, melyet a varázsló olykor csúcsait érintő körbe foglal. Méretére jellemző, hogy ennek a körnek – akár létezik, akár csak képzeletbeli – "
                  "legalább egy lépésnyi átmérőjűnek kell lennie.")
 
+T_IDEZO_PENTAGRAMMA = ("A pentagramma leggyakrabban az idézésekhez használatos. Ilyenkor a varázsló litániát kántál, a megidézett ennek végeztével jelenik meg. "
+                       "A litánia hossza az idézett teremtmény nekrográfiabeli besorolásától függ, ahogyan az is, hogy mennyi MP szükséges az idézéshez. "
+                       "Az MP a litánia elmondásakor használódik fel. A pentagrammába mágikus rúnákkal bele kell írni a megidézni kívánt lény megnevezését. "
+                       "A részletek a többletpontokról és a lényekről a Nekromancia résznél találhatók.")
+
 WRAP_NATURAL = [{"school": "anyagi", "subgroup": "termeszetes", "label": "Természetes anyagi mágia"}]
 WRAP_ASZTRAL = [{"school": "asztral", "label": "Asztrál mágia"}]
 WRAP_MENTAL = [{"school": "mental", "label": "Mentál mágia"}]
@@ -791,9 +796,9 @@ jel += [
     sign("jel-belyeg-felruhazas", "Felruházás bélyege", "belyegek", T_FELRUHAZAS_BELYEG, cast("drawing", perc=5), UNDEF_COST, pw=dict(INFINITE),
          inputs=[felruhazas_input], requires=req("nekromancia", 3), rng={"kind": "body"}, missing=["cost"]),
     # ---- pentagrammák (lines 26, 27): only a name and a requirement in the source: incomplete
-    sign("jel-pentagramma-idezo", "Idéző pentagramma", "pentagrammak", T_PENTAGRAMMA, UNDEF_CAST("drawing"), UNDEF_COST,
+    sign("jel-pentagramma-idezo", "Idéző pentagramma", "pentagrammak", T_PENTAGRAMMA + "\n\n" + T_IDEZO_PENTAGRAMMA, cast("drawing", perc=30), flat(40),
          requires=req("nekromancia", 2), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
-         missing=["cost", "castingTime", "duration", "resistance", "power"]),
+         missing=["duration", "resistance", "power"]),
     sign("jel-pentagramma-terkapu", "Térkapu pentagramma", "pentagrammak", T_PENTAGRAMMA, UNDEF_CAST("drawing"), UNDEF_COST,
          requires=req("ter", 3), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
          missing=["cost", "castingTime", "duration", "resistance", "power"]),
