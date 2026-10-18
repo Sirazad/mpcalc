@@ -1,4 +1,4 @@
-# Open questions (phase 0)
+# Open questions (phase 0) Status 2026-10-19: the items not marked RESOLVED are tracked as one Jira ticket, MAG-46 (label `question`); most look answered by the running stack but were not checked item by item.
 1. Folder names: I assumed ../backend (given), ../chat (chat service) and ./site (Angular build, overridable by FRONTEND_DIST). Correct?
 2. Does the backend expect the /api prefix, and the chat service the /chat prefix? Conservative choice: the proxy passes paths unchanged.
 3. Chat service start command: assumed `uvicorn app.main:app` (ASGI). Which framework and module path will it use?
