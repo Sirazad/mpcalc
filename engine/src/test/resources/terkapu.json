@@ -7,5 +7,6 @@
   "cost": {"pattern": "flat", "baseMp": 68, "multiplierInput": "size"},
   "inputs": [{"id": "size", "label": "Méret (szorzó)", "type": "number", "unit": "×", "integer": true, "min": 1}],
   "derived": [{"id": "capacityKg", "label": "Áteresztőképesség", "unit": "kg",
-               "terms": [{"input": "size", "perUnit": 120000}, {"steps": true, "perStep": 1750}]}],
+               "terms": [{"constant": 120000}, {"steps": true, "perStep": 1750}]},
+              {"id": "sideM", "label": "Méret (a × a)", "unit": "m", "terms": [{"input": "size", "perUnit": 3}]}],
   "source": "Part 3" }

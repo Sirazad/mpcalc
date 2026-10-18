@@ -158,6 +158,9 @@ def check_derived(w, derived, d):
                 if t["steps"] is not True or not isinstance(t["perStep"], (int, float)) or t["perStep"] <= 0 \
                         or not (isinstance(d.get("power"), dict) and d["power"].get("step")):
                     err(w, f"derived {x['id']}: a steps term needs a power with steps and a positive perStep")
+            elif isinstance(t, dict) and set(t) == {"constant"}:
+                if not isinstance(t["constant"], (int, float)) or t["constant"] <= 0:
+                    err(w, f"derived {x['id']}: a constant term needs a positive number")
             else:
                 err(w, f"derived {x['id']}: bad term {t}")
 

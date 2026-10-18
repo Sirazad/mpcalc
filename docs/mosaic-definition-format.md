@@ -97,7 +97,7 @@ The power box is not listed here: the page generates it from `power` (E choices 
 
 ### 6d. Derived values and the cost multiplier (the Térkapu, 2026-10-18)
 
-- **`derived`** (optional, a list): values the engine calculates for the page, not costs. Each is `{id, label, unit, terms}`; the value is the sum of the terms. A term is `{input, perUnit}` (the value of a number input of the mosaic times perUnit) or `{steps: true, perStep}` (the number of power steps times perStep; the mosaic needs a power with steps). The result carries `derived: [{id, label, unit, value}]`; the page shows the label and the value (kilos from 1000 kg on also in tonnes). Example: the capacity of a Térkapu = size x 120 000 kg + steps x 1750 kg.
+- **`derived`** (optional, a list): values the engine calculates for the page, not costs. Each is `{id, label, unit, terms}`; the value is the sum of the terms. A term is `{input, perUnit}` (the value of a number input of the mosaic times perUnit) `{steps: true, perStep}` (the number of power steps times perStep; the mosaic needs a power with steps) or `{constant}` (a fixed amount). The result carries `derived: [{id, label, unit, value}]`; the page shows the label and the value (kilos from 1000 kg on also in tonnes). Example (Térkapu, 2026-10-18): the capacity = 120 000 kg (constant, independent of the size) + steps x 1750 kg; the side of the gate in m = size x 3.
 - **Cost `flat` with `multiplierInput`**: the base MP is multiplied by a whole-number input (the size of a Térkapu: 68 MP x size). The power steps (extra MP) are added after the multiplication.
 
 ## 7. Related data (separate tables, linked by key)

@@ -824,14 +824,16 @@ reference_texts = [
 T_TERKAPU = (
     "A térkapun összesen legfeljebb 120 tonna anyag juthat át, bármi lehet: szél, víz, láva, emberek. Amint átment a teljes áteresztőképesség, a kapu azonnal megszűnik; "
     "ha ez nem történik meg előbb, 3 perc után szűnik meg.\n\n"
-    "A kapu mérete a MP duplázásával duplázódik, triplázásával triplázódik, és az áteresztőképessége vele együtt nő. Az áteresztőképesség = (a ráfordított MP − a növelésre fordított MP) ÷ 68 × 120 tonna "
-    "+ a növelésre fordított MP × 1750 kg. A növelésre fordított MP-t a kapu első megnyitásakor lehet hozzáadni.")
+    "A kapu mérete 3 × 3 méter, és a 68 MP minden további többszörösével 3 méterrel nő mindkét irányban (2 × 68 MP: 6 × 6 m, 3 × 68 MP: 9 × 9 m). "
+    "Az áteresztőképesség a mérettől független: 120 tonna, és a növelésre fordított minden további MP 1750 kg-mal növeli. "
+    "A növelésre fordított MP-t a kapu első megnyitásakor lehet hozzáadni.")
 for m in ter:
     if m["id"] == "ter-terkapu":
         m["cost"] = {"pattern": "flat", "baseMp": 68, "multiplierInput": "size"}
         m["inputs"] = [number_input("size", "Méret (szorzó)", "×", integer=True, minimum=1)]
         m["derived"] = [{"id": "capacityKg", "label": "Áteresztőképesség", "unit": "kg",
-                         "terms": [{"input": "size", "perUnit": 120000}, {"steps": True, "perStep": 1750}]}]
+                         "terms": [{"constant": 120000}, {"steps": True, "perStep": 1750}]},
+                        {"id": "sideM", "label": "Méret (a × a)", "unit": "m", "terms": [{"input": "size", "perUnit": 3}]}]
         m["effect"] = T_TERKAPU
 
 for fname, data in [("alapvarazslatok.json", alap), ("ter.json", ter), ("mental.json", mental),

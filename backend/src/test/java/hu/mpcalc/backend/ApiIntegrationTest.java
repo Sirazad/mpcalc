@@ -526,10 +526,13 @@ class ApiIntegrationTest {
         JsonNode capacity = r.at("/mosaics/0/derived/0");
         assertEquals("Áteresztőképesség", capacity.get("label").asText());
         assertEquals("kg", capacity.get("unit").asText());
-        assertEquals(377500, capacity.at("/value/value").asInt(), "3 x 120 t + 10 x 1750 kg");
+        assertEquals(137500, capacity.at("/value/value").asInt(), "120 t (not changed by the size) + 10 x 1750 kg");
+        JsonNode side = r.at("/mosaics/0/derived/1");
+        assertEquals("m", side.get("unit").asText());
+        assertEquals(9, side.at("/value/value").asInt(), "3 x 3 m per size step");
         JsonNode via = json(send(post("/calculate"), s, body.formatted(",\"viaZoneSign\":true"), 200));
         assertEquals(219, via.at("/totalMp/value/numerator").asInt() / Math.max(1, via.at("/totalMp/value/denominator").asInt()));
-        assertEquals(377500, via.at("/mosaics/0/derived/0/value/value").asInt(), "the zone sign's 5 MP is not spent on the gate");
+        assertEquals(137500, via.at("/mosaics/0/derived/0/value/value").asInt(), "the zone sign's 5 MP is not spent on the gate");
         assertTrue(r.at("/mosaics/0/effect/value").asText().startsWith("A térkapun összesen legfeljebb 120 tonna anyag juthat át"));
         // the size must be a whole number of at least 1
         String bad = body.formatted("").replace("\"size\":3", "\"size\":0");

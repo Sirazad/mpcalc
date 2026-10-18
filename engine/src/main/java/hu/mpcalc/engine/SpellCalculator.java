@@ -238,6 +238,8 @@ public final class SpellCalculator {
                     JsonNode v = s.inputs().get(t.input);
                     if (v == null || !v.isNumber() || t.perUnit == null) { why = Msg.of(MsgCode.LOOKUP_INPUT_MISSING); break; }
                     sum = sum.add(v.decimalValue().multiply(t.perUnit));
+                } else if (t.constant != null) {
+                    sum = sum.add(t.constant);
                 } else if (Boolean.TRUE.equals(t.steps) && t.perStep != null) {
                     sum = sum.add(BigDecimal.valueOf(s.k()).multiply(t.perStep));
                 }

@@ -312,8 +312,8 @@ class SpellCalculatorTest {
     private static BigDecimal capacity(SpellResult r) { return r.mosaics().get(0).derived().get(0).value().value(); }
 
     @Test void aTerkapuCostsItsBaseTimesTheSizePlusTheExtraMpAndItsCapacityFollows() {
-        Object[][] cases = {   // size, extra MP, total MP, capacity in kg
-                {"1", 0, 68, 120000}, {"1", 10, 78, 137500}, {"3", 0, 204, 360000}, {"3", 10, 214, 377500}, {"2", 5, 141, 248750}};
+        Object[][] cases = {   // size, extra MP, total MP, capacity in kg (120 t flat, not changed by the size, + 1750 kg per extra MP), side of the gate in m
+                {"1", 0, 68, 120000, 3}, {"1", 10, 78, 137500, 3}, {"2", 10, 146, 137500, 6}, {"3", 0, 204, 120000, 9}, {"3", 10, 214, 137500, 9}, {"2", 5, 141, 128750, 6}};
         for (Object[] c : cases) {
             SpellResult r = gate((String) c[0], (Integer) c[1], false);
             assertTrue(r.valid(), r.errors().toString());
@@ -321,6 +321,8 @@ class SpellCalculatorTest {
             assertEquals(0, new BigDecimal((Integer) c[3]).compareTo(capacity(r)), "capacity at size " + c[0] + ", +" + c[1] + " MP: " + capacity(r));
             assertEquals("Áteresztőképesség", r.mosaics().get(0).derived().get(0).label());
             assertEquals("kg", r.mosaics().get(0).derived().get(0).unit());
+            assertEquals(0, new BigDecimal((Integer) c[4]).compareTo(r.mosaics().get(0).derived().get(1).value().value()), "side at size " + c[0]);
+            assertEquals("m", r.mosaics().get(0).derived().get(1).unit());
         }
         assertEquals(new BigDecimal("11"), gate("3", 10, false).mosaics().get(0).e().value(), "E = 1 + the extra steps");
     }
@@ -334,7 +336,7 @@ class SpellCalculatorTest {
     @Test void aZoneSignAddsItsFiveMpToTheTerkapuWithoutChangingItsCapacity() {
         SpellResult r = gate("3", 10, true);
         assertEquals(Fraction.of(219), r.totalMp().value());
-        assertEquals(0, new BigDecimal(377500).compareTo(capacity(r)), "the +5 MP is not spent on the gate");
+        assertEquals(0, new BigDecimal(137500).compareTo(capacity(r)), "the +5 MP is not spent on the gate");
     }
 
     // ---- Jelmágia, the rest of the signs (user, 2026-10-17)
