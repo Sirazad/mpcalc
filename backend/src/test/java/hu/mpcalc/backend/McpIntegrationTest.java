@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 class McpIntegrationTest {
     static final String KEY = "test-key-for-the-mcp-tests";
     @Autowired MockMvc mvc;
+    @Autowired org.springframework.jdbc.core.JdbcTemplate jdbc;
 
     // ---- helpers
     private static JsonNode json(String s) { return EngineJson.parse(s); }
@@ -295,6 +296,28 @@ class McpIntegrationTest {
         Hero h = hero("{}", 20);
         for (String q : new String[] {"fonál & !(x)", "'; drop table notes; --", "fonál:* | <->", "\\"}) notes(h, q);
         assertEquals(1, notes(h, "mentál-fonál").size(), "the table is untouched");
+    }
+
+    @Test
+    void aNoteComesWithTheIdAndTitleOfTheNotesItIsLinkedTo() throws Exception {
+        Hero h = hero("{}", 20);
+        // two test notes that link to each other, one link to a note that is gone; removed again at the end
+        String ins = "INSERT INTO notes (id, title, category, keywords, links, text, source) VALUES (?, ?, 'magic', ?, ?, 'szöveg', 'forrás')";
+        try {
+            jdbc.update(ins, "zz-teszt-egy", "Zzteszt Egy", "zzteszt egy", "zz-teszt-ketto, zz-nincs-ilyen");
+            jdbc.update(ins, "zz-teszt-ketto", "Zzteszt Kettő", "zzteszt ketto", "zz-teszt-egy");
+            JsonNode one = notes(h, "zzteszt egy").get(0);
+            assertEquals("zz-teszt-egy", one.get("id").asText());
+            assertEquals(1, one.get("links").size(), "the link to a missing note is left out");
+            assertEquals("zz-teszt-ketto", one.at("/links/0/id").asText());
+            assertEquals("Zzteszt Kettő", one.at("/links/0/title").asText());
+            assertEquals(0, notes(h, "mentál-fonál").get(0).get("links").size(), "a note without links has an empty list");
+            // the linked note is read by searching for its title
+            assertEquals("zz-teszt-ketto", notes(h, "Zzteszt Kettő").get(0).get("id").asText());
+        } finally {
+            jdbc.update("DELETE FROM notes WHERE id LIKE 'zz-teszt-%'");
+        }
+        assertEquals(1, notes(h, "mentál-fonál").size());
     }
 
     @Test

@@ -1,6 +1,7 @@
 """Builds the notes of the chat from database/notes/*.md.
 
-A note file starts with a header between two `---` lines (id, title, category, school, keywords, source) and then the Hungarian text.
+A note file starts with a header between two `---` lines (id, title, category, school, keywords, source, links) and then the Hungarian text.
+`links` lists the ids of other notes it refers to; the reverse link is added to the other note by this script, so a link is declared in one file only.
 Writes seed/notes.json and the repeatable migration R__notes.sql (in database/migrations and in the backend), which rewrites the table
 `notes` from the files, so the files are the only place where a note is edited. Run from database/:  python tools/build_notes.py
 Only the Python standard library is used."""
@@ -17,7 +18,7 @@ SEED_DIR = HERE / "seed"
 TARGETS = [HERE / "migrations", HERE.parent / "backend" / "src" / "main" / "resources" / "db" / "migration"]
 CATEGORIES = {"magic", "world"}
 REQUIRED = ("id", "title", "category", "keywords", "source")
-OPTIONAL = ("school",)
+OPTIONAL = ("school", "links")
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 
@@ -53,8 +54,20 @@ def parse(path: Path) -> dict:
     return {
         "id": head["id"], "title": head["title"], "category": head["category"], "school": head.get("school") or None,
         "keywords": [k.strip() for k in head["keywords"].split(",") if k.strip()],
+        "links": [k.strip() for k in head.get("links", "").split(",") if k.strip()],
         "text": m.group(2).strip(), "source": head["source"], "file": path.name,
     }
+
+
+def add_reverse_links(notes: list[dict]) -> None:
+    """Every declared link also goes into the note it points at (the declared ones stay first). Unknown targets are left for check()."""
+    by_id = {n["id"]: n for n in notes}
+    declared = {n["id"]: list(n["links"]) for n in notes}
+    for source, targets in declared.items():
+        for t in targets:
+            other = by_id.get(t)
+            if other is not None and source not in other["links"] and t != source:
+                other["links"].append(source)
 
 
 def check(notes: list[dict]) -> list[str]:
@@ -80,6 +93,15 @@ def check(notes: list[dict]) -> list[str]:
             errors.append(f"{where}: duplicate keyword")
         if not n["text"]:
             errors.append(f"{where}: the text is empty")
+    ids = {n["id"] for n in notes}
+    for n in notes:
+        if len(set(n["links"])) != len(n["links"]):
+            errors.append(f"{n['file']}: duplicate link")
+        for t in n["links"]:
+            if t == n["id"]:
+                errors.append(f"{n['file']}: a note cannot link to itself")
+            elif t not in ids:
+                errors.append(f"{n['file']}: link to {t!r}, but there is no such note")
     return errors
 
 
@@ -96,10 +118,11 @@ def migration(notes: list[dict]) -> str:
         keywords = ", ".join(n["keywords"])
         school = quote(n["school"]) if n["school"] else "NULL"
         lines.append(
-            "INSERT INTO notes (id, title, category, school, keywords, text, source) VALUES "
-            f"({quote(n['id'])}, {quote(n['title'])}, {quote(n['category'])}, {school}, {quote(keywords)}, {quote(n['text'])}, {quote(n['source'])})\n"
+            "INSERT INTO notes (id, title, category, school, keywords, links, text, source) VALUES "
+            f"({quote(n['id'])}, {quote(n['title'])}, {quote(n['category'])}, {school}, {quote(keywords)}, {quote(', '.join(n['links']))}, "
+            f"{quote(n['text'])}, {quote(n['source'])})\n"
             "ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title, category = EXCLUDED.category, school = EXCLUDED.school, "
-            "keywords = EXCLUDED.keywords, text = EXCLUDED.text, source = EXCLUDED.source;")
+            "keywords = EXCLUDED.keywords, links = EXCLUDED.links, text = EXCLUDED.text, source = EXCLUDED.source;")
     ids = ", ".join(quote(n["id"]) for n in notes)
     lines.append(f"DELETE FROM notes WHERE id NOT IN ({ids});" if notes else "DELETE FROM notes;")
     return "\n".join(lines) + "\n"
@@ -111,6 +134,7 @@ def main() -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
+    add_reverse_links(notes)
     (SEED_DIR / "notes.json").write_text(
         json.dumps([{k: v for k, v in n.items() if k != "file"} for n in notes], ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     sql = migration(notes)
