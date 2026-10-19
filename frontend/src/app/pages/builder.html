@@ -36,10 +36,11 @@
         }
         @if (school()) {
           <h4>{{ T.builder.mosaics }}</h4>
+          @if (blockedText(); as why) { <p class="blocked-note" data-testid="blocked-note">{{ why }}</p> }
           <div class="mosaic-list" role="list">
             @for (e of entries(); track e.key) {
-              <div class="entry" role="listitem" [class.selected]="openKey() === e.key">
-                <button type="button" class="pick" (click)="pick(e)" [attr.aria-expanded]="openKey() === e.key" [attr.data-testid]="(e.group ? 'group-' : 'mosaic-') + e.key">
+              <div class="entry" role="listitem" [class.selected]="openKey() === e.key" [class.blocked]="!!blocked()">
+                <button type="button" class="pick" [disabled]="!!blocked()" (click)="pick(e)"[attr.aria-expanded]="openKey() === e.key" [attr.data-testid]="(e.group ? 'group-' : 'mosaic-') + e.key">
                   <span class="name">{{ e.name }}</span>
                   <span class="meta">{{ T.builder.tier }}: {{ e.tierText }}@if (e.mosaic?.status?.state === 'incomplete') { · {{ T.builder.incomplete }} }</span>
                 </button>

@@ -289,16 +289,17 @@ class SpellCalculatorTest {
         assertEquals(TimeValue.Kind.UNTIL_BROKEN, a.duration().value().kind, "the duration of the wrapper, not of the inner mosaic");
     }
 
-    @Test void theTranceIsAddedOnceUnlessTheCasterIsAlreadyInOne() {
-        SpellRequest inTrance = new SpellRequest(List.of(Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"asztral\""))),
-                Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"asztral\"")))), ch(100, "jelmagia", 2, "asztral", 2), forms, true);
+    @Test void theTranceIsAddedUnlessTheCasterIsAlreadyInOne() {
+        // a spell holds only one Jelmágia drawing (user, 2026-10-19), so the trance is added at most once
+        SpellRequest inTrance = new SpellRequest(List.of(Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"asztral\"")))),
+                ch(100, "jelmagia", 2, "asztral", 2), forms, true);
         SpellResult yes = calc.calculate(inTrance);
         assertTrue(yes.trance().needed());
         assertFalse(yes.trance().applied());
-        assertEquals("40 perc", yes.castingTime().value().toString(), "two drawings of 20 perc, no trance time");
+        assertEquals("20 perc", yes.castingTime().value().toString(), "the drawing of 20 perc, no trance time");
         SpellResult no = calc.calculate(new SpellRequest(inTrance.selections(), inTrance.character(), forms, false));
         assertTrue(no.trance().applied());
-        assertEquals("50 perc", no.castingTime().value().toString(), "+10 perc once, not per drawing");
+        assertEquals("30 perc", no.castingTime().value().toString(), "+10 perc of trance");
         SpellResult plain = run(ch(20), Selection.of(mosaic("/furkeszes.json")));
         assertFalse(plain.trance().needed(), "a spell without a drawing needs no trance");
         assertEquals("1 kor", plain.castingTime().value().toString());
@@ -386,6 +387,30 @@ class SpellCalculatorTest {
         Mosaic fixed = Json.parseMosaic(text("/asztral-test.json").replace("\"step\": {\"mp\": 1, \"e\": 1}", "\"step\": null"));
         SpellResult no = run(ch(100, "jelmagia", 2, "asztral", 2), stamp, Selection.of(fixed));
         assertFalse(no.totalMp().isDefined());
+    }
+
+    @Test void aSpellCanContainOnlyOneJelmagiaMosaicTheLaterOnesAreRefused() {
+        Selection symbol = Selection.of(mosaic("/jel-szimbolum-asztral.json"));
+        Selection stamp = Selection.of(mosaic("/jel-belyeg-asztral.json"));
+        Selection inner = Selection.of(mosaic("/asztral-test.json"));
+        CharacterSheet c = ch(200, "jelmagia", 2, "asztral", 2);
+        SpellResult a = run(c, symbol, stamp, inner);
+        assertFalse(a.valid());
+        assertFalse(a.mosaics().get(0).refused(), "the first Jelmágia mosaic stays");
+        assertTrue(a.mosaics().get(1).refused(), "a bélyeg cannot join a szimbólum");
+        assertEquals(MsgCode.ERR_ONE_JELMAGIA_PER_SPELL.key, a.mosaics().get(1).errors().get(0).code());
+        assertEquals(List.of(a.mosaics().get(0).name()), a.mosaics().get(1).errors().get(0).args());
+        SpellResult b = run(c, stamp, symbol, inner);
+        assertFalse(b.mosaics().get(0).refused(), "the order decides which one stays");
+        assertTrue(b.mosaics().get(1).refused());
+        // two drawings of any kind, not only two wrappers
+        SpellResult circles = run(ch(100, "jelmagia", 3, "asztral", 2), Selection.of(mosaic("/jel-vegrehajto.json")),
+                Selection.of(mosaic("/jel-vedo.json")).withInputs(Map.of("effect", j("\"asztral\""))));
+        assertTrue(circles.mosaics().get(1).refused());
+        // like any spell with a refused mosaic, it has no total MP until the second drawing is removed
+        assertFalse(a.totalMp().isDefined());
+        // one Jelmágia mosaic with mosaics of other schools is fine
+        assertTrue(run(c, symbol, inner).valid());
     }
 
     @Test void theSphereOfATergatCostsOneMpPerExtraWholeMeter() {

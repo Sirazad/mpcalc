@@ -73,6 +73,7 @@ public enum MsgCode {
     ERR_SCHOOL_MISSING("engine.error.schoolMissing"),
     ERR_TIER_MISSING("engine.error.tierMissing"),
     ERR_WRAPPER_WRONG_MOSAIC("engine.error.wrapperWrongMosaic"),                            // {0} other mosaic, {1} what the wrapper accepts
+    ERR_ONE_JELMAGIA_PER_SPELL("engine.error.oneJelmagiaPerSpell"),                         // {0} the Jelmágia mosaic that is already in the spell
     ERR_INPUT_NOT_WHOLE("engine.error.inputNotWhole"),                                       // {0} input id
     ERR_INPUT_BELOW_MIN("engine.error.inputBelowMin"),                                       // {0} input id, {1} smallest value
     ERR_TIER_BELOW("engine.error.tierBelow"),                                        // {0} have, {1} school, {2} needed

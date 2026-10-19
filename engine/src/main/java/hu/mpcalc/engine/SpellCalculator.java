@@ -39,6 +39,15 @@ public final class SpellCalculator {
         List<Eval> evals = new ArrayList<>();
         for (Selection s : req.selections()) evals.add(evaluate(s, req));
 
+        // A spell can contain only a single Jelmágia mosaic (user, 2026-10-19): a drawing is a varázskör, varázsjel, szimbólum, bélyeg or pentagramma, and
+        // they are drawn differently, so they cannot be combined. The first one in the spell stays, every later one is refused.
+        Eval jelmagia = null;
+        for (Eval ev : evals) {
+            if (ev.refused() || !"jelmagia".equals(ev.m.school)) continue;
+            if (jelmagia == null) jelmagia = ev;
+            else ev.errors.add(Msg.of(MsgCode.ERR_ONE_JELMAGIA_PER_SPELL, jelmagia.m.name));
+        }
+
         // A wrapper mosaic (Végrehajtó varázskör, ...) costs its base plus a factor times the MP of the OTHER mosaics, in any order of adding.
         // Its casting time includes the time of those mosaics, so theirs is not added; their durations apply when the wrapper acts
         // (or keep applying, for a wrapper with keepsDuration). A wrapper may accept only some mosaics (wraps).

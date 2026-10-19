@@ -28,6 +28,9 @@ mat-card-actions { flex-wrap: wrap; gap: 8px; padding: 8px 16px 16px; }
 .entry.selected { background: var(--mat-sys-surface-container-low); }
 .pick { all: unset; box-sizing: border-box; display: flex; flex-direction: column; width: 100%; padding: 8px 16px; cursor: pointer; }
 .pick:hover { background: var(--mat-sys-surface-container); }
+.entry.blocked .pick { cursor: not-allowed; opacity: 0.5; }
+.entry.blocked .pick:hover { background: none; }
+.blocked-note { color: var(--mat-sys-on-surface-variant); font: var(--mat-sys-body-small); margin: 0 0 8px; }
 .pick:focus-visible { outline: 2px solid var(--mat-sys-primary); outline-offset: -2px; }
 .entry.selected .pick .name { font-weight: 500; }
 .pick .meta { color: var(--mat-sys-on-surface-variant); font: var(--mat-sys-body-small); }
