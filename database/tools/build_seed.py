@@ -849,6 +849,19 @@ for m in ter:
                         {"id": "sideM", "label": "Méret (a × a)", "unit": "m", "terms": [{"input": "size", "perUnit": 3}]}]
         m["effect"] = T_TERKAPU
 
+# Síkkapu (user, 2026-10-19): the Térkapu rule with each gate's own flat rate: size multiplier n x the rate, a flat 120 t when the gate is erected,
+# extra capacity per extra MP (Anyagi 800 kg, Démoni 600 kg), gate side 3 m x n. The text is the user's sentence.
+T_SIKKAPU = "Kapu nyitása egy másik síkra, legyen az anyagi vagy démoni sík."
+for m in ter:
+    rate = {"ter-sikkapu-anyagi": (150, 800), "ter-sikkapu-demoni": (200, 600)}.get(m["id"])
+    if rate:
+        m["cost"] = {"pattern": "flat", "baseMp": rate[0], "multiplierInput": "size"}
+        m["inputs"] = [number_input("size", "Méret (szorzó)", "×", integer=True, minimum=1)]
+        m["derived"] = [{"id": "capacityKg", "label": "Áteresztőképesség", "unit": "kg",
+                         "terms": [{"constant": 120000}, {"steps": True, "perStep": rate[1]}]},
+                        {"id": "sideM", "label": "Méret (a × a)", "unit": "m", "terms": [{"input": "size", "perUnit": 3}]}]
+        m["effect"] = T_SIKKAPU
+
 for fname, data in [("alapvarazslatok.json", alap), ("ter.json", ter), ("mental.json", mental),
                     ("asztral.json", asztral), ("ido.json", ido), ("nekromancia.json", nekro),
                     ("anyagi.json", anyagi), ("forms.json", forms), ("material_groups.json", groups),

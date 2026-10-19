@@ -386,10 +386,48 @@
     },
     "cost": {
       "pattern": "flat",
-      "baseMp": 150
+      "baseMp": 150,
+      "multiplierInput": "size"
     },
-    "inputs": [],
-    "source": "Part 3"
+    "inputs": [
+      {
+        "id": "size",
+        "label": "Méret (szorzó)",
+        "type": "number",
+        "unit": "×",
+        "integer": true,
+        "min": 1
+      }
+    ],
+    "source": "Part 3",
+    "derived": [
+      {
+        "id": "capacityKg",
+        "label": "Áteresztőképesség",
+        "unit": "kg",
+        "terms": [
+          {
+            "constant": 120000
+          },
+          {
+            "steps": true,
+            "perStep": 800
+          }
+        ]
+      },
+      {
+        "id": "sideM",
+        "label": "Méret (a × a)",
+        "unit": "m",
+        "terms": [
+          {
+            "input": "size",
+            "perUnit": 3
+          }
+        ]
+      }
+    ],
+    "effect": "Kapu nyitása egy másik síkra, legyen az anyagi vagy démoni sík."
   },
   {
     "id": "ter-sikkapu-demoni",
@@ -435,10 +473,48 @@
     },
     "cost": {
       "pattern": "flat",
-      "baseMp": 200
+      "baseMp": 200,
+      "multiplierInput": "size"
     },
-    "inputs": [],
-    "source": "Part 3"
+    "inputs": [
+      {
+        "id": "size",
+        "label": "Méret (szorzó)",
+        "type": "number",
+        "unit": "×",
+        "integer": true,
+        "min": 1
+      }
+    ],
+    "source": "Part 3",
+    "derived": [
+      {
+        "id": "capacityKg",
+        "label": "Áteresztőképesség",
+        "unit": "kg",
+        "terms": [
+          {
+            "constant": 120000
+          },
+          {
+            "steps": true,
+            "perStep": 600
+          }
+        ]
+      },
+      {
+        "id": "sideM",
+        "label": "Méret (a × a)",
+        "unit": "m",
+        "terms": [
+          {
+            "input": "size",
+            "perUnit": 3
+          }
+        ]
+      }
+    ],
+    "effect": "Kapu nyitása egy másik síkra, legyen az anyagi vagy démoni sík."
   },
   {
     "id": "ter-abszolut-pont",
