@@ -51,6 +51,7 @@ class ToolSession(Protocol):
     """What the agent needs from the tool side (a fake one is used in tests)."""
     async def tools(self) -> list[dict[str, Any]]: ...
     async def call(self, name: str, arguments: dict[str, Any], player_id: int, character_id: int) -> tuple[str, bool]: ...
+    async def search_notes(self, question: str, player_id: int, character_id: int) -> tuple[str, bool]: ...
 
 
 @dataclass
@@ -91,6 +92,10 @@ class McpToolSession:
     async def call(self, name: str, arguments: dict[str, Any], player_id: int, character_id: int) -> tuple[str, bool]:
         result = await self._client.call_tool(name, with_identity(arguments, player_id, character_id))  # type: ignore[union-attr]
         return result_text(result, self._limit)
+
+    async def search_notes(self, question: str, player_id: int, character_id: int) -> tuple[str, bool]:
+        """The search the service makes for a question before the model answers (the find_notes tool, called by the service, not the model)."""
+        return await self.call("find_notes", {"query": question}, player_id, character_id)
 
 
 class McpToolFactory:

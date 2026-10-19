@@ -17,6 +17,7 @@ class Trace:
     turns: list[dict[str, Any]] = field(default_factory=list)
     model_calls: list[dict[str, Any]] = field(default_factory=list)       # model, usage, stop_reason per call
     tool_calls: list[dict[str, Any]] = field(default_factory=list)        # name, arguments, result, is_error, seconds
+    note_searches: list[dict[str, Any]] = field(default_factory=list)     # the service's own notes search per question (not a tool call of the model)
 
     def add(self, role: str, content: str, **extra: Any) -> None:
         self.turns.append({"role": role, "content": content, **extra})
@@ -90,6 +91,12 @@ class RecordingTools:
 
     async def tools(self) -> list[dict[str, Any]]:
         return await self._inner.tools()
+
+    async def search_notes(self, question: str, player_id: int, character_id: int) -> tuple[str, bool]:
+        t0 = time.monotonic()
+        text, is_error = await self._inner.search_notes(question, player_id, character_id)
+        self._trace.note_searches.append({"question": question, "result": text, "is_error": is_error, "seconds": time.monotonic() - t0})
+        return text, is_error
 
     async def call(self, name: str, arguments: dict[str, Any], player_id: int, character_id: int) -> tuple[str, bool]:
         t0 = time.monotonic()

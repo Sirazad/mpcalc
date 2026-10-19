@@ -117,3 +117,52 @@ def test_the_system_prompt_pins_the_hungarian_words_and_the_exact_mosaic_names()
     assert "exactly as it appears in the tool results" in SYSTEM
     assert "oppositeElement" in SYSTEM and "Ős tűz and Ős víz are opposites" in SYSTEM
     assert "elementLabel" in SYSTEM and "armorSfe" in SYSTEM
+
+
+# ---- notes (stage 1)
+NOTE = '{"notes": [{"id": "mental-fonal", "title": "Mentál-fonál", "category": "magic", "school": "mental", "text": "A fonál a mentálsíkon jön létre.", "source": "Első Törvénykönyv, mentálmágia fejezet", "rank": 0.8}]}'
+
+
+async def test_the_notes_that_match_the_question_come_with_the_question_and_the_service_sets_the_ids():
+    claude = FakeClaude([Turn(pieces=["válasz"])])
+    tools = FakeTools(notes=(NOTE, False))
+    await run(Agent(S, claude), tools, question="Mi az a mentál-fonál?")
+    assert tools.note_calls == [({"query": "Mi az a mentál-fonál?"}, 7, 9)]
+    content = claude.calls[0]["messages"][-1]["content"]
+    assert content.startswith("Mi az a mentál-fonál?\n\n[Notes found for this question")
+    assert "## Mentál-fonál (source: Első Törvénykönyv, mentálmágia fejezet)\nA fonál a mentálsíkon jön létre." in content
+    assert "calculate_spell" in content          # the header repeats that numbers come from the calculation tools
+    assert tools.calls == []                      # the search is not one of the model's tool calls
+
+
+async def test_a_question_without_notes_goes_to_the_model_unchanged():
+    claude = FakeClaude([Turn(pieces=["x"])])
+    await run(Agent(S, claude), FakeTools(), question="Mennyibe kerül a Fürkészés?")
+    assert claude.calls[0]["messages"][-1]["content"] == "Mennyibe kerül a Fürkészés?"
+
+
+async def test_a_failing_or_unreadable_notes_search_only_means_no_notes():
+    for tools in (FakeTools(notes_error=ConnectionError("no")), FakeTools(notes=(NOTE, True)), FakeTools(notes=("not json", False)),
+                  FakeTools(notes=('{"notes": [{"id": "x"}]}', False))):
+        claude = FakeClaude([Turn(pieces=["x"])])
+        events = await run(Agent(S, claude), tools, question="kérdés")
+        assert claude.calls[0]["messages"][-1]["content"] == "kérdés"
+        assert events[-1].kind == "done"
+
+
+async def test_a_note_never_reaches_the_system_prompt():
+    claude = FakeClaude([Turn(pieces=["x"])])
+    await run(Agent(S, claude), FakeTools(notes=(NOTE, False)), question="kérdés")
+    assert "Mentál-fonál" not in claude.calls[0]["system"]
+
+
+def test_the_system_prompt_keeps_notes_as_background_and_numbers_from_the_tools():
+    from app.prompt import SYSTEM
+    assert "NOTES" in SYSTEM and "Notes found for this question" in SYSTEM
+    assert "A note never gives a spell number" in SYSTEM and "the tool result wins" in SYSTEM
+    assert 'say "nem tudom"' in SYSTEM
+
+
+def test_the_notes_status_line_has_both_languages():
+    from app import messages
+    assert messages.HU["status_find_notes"] and messages.EN["status_find_notes"]
