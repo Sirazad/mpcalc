@@ -18,6 +18,7 @@ import { ChatBox } from '../shared/chat-box';
 import { MosaicForm } from '../shared/mosaic-form';
 import { MosaicGroup } from '../shared/mosaic-group';
 import { ListEntry, listEntries } from '../mosaic-groups';
+import { jelmagiaInSpell } from '../spell-rules';
 import { SpellStore } from '../spell.store';
 import { T } from '../texts.hu';
 
@@ -42,6 +43,13 @@ export class Builder {
   /** The open entry of the list: a mosaic id, or the id of a group. */
   protected readonly openKey = signal<string | null>(null);
   protected readonly entries = computed<ListEntry[]>(() => listEntries(this.school() ?? '', this.session.mosaics()));
+  /** The Jelmágia list is greyed out while the spell already holds a Jelmágia mosaic (one per spell). */
+  protected readonly jelmagiaTaken = computed(() => jelmagiaInSpell(this.spell.selections(), this.session.mosaics()));
+  protected readonly blocked = computed(() => (this.school() === 'jelmagia' ? this.jelmagiaTaken() : null));
+  protected readonly blockedText = computed(() => {
+    const m = this.blocked();
+    return m ? T.builder.oneJelmagia.replace('{0}', m.name) : '';
+  });
   protected readonly canCast = computed(() => this.spell.selections().length > 0 && !!this.spell.result()?.valid && !this.spell.busy());
 
   constructor() { void this.open(); }
@@ -63,7 +71,7 @@ export class Builder {
 
   protected pickSchool(id: string) { this.school.set(id); this.openKey.set(null); }
   /** Opens the details of an entry (a mosaic or a group) right under it; clicking the open one closes it. */
-  protected pick(e: ListEntry) { this.openKey.set(this.openKey() === e.key ? null : e.key); }
+  protected pick(e: ListEntry) { if (this.blocked()) return; this.openKey.set(this.openKey() === e.key ? null : e.key); }
 
   protected async added(s: Selection) {
     await this.spell.add(s);

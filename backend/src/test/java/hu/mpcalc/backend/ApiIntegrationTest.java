@@ -469,9 +469,14 @@ class ApiIntegrationTest {
         assertEquals("9", fire.at("/totalMp/value/decimal").asText().replace(".0", ""), "E 3 at 3 MP per E");
         JsonNode astral = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"selections\":[" + protect.formatted("asztral") + "]}", 200));
         assertFalse(astral.get("valid").asBoolean());
-        // wrapper: 40 + the other mosaics (9), in any order; the casting time is the wrapper's 30 perc plus the trance of 10 perc
-        JsonNode both = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"selections\":[" + wrapper + "," + protect.formatted("ostuz") + "]}", 200));
-        assertEquals(49, both.at("/totalMp/value/numerator").asInt() / Math.max(1, both.at("/totalMp/value/denominator").asInt()));
+        // a spell holds only one Jelmágia mosaic (user, 2026-10-19): a circle cannot be put into the wrapper, the second drawing is refused
+        JsonNode twoDrawings = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"selections\":[" + wrapper + "," + protect.formatted("ostuz") + "]}", 200));
+        assertFalse(twoDrawings.get("valid").asBoolean());
+        assertTrue(twoDrawings.at("/mosaics/1/refused").asBoolean());
+        // wrapper: 40 + the other mosaics (a Fürkészés, 7), in any order; the casting time is the wrapper's 30 perc plus the trance of 10 perc
+        String scry = "{\"mosaicId\":\"alap-furkeszes\"}";
+        JsonNode both = json(send(post("/calculate"), s, "{\"characterId\":" + id + ",\"selections\":[" + wrapper + "," + scry + "]}", 200));
+        assertEquals(47, both.at("/totalMp/value/numerator").asInt() / Math.max(1, both.at("/totalMp/value/denominator").asInt()));
         assertTrue(both.at("/trance/needed").asBoolean());
         assertTrue(both.at("/trance/applied").asBoolean());
         assertEquals(40, both.at("/castingTime/value/amounts/perc").asInt());

@@ -54,6 +54,7 @@ export const T = {
     stationary: 'Helyhez kötött: a tér egy pontjához kötődik, nem valami tárgyhoz vagy személyhez, azaz nem mozgatható.',
     movable: 'Mozgatható.',
     incomplete: 'Hiányos adat, nem használható',
+    oneJelmagia: 'Egy varázslatban csak egyetlen rajzolat lehet; a(z) {0} már benne van.',
     noMosaics: 'Ehhez a karakterhez nincs elérhető mozaik.',
     add: 'Hozzáadás',
     power: 'Erősség',
