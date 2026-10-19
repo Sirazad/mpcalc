@@ -8,6 +8,7 @@ import hu.mpcalc.backend.model.Player;
 import hu.mpcalc.backend.service.CatalogService;
 import hu.mpcalc.backend.service.CharacterService;
 import hu.mpcalc.backend.service.MessageService;
+import hu.mpcalc.backend.service.NoteService;
 import hu.mpcalc.backend.service.PlayerService;
 import hu.mpcalc.backend.service.SpellSearch;
 import hu.mpcalc.backend.service.SpellService;
@@ -45,11 +46,12 @@ public class MpcalcTools {
     private final SpellService spells;
     private final SpellSearch search;
     private final MessageService messages;
+    private final NoteService notes;
 
     public MpcalcTools(PlayerService players, CharacterService characters, CatalogService catalog, SpellService spells,
-                       SpellSearch search, MessageService messages) {
+                       SpellSearch search, MessageService messages, NoteService notes) {
         this.players = players; this.characters = characters; this.catalog = catalog; this.spells = spells;
-        this.search = search; this.messages = messages;
+        this.search = search; this.messages = messages; this.notes = notes;
     }
 
     @McpTool(name = "list_available_mosaics", description = "List the mosaics (spell building blocks) the character may use, with their data: id, name, school, tier, "
@@ -114,6 +116,24 @@ public class MpcalcTools {
             var req = new SpellSearch.Request(candidateMosaicIds, objective, minE, minDurationSeconds, maxCastingSeconds, mpBudget, in,
                     allowExtension == null || allowExtension, limit == null ? 5 : limit);
             return EngineJson.write(search.search(p, characterId, req), messages::text);
+        });
+    }
+
+    @McpTool(name = "find_notes", description = "Find notes of the game world and the magic rules that are not part of any calculation (for example what a "
+            + "mental thread is, how it is broken, what it links). Pass the player's question or its key words; the answer lists the matching notes, best first, "
+            + "each with id, title, category, school, text and source. An empty list means no note covers the question. A note is background: never take "
+            + "spell numbers from it (use calculate_spell), cite its title, and if no note matches say that you do not know.")
+    public String findNotes(
+            @McpToolParam(description = "Player id (set by the chat service)", required = true) Long playerId,
+            @McpToolParam(description = "Character id (set by the chat service)", required = true) Long characterId,
+            @McpToolParam(description = "The question or its key words, in Hungarian", required = true) String query,
+            @McpToolParam(description = "Only this category: magic or world", required = false) String category,
+            @McpToolParam(description = "How many notes at most (default 3, at most 5)", required = false) Integer limit) {
+        return guard(() -> {
+            players.byId(playerId);
+            Map<String, Object> out = new LinkedHashMap<>();
+            out.put("notes", notes.search(query, category, limit == null ? 3 : limit));
+            return EngineJson.write(out);
         });
     }
 

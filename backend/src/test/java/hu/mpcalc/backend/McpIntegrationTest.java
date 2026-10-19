@@ -85,13 +85,13 @@ class McpIntegrationTest {
     }
 
     @Test
-    void theThreeToolsAreListedWithTheirSchemas() throws Exception {
+    void theToolsAreListedWithTheirSchemas() throws Exception {
         MvcResult r = rpc("tools/list", null, KEY, null);
         assertEquals(200, r.getResponse().getStatus(), r.getResponse().getContentAsString());
         JsonNode tools = body(r).at("/result/tools");
         Set<String> names = new TreeSet<>();
         tools.forEach(t -> names.add(t.get("name").asText()));
-        assertEquals(Set.of("calculate_spell", "find_best_spell", "list_available_mosaics"), names);
+        assertEquals(Set.of("calculate_spell", "find_best_spell", "find_notes", "list_available_mosaics"), names);
         for (JsonNode t : tools) {
             assertFalse(t.get("description").asText().isBlank());
             assertTrue(t.at("/inputSchema/properties/playerId").isObject(), t.toString());
@@ -246,5 +246,60 @@ class McpIntegrationTest {
         c.putArray("selections").add(selection("ido-idozites", 0, 0));
         JsonNode calc = tool("calculate_spell", c, null);
         assertFalse(calc.at("/duration/defined").asBoolean());
+    }
+
+    // ---- notes (stage 1: keyword search over the notes of database/notes)
+    private JsonNode notes(Hero h, String query) throws Exception {
+        return tool("find_notes", args(h).put("query", query), null).get("notes");
+    }
+
+    @Test
+    void aNoteIsFoundByTheWordsOfAQuestionInAnyWordForm() throws Exception {
+        Hero h = hero("{}", 20);
+        // the questions a player may ask; each must find the Mentál-fonál note (the stored question set grows with the notes)
+        for (String q : new String[] {"Mi az a mentál-fonál?", "Hogyan szakad el a mentálfonál?", "Hogyan lehet megszakítani a mentál fonalat?",
+                "Mit lát a mentálszem?", "Mi a tárgyszimpátia?", "Mit jelent a szimpatikus kapcsolat?", "Mi az a fonal?"}) {
+            JsonNode found = notes(h, q);
+            assertEquals(1, found.size(), q);
+            assertEquals("mental-fonal", found.get(0).get("id").asText(), q);
+        }
+        JsonNode note = notes(h, "mentál-fonál").get(0);
+        assertEquals("Mentál-fonál", note.get("title").asText());
+        assertEquals("magic", note.get("category").asText());
+        assertEquals("mental", note.get("school").asText());
+        assertEquals("Első Törvénykönyv, mentálmágia fejezet", note.get("source").asText());
+        assertTrue(note.get("text").asText().startsWith("Írás vagy olvasás típusú mentáloperáció során"));
+        assertTrue(note.get("text").asText().contains("erősségét"), "the corrected text is stored");
+    }
+
+    @Test
+    void aQuestionWithoutAKeywordOfANoteGetsNoNote() throws Exception {
+        Hero h = hero("{}", 20);
+        // words that are only in the text of the note (varázskör, áldozat, írás) or in no note do not find it
+        for (String q : new String[] {"Mennyibe kerül a Fürkészés?", "Hogyan működik a Térkapu?", "Mennyi MP a Beszéd – Írás mozaik?",
+                "Mi az a varázskör?", "Mit tud a varázsló az áldozat központjáról?", "", "  ?! "}) {
+            assertEquals(0, notes(h, q).size(), "'" + q + "'");
+        }
+    }
+
+    @Test
+    void theNoteCategoryFilterAndTheLimitWork() throws Exception {
+        Hero h = hero("{}", 20);
+        assertEquals(1, tool("find_notes", args(h).put("query", "mentál-fonál").put("category", "magic"), null).get("notes").size());
+        assertEquals(0, tool("find_notes", args(h).put("query", "mentál-fonál").put("category", "world"), null).get("notes").size());
+        assertEquals(1, tool("find_notes", args(h).put("query", "mentál-fonál").put("limit", 0), null).get("notes").size(), "a limit below 1 still gives one");
+    }
+
+    @Test
+    void theQueryNeverReachesTheSearchSyntax() throws Exception {
+        Hero h = hero("{}", 20);
+        for (String q : new String[] {"fonál & !(x)", "'; drop table notes; --", "fonál:* | <->", "\\"}) notes(h, q);
+        assertEquals(1, notes(h, "mentál-fonál").size(), "the table is untouched");
+    }
+
+    @Test
+    void findNotesNeedsAKnownPlayer() throws Exception {
+        ObjectNode a = obj().put("playerId", 999_999_999L).put("characterId", 1).put("query", "mentál-fonál");
+        assertTrue(tool("find_notes", a, null).has("error"));
     }
 }

@@ -20,6 +20,7 @@ HU: dict[str, str] = {
     "status_list_available_mosaics": "Az elérhető mozaikok megnézése…",
     "status_calculate_spell": "Számolok…",
     "status_find_best_spell": "A legjobb változat keresése…",
+    "status_find_notes": "Jegyzetek keresése…",
     "status_tool": "Adatot kérek a számoló szolgáltatástól…",
 }
 
@@ -41,6 +42,7 @@ EN: dict[str, str] = {
     "status_list_available_mosaics": "Looking at the available mosaics…",
     "status_calculate_spell": "Calculating…",
     "status_find_best_spell": "Searching for the best option…",
+    "status_find_notes": "Looking for notes…",
     "status_tool": "Asking the calculation service…",
 }
 

@@ -37,3 +37,19 @@ def test_result_text_joins_text_and_flags_errors():
 def test_a_too_long_result_is_cut_with_a_note_for_the_model():
     text, _ = result_text(SimpleNamespace(content=[SimpleNamespace(type="text", text="x" * 500)], is_error=False), 100)
     assert text.startswith("x" * 100) and "cut" in text and len(text) < 400
+
+
+async def test_the_notes_search_calls_find_notes_with_the_question_and_the_verified_ids():
+    from app.mcp_tools import McpToolSession, _Cache
+    sent = []
+
+    class Client:
+        async def call_tool(self, name, arguments):
+            sent.append((name, arguments))
+            return SimpleNamespace(content=[SimpleNamespace(type="text", text='{"notes": []}')], is_error=False)
+
+    session = McpToolSession("http://x", "k", 10_000, 60, _Cache())
+    session._client = Client()
+    text, is_error = await session.search_notes("Mi az a mentál-fonál?", 7, 9)
+    assert sent == [("find_notes", {"query": "Mi az a mentál-fonál?", "playerId": 7, "characterId": 9})]
+    assert text == '{"notes": []}' and not is_error

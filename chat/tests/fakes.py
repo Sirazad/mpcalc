@@ -69,8 +69,12 @@ class FakeClaude:
 
 class FakeTools:
     """The tool side: a fixed tool list and scripted results; records every call with the ids the service set."""
-    def __init__(self, results: dict[str, tuple[str, bool]] | None = None, tools_error: Exception | None = None, call_error: Exception | None = None):
+    def __init__(self, results: dict[str, tuple[str, bool]] | None = None, tools_error: Exception | None = None, call_error: Exception | None = None,
+                 notes: tuple[str, bool] = ('{"notes": []}', False), notes_error: Exception | None = None):
         self.results = results or {}
+        self.notes = notes
+        self.notes_error = notes_error
+        self.note_calls: list[tuple[dict[str, Any], int, int]] = []     # the searches the service makes for the question; not in `calls`
         self.tools_error = tools_error
         self.call_error = call_error
         self.calls: list[tuple[str, dict[str, Any], int, int]] = []
@@ -79,6 +83,12 @@ class FakeTools:
         if self.tools_error:
             raise self.tools_error
         return [{"name": "calculate_spell", "description": "d", "input_schema": {"type": "object", "properties": {"selections": {}}}}]
+
+    async def search_notes(self, question: str, player_id: int, character_id: int) -> tuple[str, bool]:
+        self.note_calls.append(({"query": question}, player_id, character_id))
+        if self.notes_error:
+            raise self.notes_error
+        return self.notes
 
     async def call(self, name: str, arguments: dict[str, Any], player_id: int, character_id: int) -> tuple[str, bool]:
         self.calls.append((name, arguments, player_id, character_id))
