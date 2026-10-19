@@ -713,6 +713,19 @@ T_IDEZO_PENTAGRAMMA = ("A pentagramma leggyakrabban az idézésekhez használato
                        "Az MP a litánia elmondásakor használódik fel. A pentagrammába mágikus rúnákkal bele kell írni a megidézni kívánt lény megnevezését. "
                        "A részletek a többletpontokról és a lényekről a Nekromancia résznél találhatók.")
 
+# user's text, 2026-10-19; typos corrected: mutaktozik, távolbahtására, hogy -> Hogy (paragraph start), lefgeljeb b, the stray "A" after "kideríteni.",
+# térkapuaddig, vonalati; the last paragraph is the remark added at the user's choice (the MP and time are per pentagram)
+T_TERKAPU_PENTAGRAMMA = (
+    "Az idéző pentagramma után a leggyakrabban alkalmazott pentagramma alapú rajzolat. Hatása hasonló a térkapu mozaikéhoz, számottevő különbség csak működésének "
+    "részleteiben mutatkozik. Párban használatos, csak akkor teszi lehetővé az átjárást a tér két pontja között, ha a pentagrammát mind az indulási, mind az érkezési "
+    "oldalon felrajzolták. A keletkező átjáró nem állandó, csak olyankor nyílik meg, ha valaki vagy valami az indulási pentagramma külső körívén belülre kerül. "
+    "Ilyenkor sem átlátható, akár a térkapúk, és anyagi minőségén túl semmi nem juttatható át rajta, azaz nem alkalmas varázslatok távolbahatására és a zóna sem "
+    "érvényesül rajta keresztül.\n\n"
+    "Hogy egy pentagramma érkezési vagy indulási, netán mindkét szerepet betölti-e, azt felrajzolásakor kell meghatározni. Ezért van, hogy az értő szem a rajzolatra "
+    "pillantva nem képes azt onnan kiolvasni, vajon hol található a pentagramma párja. Ezt legfeljebb tapasztalati úton, a körívet átlépve lehetséges kideríteni.\n\n"
+    "A pentagrammák tárgy-tárgy szimpátia viszonyban állnak egymással. Az általuk biztosított térkapu addig üzemképes, ameddig mindkét oldali rajzolat vonalai töretlenek.\n\n"
+    "A megadott MP és rajzolási idő egy pentagrammára vonatkozik; mindig két pentagrammára van szükség.")
+
 WRAP_NATURAL = [{"school": "anyagi", "subgroup": "termeszetes", "label": "Természetes anyagi mágia"}]
 WRAP_ASZTRAL = [{"school": "asztral", "label": "Asztrál mágia"}]
 WRAP_MENTAL = [{"school": "mental", "label": "Mentál mágia"}]
@@ -799,9 +812,9 @@ jel += [
     sign("jel-pentagramma-idezo", "Idéző pentagramma", "pentagrammak", T_PENTAGRAMMA + "\n\n" + T_IDEZO_PENTAGRAMMA, cast("drawing", perc=30), flat(40),
          requires=req("nekromancia", 2), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
          missing=["duration", "resistance", "power"]),
-    sign("jel-pentagramma-terkapu", "Térkapu pentagramma", "pentagrammak", T_PENTAGRAMMA, UNDEF_CAST("drawing"), UNDEF_COST,
-         requires=req("ter", 3), rng={"kind": "pentagram"}, res=UNDEF, dur=UNDEF,
-         missing=["cost", "castingTime", "duration", "resistance", "power"]),
+    # Térkapu pentagramma (user, 2026-10-19): one pentagram costs 82 MP and 1 hour to draw, E 1 fixed, until broken, no magic resistance; two are always needed
+    sign("jel-pentagramma-terkapu", "Térkapu pentagramma", "pentagrammak", T_PENTAGRAMMA + "\n\n" + T_TERKAPU_PENTAGRAMMA, cast("drawing", ora=1), flat(82),
+         pw=power(1), requires=req("ter", 3), rng={"kind": "pentagram"}),
 ]
 
 schools_extra = [{"id": "jelmagia", "name": "Jelmágia", "hasTiers": True, "description": JEL_SCHOOL_DESCRIPTION}]

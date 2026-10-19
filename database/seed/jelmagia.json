@@ -1594,36 +1594,38 @@
     "subgroup": "pentagrammak",
     "tier": 2,
     "status": {
-      "state": "incomplete",
-      "missing": [
-        "cost",
-        "castingTime",
-        "duration",
-        "resistance",
-        "power"
-      ]
+      "state": "complete",
+      "missing": []
     },
     "castingTime": {
       "label": "drawing",
       "time": {
-        "kind": "undefined"
+        "kind": "time",
+        "amounts": {
+          "ora": 1
+        }
       }
     },
     "duration": {
-      "kind": "undefined"
+      "kind": "untilBroken"
     },
     "range": {
       "kind": "pentagram"
     },
     "resistance": {
-      "kind": "undefined"
+      "kind": "none"
     },
-    "power": null,
+    "power": {
+      "unit": "E",
+      "baseE": 1,
+      "step": null
+    },
     "cost": {
-      "pattern": "undefined"
+      "pattern": "flat",
+      "baseMp": 82
     },
     "inputs": [],
-    "effect": "A pentagramma ötágú csillag, melyet a varázsló olykor csúcsait érintő körbe foglal. Méretére jellemző, hogy ennek a körnek – akár létezik, akár csak képzeletbeli – legalább egy lépésnyi átmérőjűnek kell lennie.",
+    "effect": "A pentagramma ötágú csillag, melyet a varázsló olykor csúcsait érintő körbe foglal. Méretére jellemző, hogy ennek a körnek – akár létezik, akár csak képzeletbeli – legalább egy lépésnyi átmérőjűnek kell lennie.\n\nAz idéző pentagramma után a leggyakrabban alkalmazott pentagramma alapú rajzolat. Hatása hasonló a térkapu mozaikéhoz, számottevő különbség csak működésének részleteiben mutatkozik. Párban használatos, csak akkor teszi lehetővé az átjárást a tér két pontja között, ha a pentagrammát mind az indulási, mind az érkezési oldalon felrajzolták. A keletkező átjáró nem állandó, csak olyankor nyílik meg, ha valaki vagy valami az indulási pentagramma külső körívén belülre kerül. Ilyenkor sem átlátható, akár a térkapúk, és anyagi minőségén túl semmi nem juttatható át rajta, azaz nem alkalmas varázslatok távolbahatására és a zóna sem érvényesül rajta keresztül.\n\nHogy egy pentagramma érkezési vagy indulási, netán mindkét szerepet betölti-e, azt felrajzolásakor kell meghatározni. Ezért van, hogy az értő szem a rajzolatra pillantva nem képes azt onnan kiolvasni, vajon hol található a pentagramma párja. Ezt legfeljebb tapasztalati úton, a körívet átlépve lehetséges kideríteni.\n\nA pentagrammák tárgy-tárgy szimpátia viszonyban állnak egymással. Az általuk biztosított térkapu addig üzemképes, ameddig mindkét oldali rajzolat vonalai töretlenek.\n\nA megadott MP és rajzolási idő egy pentagrammára vonatkozik; mindig két pentagrammára van szükség.",
     "source": "Part 14",
     "requires": [
       {
