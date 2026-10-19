@@ -34,13 +34,19 @@ NOTES_HEADER = (
 )
 
 
+def _note_text(n: dict[str, Any]) -> str:
+    text = f"## {n['title']} (source: {n['source']})\n{n['text']}"
+    titles = [l["title"] for l in n.get("links") or [] if isinstance(l, dict) and l.get("title")]
+    return text + (f"\nRelated notes (search for a title to read one): {', '.join(titles)}" if titles else "")
+
+
 def notes_block(tool_text: str) -> str:
     """The notes of a find_notes result as a block for the question; empty when there is none or the result cannot be read."""
     try:
         notes = json.loads(tool_text).get("notes") or []
     except (ValueError, AttributeError):
         return ""
-    parts = [f"## {n['title']} (source: {n['source']})\n{n['text']}" for n in notes if isinstance(n, dict) and n.get("title") and n.get("text")]
+    parts = [_note_text(n) for n in notes if isinstance(n, dict) and n.get("title") and n.get("text")]
     return NOTES_HEADER + "\n\n" + "\n\n".join(parts) if parts else ""
 
 

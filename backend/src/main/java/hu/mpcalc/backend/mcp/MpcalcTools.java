@@ -121,7 +121,7 @@ public class MpcalcTools {
 
     @McpTool(name = "find_notes", description = "Find notes of the game world and the magic rules that are not part of any calculation (for example what a "
             + "mental thread is, how it is broken, what it links). Pass the player's question or its key words; the answer lists the matching notes, best first, "
-            + "each with id, title, category, school, text and source. An empty list means no note covers the question. A note is background: never take "
+            + "each with id, title, category, school, text, source and links (the id and title of related notes: to read one, search for its title). An empty list means no note covers the question. A note is background: never take "
             + "spell numbers from it (use calculate_spell), cite its title, and if no note matches say that you do not know.")
     public String findNotes(
             @McpToolParam(description = "Player id (set by the chat service)", required = true) Long playerId,

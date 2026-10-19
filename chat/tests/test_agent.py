@@ -166,3 +166,19 @@ def test_the_system_prompt_keeps_notes_as_background_and_numbers_from_the_tools(
 def test_the_notes_status_line_has_both_languages():
     from app import messages
     assert messages.HU["status_find_notes"] and messages.EN["status_find_notes"]
+
+
+async def test_the_titles_of_related_notes_come_with_a_note():
+    linked = NOTE.replace('"rank": 0.8', '"rank": 0.8, "links": [{"id": "mental-szem", "title": "Mentál-szem"}, {"id": "x", "title": "Másik"}]')
+    claude = FakeClaude([Turn(pieces=["x"])])
+    await run(Agent(S, claude), FakeTools(notes=(linked, False)), question="kérdés")
+    content = claude.calls[0]["messages"][-1]["content"]
+    assert "Related notes (search for a title to read one): Mentál-szem, Másik" in content
+    claude = FakeClaude([Turn(pieces=["x"])])
+    await run(Agent(S, claude), FakeTools(notes=(NOTE, False)), question="kérdés")
+    assert "Related notes" not in claude.calls[0]["messages"][-1]["content"]
+
+
+def test_the_prompt_tells_the_model_how_to_read_a_related_note():
+    from app.prompt import SYSTEM
+    assert "related notes by title" in SYSTEM and "find_notes with its title" in SYSTEM

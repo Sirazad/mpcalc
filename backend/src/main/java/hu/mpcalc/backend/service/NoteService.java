@@ -5,9 +5,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +24,9 @@ import java.util.regex.Pattern;
  */
 @Service
 public class NoteService {
-    public record Note(String id, String title, String category, String school, String text, String source, double rank) {}
+    /** A note another note refers to (declared in one note file, the reverse link is made by the build step). */
+    public record Link(String id, String title) {}
+    public record Note(String id, String title, String category, String school, String text, String source, double rank, List<Link> links) {}
 
     static final int MAX_WORDS = 30;
     static final int MAX_LIMIT = 5;
@@ -51,16 +56,39 @@ public class NoteService {
         String query = words.stream().map(w -> w + ":AB").collect(java.util.stream.Collectors.joining(" | "));
         String cat = category == null || category.isBlank() ? null : category;
         int max = Math.max(1, Math.min(limit, MAX_LIMIT));
-        return jdbc.query("""
-                        SELECT id, title, category, school, text, source, rank FROM (
-                            SELECT id, title, category, school, text, source, ts_rank(search, q) AS rank
+        List<Hit> hits = jdbc.query("""
+                        SELECT id, title, category, school, text, source, links, rank FROM (
+                            SELECT id, title, category, school, text, source, links, ts_rank(search, q) AS rank
                             FROM notes, to_tsquery('hungarian', ?) q
                             WHERE search @@ q AND (?::text IS NULL OR category = ?)) hits
                         WHERE rank >= ?
                         ORDER BY rank DESC, id
                         LIMIT ?""",
-                (rs, i) -> new Note(rs.getString("id"), rs.getString("title"), rs.getString("category"), rs.getString("school"),
-                        rs.getString("text"), rs.getString("source"), rs.getDouble("rank")),
+                (rs, i) -> new Hit(new Note(rs.getString("id"), rs.getString("title"), rs.getString("category"), rs.getString("school"),
+                        rs.getString("text"), rs.getString("source"), rs.getDouble("rank"), List.of()), linkIds(rs.getString("links"))),
                 query, cat, cat, minRank, max);
+        Map<String, String> titles = titles(hits.stream().flatMap(h -> h.linkIds().stream()).collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new)));
+        List<Note> out = new ArrayList<>();
+        for (Hit h : hits) {
+            List<Link> links = h.linkIds().stream().filter(titles::containsKey).map(id -> new Link(id, titles.get(id))).toList();
+            Note n = h.note();
+            out.add(new Note(n.id(), n.title(), n.category(), n.school(), n.text(), n.source(), n.rank(), links));
+        }
+        return out;
+    }
+
+    private record Hit(Note note, List<String> linkIds) {}
+
+    private static List<String> linkIds(String links) {
+        return links == null || links.isBlank() ? List.of() : java.util.Arrays.stream(links.split(",")).map(String::trim).filter(x -> !x.isEmpty()).toList();
+    }
+
+    /** Id -> title of the notes that exist; a link to a note that is gone is left out. */
+    private Map<String, String> titles(Set<String> ids) {
+        Map<String, String> out = new LinkedHashMap<>();
+        if (ids.isEmpty()) return out;
+        String marks = String.join(", ", java.util.Collections.nCopies(ids.size(), "?"));
+        jdbc.query("SELECT id, title FROM notes WHERE id IN (" + marks + ")", rs -> { out.put(rs.getString("id"), rs.getString("title")); }, ids.toArray());
+        return out;
     }
 }
