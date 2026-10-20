@@ -552,13 +552,13 @@ class ApiIntegrationTest {
         JsonNode anyagi = json(send(post("/calculate"), s, body.formatted("ter-sikkapu-anyagi", 2, 10), 200));
         assertTrue(anyagi.get("valid").asBoolean(), anyagi.toString());
         assertEquals(310, anyagi.at("/totalMp/value/numerator").asInt() / Math.max(1, anyagi.at("/totalMp/value/denominator").asInt()), "2 x 150 + 10");
-        assertEquals(128000, anyagi.at("/mosaics/0/derived/0/value/value").asInt(), "120 t + 10 x 800 kg");
+        assertEquals(137500, anyagi.at("/mosaics/0/derived/0/value/value").asInt(), "120 t + 10 x 1750 kg");
         assertEquals(6, anyagi.at("/mosaics/0/derived/1/value/value").asInt(), "2 x 3 m");
         assertEquals("Kapu nyitása egy másik síkra, legyen az anyagi vagy démoni sík.", anyagi.at("/mosaics/0/effect/value").asText());
         JsonNode demoni = json(send(post("/calculate"), s, body.formatted("ter-sikkapu-demoni", 3, 5), 200));
         assertTrue(demoni.get("valid").asBoolean(), demoni.toString());
         assertEquals(605, demoni.at("/totalMp/value/numerator").asInt() / Math.max(1, demoni.at("/totalMp/value/denominator").asInt()), "3 x 200 + 5");
-        assertEquals(123000, demoni.at("/mosaics/0/derived/0/value/value").asInt(), "120 t + 5 x 600 kg");
+        assertEquals(128750, demoni.at("/mosaics/0/derived/0/value/value").asInt(), "120 t + 5 x 1750 kg");
         assertEquals(9, demoni.at("/mosaics/0/derived/1/value/value").asInt(), "3 x 3 m");
     }
 

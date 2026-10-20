@@ -411,7 +411,7 @@
           },
           {
             "steps": true,
-            "perStep": 800
+            "perStep": 1750
           }
         ]
       },
@@ -498,7 +498,7 @@
           },
           {
             "steps": true,
-            "perStep": 600
+            "perStep": 1750
           }
         ]
       },

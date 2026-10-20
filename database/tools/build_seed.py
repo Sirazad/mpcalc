@@ -850,10 +850,10 @@ for m in ter:
         m["effect"] = T_TERKAPU
 
 # Síkkapu (user, 2026-10-19): the Térkapu rule with each gate's own flat rate: size multiplier n x the rate, a flat 120 t when the gate is erected,
-# extra capacity per extra MP (Anyagi 800 kg, Démoni 600 kg), gate side 3 m x n. The text is the user's sentence.
+# extra capacity per extra MP (1750 kg for both gates, as for the Térkapu; changed 2026-10-20), gate side 3 m x n. The text is the user's sentence.
 T_SIKKAPU = "Kapu nyitása egy másik síkra, legyen az anyagi vagy démoni sík."
 for m in ter:
-    rate = {"ter-sikkapu-anyagi": (150, 800), "ter-sikkapu-demoni": (200, 600)}.get(m["id"])
+    rate = {"ter-sikkapu-anyagi": (150, 1750), "ter-sikkapu-demoni": (200, 1750)}.get(m["id"])
     if rate:
         m["cost"] = {"pattern": "flat", "baseMp": rate[0], "multiplierInput": "size"}
         m["inputs"] = [number_input("size", "Méret (szorzó)", "×", integer=True, minimum=1)]
