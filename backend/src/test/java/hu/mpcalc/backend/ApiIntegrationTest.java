@@ -563,6 +563,32 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void theMentalMosaicsCarryTheHungarianTextOfTheSourceWhereThereIsOne() throws Exception {
+        MockHttpSession s = login("m-" + UUID.randomUUID());
+        long id = newCharacter(s, 900, "{\"mental\":4}");
+        String body = "{\"characterId\":" + id + ",\"selections\":[{\"mosaicId\":\"%s\",\"inputs\":{},\"k\":0}]}";
+        java.util.Map<String, String> startsWith = new java.util.LinkedHashMap<>();
+        startsWith.put("mental-beszed-olvasas", "Megértés. A varázsló megérti");
+        startsWith.put("mental-beszed-zavaras", "Dadogás. Az áldozat képtelen");
+        startsWith.put("mental-erzekeles-iras", "Illúzió. A varázsló becsapja");
+        startsWith.put("mental-emlek-iras", "Feledés. Két változata van");
+        startsWith.put("mental-emlek-zavaras", "Részleges Amnézia.");
+        startsWith.put("mental-mozgas-benitas", "Bénultság.");
+        startsWith.put("mental-akarat-iras", "Akaratátvitel.");
+        startsWith.put("mental-akarat-zavaras", "Zavarodottság.");
+        for (var e : startsWith.entrySet()) {
+            JsonNode r = json(send(post("/calculate"), s, body.formatted(e.getKey()), 200));
+            assertTrue(r.at("/mosaics/0/effect/value").asText().startsWith(e.getValue()), e.getKey() + ": " + r.at("/mosaics/0/effect"));
+        }
+        // the numbers are ours: Beszéd – Zavarás stays 2 MP, 3 E (the source says 1 MP, 2 E)
+        JsonNode zavaras = json(send(post("/calculate"), s, body.formatted("mental-beszed-zavaras"), 200));
+        assertEquals(2, zavaras.at("/totalMp/value/numerator").asInt() / Math.max(1, zavaras.at("/totalMp/value/denominator").asInt()));
+        // no text in the source: the placeholder stays
+        assertEquals("pain, read: glimpse into someone's mind", json(send(post("/calculate"), s, body.formatted("mental-fajdalom-olvasas"), 200)).at("/mosaics/0/effect/value").asText());
+        assertEquals("truth, disable: remove a thought, memory, ability or feeling", json(send(post("/calculate"), s, body.formatted("mental-igazsag-benitas"), 200)).at("/mosaics/0/effect/value").asText());
+    }
+
+    @Test
     void formsCarryTheirRegenerationTimeAsText() throws Exception {
         MockHttpSession s = login("f-" + UUID.randomUUID());
         java.util.Map<String, JsonNode> byId = new java.util.HashMap<>();
