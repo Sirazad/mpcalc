@@ -47,7 +47,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "speech, read: glimpse into someone's mind",
+    "effect": "Megértés. A varázsló megérti az áldozat szavait akkor is, ha azokat valamely okból nem hallja, és akkor is, ha az illető számára ismeretlen nyelven beszél.",
     "source": "Part 6"
   },
   {
@@ -98,7 +98,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "speech, write: put in something that was not there, e.g. a memory",
+    "effect": "Beszéltetés. A varázsló az áldozat száján át beszél: az áldozat azt mondja, amit a varázsló szeretne. Nem helyettesíti az Akaratátvitelt: az áldozat tisztában van vele, hogy nem ezt szeretné mondani, de nincs hatalma a saját beszédközpontja felett. Az egyetlen, amit tehet, hogy írásban vagy taglejtésekkel tiltakozik, esetleg mást közöl.",
     "source": "Part 6"
   },
   {
@@ -149,7 +149,7 @@
       "baseMp": 2
     },
     "inputs": [],
-    "effect": "speech, disrupt: make it hard to focus; jumbled",
+    "effect": "Dadogás. Az áldozat képtelen tisztán ejteni a szavakat, folyamatosan beszélni; dadogni fog, vagy szinte az érthetetlenségig torzítja a szavakat, akár a részeg ember. Hogy melyik hatás következik be, azt a varázsló határozza meg.",
     "source": "Part 6"
   },
   {
@@ -200,7 +200,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "speech, disable: remove a thought, memory, ability or feeling",
+    "effect": "Némaság. Az áldozat megnémul: egy szót sem tud kiejteni, csak érthetetlen nyögdécselésre képes, amíg a varázslat időtartama tart.",
     "source": "Part 6"
   },
   {
@@ -251,7 +251,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "perception, read: glimpse into someone's mind",
+    "effect": "Érzékelés. A varázsló az áldozat érzékszerveivel érzékel: látja, amit az lát, hallja, amit az hall, tapint, ízlel, szagol, mintha csak belekerült volna a másik testébe.",
     "source": "Part 6"
   },
   {
@@ -302,7 +302,7 @@
       "baseMp": 2
     },
     "inputs": [],
-    "effect": "perception, write: put in something that was not there, e.g. a memory",
+    "effect": "Illúzió. A varázsló becsapja az áldozat érzékelését: nem létező dolgokat láttat, nem hallható hangokat hallat vele, és ez igaz a többi érzékszervre is. Az áldozat úgy érezheti, mintha egészen más helyen járna, ahol más dolgok történnek vele.\n\nHa az áldozat fejében megfordul, hogy mindez nem a valóság, Intelligencia próbára jogosult. Sikeres próba esetén a téves érzékelés továbbra is tart, de az áldozat már tisztában van vele, hogy az érzékszervei nem a valóságról tájékoztatják.\n\nIllúzióval sok mindent el lehet érni, de soha nem okozhat valódi sebet, főképp nem halált.\n\nHogy az illúzió ne csak egy előre megtervezett történet legyen, hanem az áldozat cselekedetei szerint változzon (tökéletes pszeudó-valóság), a varázslónak tudnia kell, hogyan cselekszik az áldozat az érzékszerveivel a csak számára létező világban; ezt Gondolatolvasással érheti el.\n\nA pszeudó-valóság folyamatos változásához a varázslónak a varázslat végéig egyfolytában összpontosítania kell. Ez kizárja más varázslatok alkalmazását és a kézi harcot, de nem zárja ki a mozgást és a beszédet.",
     "source": "Part 6"
   },
   {
@@ -353,7 +353,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "perception, disrupt: make it hard to focus; jumbled",
+    "effect": "Tompítás. Az áldozat érzékszervei eltompulnak: homályosan lát, tompán hall, durván tapint, a szaglása és ízlelése is jelentősen romlik. Ügyességet és figyelmet igénylő kézimunkát nem képes végezni.\n\nTÉ, VÉ és KÉ annyival csökken, ahányszoros az erősítés; a CÉ ennek a háromszorosával, ami általában lehetetlenné teszi a célzott lövést.",
     "source": "Part 6"
   },
   {
@@ -404,7 +404,7 @@
       "baseMp": 2
     },
     "inputs": [],
-    "effect": "perception, disable: remove a thought, memory, ability or feeling",
+    "effect": "Érzéketlenség. Az áldozat semmit nem érzékel: vak, süket, nem szagol, nem képes ízlelni, tapintása is érzéketlen. A világ létének jelei megszűnnek számára. Aki még soha nem tapasztalt ilyet, erős sokkot kap; sikertelen Asztrál próba esetén eszméletlenné válik.\n\nA hatodik érzékre és a Pszi azonos nevű diszciplínájának hatására nincs befolyással. Az Érzékélesítés diszciplína nem szünteti meg a Mentálmágiával okozott Érzéketlenséget.",
     "source": "Part 6"
   },
   {
@@ -455,7 +455,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "memory, read: glimpse into someone's mind",
+    "effect": "Emlékolvasás. A varázsló az áldozat emlékei között olvas. A Gondolatolvasáshoz hasonló, de múltbéli eseményeket fürkész, amelyeknek az áldozat tanúja volt. Egyidejűleg csak egyetlen meghatározott mozzanatról szerezhet tudomást, annak is csak egy időben éppolyan hosszú szakaszáról, mint amennyi az Időtartam.\n\nAz áldozat emlékezetében a mozzanat felidéződik, és az illető magában végigéli azt; a varázsló ennek a filmszerű, valós idejű vetítésnek a tanúja. Így Emlékolvasással akár több óra vagy nap eseményeiről is tudomást szerezhet, de ez az eseménnyel azonos időt igényel (meglehetős türelmet kíván).",
     "source": "Part 6"
   },
   {
@@ -506,7 +506,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "memory, write: put in something that was not there, e.g. a memory",
+    "effect": "Feledés. Két változata van, a varázsló választ:\nTörlés: az áldozat emlékeiből egyetlen momentumot töröl, annak is csak olyan hosszú szakaszát, amennyi az időtartam. A törölt emlék soha többé nem szerezhető vissza, mágikus úton sem.\nHamis emlék: az áldozat elméjébe hamis emlékképeket ültet (a fenti időbeli és témabeli megszorításokkal). Az áldozat ezt teljes mértékben a magáénak tekinti. Hamis voltára csak egy másik varázsló jöhet rá, aki az adott mozzanat felől kifürkészi Emlékolvasással, és csak akkor, ha az Emlékolvasás erősítése nagyobb vagy egyenlő a hamis emlék elhelyezésére használt varázslat erősségével.",
     "source": "Part 6"
   },
   {
@@ -557,7 +557,7 @@
       "baseMp": 2
     },
     "inputs": [],
-    "effect": "memory, disrupt: make it hard to focus; jumbled",
+    "effect": "Részleges Amnézia. Az áldozat egyáltalán nem emlékszik közeli múltjára; mindent, ami az érintett idő alatt történt vele, meg nem történtnek tekint. Hogy mennyi idő esik ki, azt a Zavarás erőssége (E) határozza meg: minden E egy napot jelent.\n\nAz időtartam elmúltával az elfeledett emlékek maradéktalanul visszatérnek, de nem egyik pillanatról a másikra, hanem órák alatt.",
     "source": "Part 6"
   },
   {
@@ -608,7 +608,7 @@
       "baseMp": 3
     },
     "inputs": [],
-    "effect": "memory, disable: remove a thought, memory, ability or feeling",
+    "effect": "Teljes Amnézia. Az áldozat elfelejt minden emlékét, egész életét, még a gyermekkorára sem emlékszik. Elfelejti Kasztját, Tapasztalati Szintjét, Képzettségeit, egyszóval mindent.\n\nAz emlékközpont bénultságának elmúltával az emlékek visszatérnek, de nem egyik pillanatról a másikra, hanem órák, néha napok alatt.",
     "source": "Part 6"
   },
   {
@@ -659,7 +659,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "movement, read: glimpse into someone's mind",
+    "effect": "Követés. A varázsló tudomást szerez az áldozat minden mozdulatáról az Időtartam alatt: kéz-, lábmozdulat, szemmozgás, még egy mély lélegzetvétel is.",
     "source": "Part 6"
   },
   {
@@ -710,7 +710,7 @@
       "baseMp": 2
     },
     "inputs": [],
-    "effect": "movement, write: put in something that was not there, e.g. a memory",
+    "effect": "Irányítás. A varázsló irányítja az áldozat mozdulatait. Ezek csak viszonylag egyszerűek lehetnek (pl. varázslás, kardforgatás nem). Ha nincs parancs valamely mozdulatra, vagy az előzőt már végrehajtotta, az áldozat a következőig maga is cselekedhet; ez nyomban félbeszakad, amint új utasítást kap.\n\nAz életösztön erősebb az Irányításnál: ha a varázsló öngyilkos cselekedetre kényszeríti az áldozatot, az újabb Mágiaellenállásra jogosult. Sikeres próba esetén az illető kitör a varázslat hatása alól; sikertelen esetén végrehajtja az öngyilkossághoz vezető mozdulatot.",
     "source": "Part 6"
   },
   {
@@ -761,7 +761,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "movement, disrupt: make it hard to focus; jumbled",
+    "effect": "Kábaság. Az áldozat kábán, erőtlenül mozog, elveszti az egyensúlyérzékét; mozdulatai kiszámíthatatlanok, akár a részeg emberé.\n\nTÉ, VÉ, KÉ annyival csökken, amennyi a varázslat erőssége (E), a CÉ ennek a duplájával. Varázsolni képtelen; ereje, gyorsasága és ügyessége az erősséggel (E) fordított arányban rohamosan csökken: minden 5 E 1 képességpont csökkenést eredményez (5 E = 1 pont, 10 E = 2 pont, 15 E = 3 pont, és így tovább).",
     "source": "Part 6"
   },
   {
@@ -812,7 +812,7 @@
       "baseMp": 3
     },
     "inputs": [],
-    "effect": "movement, disable: remove a thought, memory, ability or feeling",
+    "effect": "Bénultság. Az áldozat az Időtartam lejártáig megbénul, mozdulni sem képes. Fegyvert forgatni, célozni, védekezni, varázsolni nem tud, de szellemi és pszi képességeinek birtokában marad.",
     "source": "Part 6"
   },
   {
@@ -863,7 +863,7 @@
       "baseMp": 1
     },
     "inputs": [],
-    "effect": "will, read: glimpse into someone's mind",
+    "effect": "Gondolatolvasás. A varázsló az áldozat gondolataiban olvas, azokban, amelyek azt éppen foglalkoztatják. Minél nagyobb az erősítés, annál mélyebb, avagy elvontabb gondolatoknak jut nyomára.\n\nKis (1–15 E) erősítés esetén ezek csak felületes gondolatok lehetnek, olyanok, amelyek az elkövetkező pillanatok cselekvéseire vonatkoznak. Komolyabb erősítés esetén már hosszabb távú, vagy elvont gondolatok és szándékok is a varázsló tudomására jutnak.",
     "source": "Part 6"
   },
   {
@@ -914,7 +914,7 @@
       "baseMp": 4
     },
     "inputs": [],
-    "effect": "will, write: put in something that was not there, e.g. a memory",
+    "effect": "Akaratátvitel. A varázsló rákényszeríti akaratát az áldozatra. Az akként cselekszik, beszél, harcol, ahogyan a varázsló azt meghatározza. Teljes Tudatával hiszi, hogy azt tenni kívánja, a saját gondolata és vágya. Meg sem fordul a fejében, hogy a motiváció netán mástól származik.\n\nÖngyilkos cselekedetre kapott parancsnál Akaraterő próbát tehet. Sikeres próbánál kiszabadul a varázslat hatása alól, és tudatába kerül a befolyásoltságának; ekkor sikertelen Asztrál próba esetén vak gyűlölet ébred benne a varázsló iránt (hatása az Asztrálmágia fejezetében leírt Gyűlölet varázslathoz hasonló). Ha az Asztrál próbája sikeres, ura marad érzelmeinek (karakter esetén a játékos dönti el, miként érez a varázsló irányában).",
     "source": "Part 6"
   },
   {
@@ -965,7 +965,7 @@
       "baseMp": 3
     },
     "inputs": [],
-    "effect": "will, disrupt: make it hard to focus; jumbled",
+    "effect": "Zavarodottság. Az áldozat összezavarodik, nincs egy tiszta gondolata, nem képes dönteni: a legapróbb ügyekben is tanácstalan. Fejében egymást kergetik az összekeveredett gondolatok.\n\nVarázsolni képtelen; harcolni (támadni és védekezni) is csak akkor tud, ha minden egyes körben sikeres Akaraterő és Intelligencia próbát tesz.",
     "source": "Part 6"
   },
   {
@@ -1016,7 +1016,7 @@
       "baseMp": 5
     },
     "inputs": [],
-    "effect": "will, disable: remove a thought, memory, ability or feeling",
+    "effect": "Tudattalanság. Az áldozat elméje lebénul. Képtelen mérlegelni, gondolkodni; pusztán indulatai, érzelmei, vágyai irányítják. Az egyik pillanatban sír, a másikban kacag; elvakultan imádja barátait, társait, aztán a legapróbb sérelem után fegyverrel ront rájuk, és teljes szívéből gyűlöli őket. A varázs hatására minden Asztrálmágiával okozott érzelem vakká erősödik.",
     "source": "Part 6"
   },
   {

@@ -175,6 +175,88 @@ mental.append(mosaic(
     effect="Summoning a mental being; power and cost depend on the type of creature pulled to the place.",
     source=P6))
 
+# Hatás texts of the mental mosaics (user, 2026-10-26): the text of the original source (Confluence "Első Törvénykönyv – Rules Notes", pages 16.5 and 16.6),
+# approved centre by centre. Each text starts with the name the book gives the mosaic. The numbers stay as stored here (ours is the correct version).
+# Fájdalom, Igazság, Háló and Mentállény idézése have no text in the source and keep their placeholder.
+MENTAL_HATAS = {
+    "mental-beszed-olvasas": "Megértés. A varázsló megérti az áldozat szavait akkor is, ha azokat valamely okból nem hallja, és akkor is, ha az illető számára ismeretlen nyelven beszél.",
+    "mental-beszed-iras": "Beszéltetés. A varázsló az áldozat száján át beszél: az áldozat azt mondja, amit a varázsló szeretne. Nem helyettesíti az Akaratátvitelt: az áldozat tisztában van vele, hogy nem ezt szeretné mondani, de nincs hatalma a saját beszédközpontja felett. Az egyetlen, amit tehet, hogy írásban vagy taglejtésekkel tiltakozik, esetleg mást közöl.",
+    "mental-beszed-zavaras": "Dadogás. Az áldozat képtelen tisztán ejteni a szavakat, folyamatosan beszélni; dadogni fog, vagy szinte az érthetetlenségig torzítja a szavakat, akár a részeg ember. Hogy melyik hatás következik be, azt a varázsló határozza meg.",
+    "mental-beszed-benitas": "Némaság. Az áldozat megnémul: egy szót sem tud kiejteni, csak érthetetlen nyögdécselésre képes, amíg a varázslat időtartama tart.",
+    "mental-erzekeles-olvasas": "Érzékelés. A varázsló az áldozat érzékszerveivel érzékel: látja, amit az lát, hallja, amit az hall, tapint, ízlel, szagol, mintha csak belekerült volna a másik testébe.",
+    "mental-erzekeles-iras": (
+        "Illúzió. A varázsló becsapja az áldozat érzékelését: nem létező dolgokat láttat, nem hallható hangokat hallat vele, és ez igaz a többi érzékszervre is. "
+        "Az áldozat úgy érezheti, mintha egészen más helyen járna, ahol más dolgok történnek vele.\n\n"
+        "Ha az áldozat fejében megfordul, hogy mindez nem a valóság, Intelligencia próbára jogosult. Sikeres próba esetén a téves érzékelés továbbra is tart, "
+        "de az áldozat már tisztában van vele, hogy az érzékszervei nem a valóságról tájékoztatják.\n\n"
+        "Illúzióval sok mindent el lehet érni, de soha nem okozhat valódi sebet, főképp nem halált.\n\n"
+        "Hogy az illúzió ne csak egy előre megtervezett történet legyen, hanem az áldozat cselekedetei szerint változzon (tökéletes pszeudó-valóság), "
+        "a varázslónak tudnia kell, hogyan cselekszik az áldozat az érzékszerveivel a csak számára létező világban; ezt Gondolatolvasással érheti el.\n\n"
+        "A pszeudó-valóság folyamatos változásához a varázslónak a varázslat végéig egyfolytában összpontosítania kell. "
+        "Ez kizárja más varázslatok alkalmazását és a kézi harcot, de nem zárja ki a mozgást és a beszédet."),
+    "mental-erzekeles-zavaras": (
+        "Tompítás. Az áldozat érzékszervei eltompulnak: homályosan lát, tompán hall, durván tapint, a szaglása és ízlelése is jelentősen romlik. "
+        "Ügyességet és figyelmet igénylő kézimunkát nem képes végezni.\n\n"
+        "TÉ, VÉ és KÉ annyival csökken, ahányszoros az erősítés; a CÉ ennek a háromszorosával, ami általában lehetetlenné teszi a célzott lövést."),
+    "mental-erzekeles-benitas": (
+        "Érzéketlenség. Az áldozat semmit nem érzékel: vak, süket, nem szagol, nem képes ízlelni, tapintása is érzéketlen. A világ létének jelei megszűnnek számára. "
+        "Aki még soha nem tapasztalt ilyet, erős sokkot kap; sikertelen Asztrál próba esetén eszméletlenné válik.\n\n"
+        "A hatodik érzékre és a Pszi azonos nevű diszciplínájának hatására nincs befolyással. "
+        "Az Érzékélesítés diszciplína nem szünteti meg a Mentálmágiával okozott Érzéketlenséget."),
+    "mental-emlek-olvasas": (
+        "Emlékolvasás. A varázsló az áldozat emlékei között olvas. A Gondolatolvasáshoz hasonló, de múltbéli eseményeket fürkész, amelyeknek az áldozat tanúja volt. "
+        "Egyidejűleg csak egyetlen meghatározott mozzanatról szerezhet tudomást, annak is csak egy időben éppolyan hosszú szakaszáról, mint amennyi az Időtartam.\n\n"
+        "Az áldozat emlékezetében a mozzanat felidéződik, és az illető magában végigéli azt; a varázsló ennek a filmszerű, valós idejű vetítésnek a tanúja. "
+        "Így Emlékolvasással akár több óra vagy nap eseményeiről is tudomást szerezhet, de ez az eseménnyel azonos időt igényel (meglehetős türelmet kíván)."),
+    "mental-emlek-iras": (
+        "Feledés. Két változata van, a varázsló választ:\n"
+        "Törlés: az áldozat emlékeiből egyetlen momentumot töröl, annak is csak olyan hosszú szakaszát, amennyi az időtartam. "
+        "A törölt emlék soha többé nem szerezhető vissza, mágikus úton sem.\n"
+        "Hamis emlék: az áldozat elméjébe hamis emlékképeket ültet (a fenti időbeli és témabeli megszorításokkal). Az áldozat ezt teljes mértékben a magáénak tekinti. "
+        "Hamis voltára csak egy másik varázsló jöhet rá, aki az adott mozzanat felől kifürkészi Emlékolvasással, és csak akkor, "
+        "ha az Emlékolvasás erősítése nagyobb vagy egyenlő a hamis emlék elhelyezésére használt varázslat erősségével."),
+    "mental-emlek-zavaras": (
+        "Részleges Amnézia. Az áldozat egyáltalán nem emlékszik közeli múltjára; mindent, ami az érintett idő alatt történt vele, meg nem történtnek tekint. "
+        "Hogy mennyi idő esik ki, azt a Zavarás erőssége (E) határozza meg: minden E egy napot jelent.\n\n"
+        "Az időtartam elmúltával az elfeledett emlékek maradéktalanul visszatérnek, de nem egyik pillanatról a másikra, hanem órák alatt."),
+    "mental-emlek-benitas": (
+        "Teljes Amnézia. Az áldozat elfelejt minden emlékét, egész életét, még a gyermekkorára sem emlékszik. "
+        "Elfelejti Kasztját, Tapasztalati Szintjét, Képzettségeit, egyszóval mindent.\n\n"
+        "Az emlékközpont bénultságának elmúltával az emlékek visszatérnek, de nem egyik pillanatról a másikra, hanem órák, néha napok alatt."),
+    "mental-mozgas-olvasas": "Követés. A varázsló tudomást szerez az áldozat minden mozdulatáról az Időtartam alatt: kéz-, lábmozdulat, szemmozgás, még egy mély lélegzetvétel is.",
+    "mental-mozgas-iras": (
+        "Irányítás. A varázsló irányítja az áldozat mozdulatait. Ezek csak viszonylag egyszerűek lehetnek (pl. varázslás, kardforgatás nem). "
+        "Ha nincs parancs valamely mozdulatra, vagy az előzőt már végrehajtotta, az áldozat a következőig maga is cselekedhet; ez nyomban félbeszakad, amint új utasítást kap.\n\n"
+        "Az életösztön erősebb az Irányításnál: ha a varázsló öngyilkos cselekedetre kényszeríti az áldozatot, az újabb Mágiaellenállásra jogosult. "
+        "Sikeres próba esetén az illető kitör a varázslat hatása alól; sikertelen esetén végrehajtja az öngyilkossághoz vezető mozdulatot."),
+    "mental-mozgas-zavaras": (
+        "Kábaság. Az áldozat kábán, erőtlenül mozog, elveszti az egyensúlyérzékét; mozdulatai kiszámíthatatlanok, akár a részeg emberé.\n\n"
+        "TÉ, VÉ, KÉ annyival csökken, amennyi a varázslat erőssége (E), a CÉ ennek a duplájával. Varázsolni képtelen; ereje, gyorsasága és ügyessége "
+        "az erősséggel (E) fordított arányban rohamosan csökken: minden 5 E 1 képességpont csökkenést eredményez (5 E = 1 pont, 10 E = 2 pont, 15 E = 3 pont, és így tovább)."),
+    "mental-mozgas-benitas": "Bénultság. Az áldozat az Időtartam lejártáig megbénul, mozdulni sem képes. Fegyvert forgatni, célozni, védekezni, varázsolni nem tud, de szellemi és pszi képességeinek birtokában marad.",
+    "mental-akarat-olvasas": (
+        "Gondolatolvasás. A varázsló az áldozat gondolataiban olvas, azokban, amelyek azt éppen foglalkoztatják. Minél nagyobb az erősítés, annál mélyebb, avagy elvontabb gondolatoknak jut nyomára.\n\n"
+        "Kis (1–15 E) erősítés esetén ezek csak felületes gondolatok lehetnek, olyanok, amelyek az elkövetkező pillanatok cselekvéseire vonatkoznak. "
+        "Komolyabb erősítés esetén már hosszabb távú, vagy elvont gondolatok és szándékok is a varázsló tudomására jutnak."),
+    "mental-akarat-iras": (
+        "Akaratátvitel. A varázsló rákényszeríti akaratát az áldozatra. Az akként cselekszik, beszél, harcol, ahogyan a varázsló azt meghatározza. "
+        "Teljes Tudatával hiszi, hogy azt tenni kívánja, a saját gondolata és vágya. Meg sem fordul a fejében, hogy a motiváció netán mástól származik.\n\n"
+        "Öngyilkos cselekedetre kapott parancsnál Akaraterő próbát tehet. Sikeres próbánál kiszabadul a varázslat hatása alól, és tudatába kerül a befolyásoltságának; "
+        "ekkor sikertelen Asztrál próba esetén vak gyűlölet ébred benne a varázsló iránt (hatása az Asztrálmágia fejezetében leírt Gyűlölet varázslathoz hasonló). "
+        "Ha az Asztrál próbája sikeres, ura marad érzelmeinek (karakter esetén a játékos dönti el, miként érez a varázsló irányában)."),
+    "mental-akarat-zavaras": (
+        "Zavarodottság. Az áldozat összezavarodik, nincs egy tiszta gondolata, nem képes dönteni: a legapróbb ügyekben is tanácstalan. "
+        "Fejében egymást kergetik az összekeveredett gondolatok.\n\n"
+        "Varázsolni képtelen; harcolni (támadni és védekezni) is csak akkor tud, ha minden egyes körben sikeres Akaraterő és Intelligencia próbát tesz."),
+    "mental-akarat-benitas": (
+        "Tudattalanság. Az áldozat elméje lebénul. Képtelen mérlegelni, gondolkodni; pusztán indulatai, érzelmei, vágyai irányítják. "
+        "Az egyik pillanatban sír, a másikban kacag; elvakultan imádja barátait, társait, aztán a legapróbb sérelem után fegyverrel ront rájuk, "
+        "és teljes szívéből gyűlöli őket. A varázs hatására minden Asztrálmágiával okozott érzelem vakká erősödik."),
+}
+for m in mental:
+    if m["id"] in MENTAL_HATAS:
+        m["effect"] = MENTAL_HATAS[m["id"]]
+
 # ---------- Asztral (Part 7) ----------
 P7 = "Part 7"
 AST = res_school("asztral")
