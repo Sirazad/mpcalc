@@ -1,5 +1,21 @@
 [
  {
+  "id": "mental-allatok",
+  "title": "Állatok és a Mentálmágia",
+  "category": "magic",
+  "school": "mental",
+  "keywords": [
+   "mentális csíra",
+   "mentál csíra",
+   "állatok mentáltestje"
+  ],
+  "links": [
+   "mentalmagia"
+  ],
+  "text": "Az állatoknak még nincs kifejlett Mentáltestük, de kialakult már ennek kezdetleges változata, egyfajta mentál csíra.\n\nEz az Érzék és a Mozgás központot teljes egészében tartalmazza; az Emlék és az Akarat központ működése lényegesen korlátozottabb, mint az emberé. Ezek irányítják az állatot a vadászatban, a fajfenntartásban és egyéb mindennapos cselekedeteiben.\n\nGondolataik vannak, de felületesek és egyszerűek. A Beszéd központ a legfejletlenebb: csak a legegyszerűbb gondolatok, inkább csak érzelmek kifejezésére alkalmas hangokat képesek kiadni (kivételek vannak, pl. a delfinek).\n\nAz állatok igen könnyen esnek a Mentálmágia áldozatául, mert nem rendelkeznek a képességgel, hogy megvédjék elméjüket.",
+  "source": "Első Törvénykönyv, mentálmágia fejezet"
+ },
+ {
   "id": "mental-fonal",
   "title": "Mentál-fonál",
   "category": "magic",
@@ -15,8 +31,55 @@
    "tárgyszimpátia",
    "szimpatikus kapcsolat"
   ],
-  "links": [],
+  "links": [
+   "mental-operaciok",
+   "mentalmagia"
+  ],
   "text": "Írás vagy olvasás típusú mentáloperáció során a varázsló folyamatos kapcsolatban marad áldozatával. A kapcsolat nem az anyagi, hanem a mentálsíkon jön létre, és a mágia tudománya mentál-fonálnak nevezi. Írás esetén sorozatos változások ezen jutnak el a varázslótól az áldozatig, olvasás esetén ezen áramlanak az információk az áldozattól a varázslóig. Ha a mentál-fonál elszakad, a varázsló sem írni, sem olvasni nem képes tovább az áldozat központját.\n\nA mentál-fonál csak a következő módokon szakítható meg: az érintett központ azonos, netán nagyobb erősségű (E) írásával vagy bénításával, továbbá azzal, ha akár az áldozat, akár a varázsló olyan mentál mágiától védő varázskörbe lép, amelynek erőssége meghaladja a mentál-fonalat létrehozó operáció erősségét.\n\nA mentál-fonál csak mentálszem diszciplinával észlelhető. Az a személy, akit mentál-fonál köt össze a varázslóval, a mágia törvénye szerint tárgyszimpátiás viszonyban áll vele. A szimpatikus kapcsolat mindaddig fennáll, míg a fonál létezik.",
+  "source": "Első Törvénykönyv, mentálmágia fejezet"
+ },
+ {
+  "id": "mental-operaciok",
+  "title": "Mentális operációk",
+  "category": "magic",
+  "school": "mental",
+  "keywords": [
+   "mentáloperáció",
+   "mentális operáció",
+   "mentál operáció",
+   "operáció",
+   "kábítás"
+  ],
+  "links": [
+   "mentalmagia",
+   "mental-fonal"
+  ],
+  "text": "A mentális operációk a mentális központokat befolyásolják: Beszéd, Érzék, Emlék, Mozgás és Akarat központ. Négyféle operáció létezik: Olvasás, Írás, Zavarás (a könyvben Kábítás) és Bénítás.\n\nOlvasás (időtartam 5 perc, 30 kör): egyoldalú kapcsolat az áldozat adott központjával, amelyen át adatokat szerezhet a működéséről. Az áldozat nem szerez róla tudomást. A legkevesebb mágikus energiát igénylő mentál operáció, ezért az időtartama könnyen kitolható.\n\nÍrás (1 perc, 6 kör): a varázsló a saját Tudatával köti össze az áldozat kijelölt központját, és annak alárendeli: a központ az Időtartam alatt a varázsló akaratának megfelelően működik. Az áldozat tudatában lesz annak, hogy a központja nem a kívánt módon működik, kivéve, ha a tárgya az akaratközpont (lásd Akaratátvitel).\n\nZavarás (fél perc, 3 kör): elégtelenségeket, zavarokat okoz a kijelölt központ működésében, így az sokkal rosszabb hatásfokkal látja el a feladatát.\n\nBénítás (1 kör): a központ működését beszünteti, az fontos feladatát egyáltalán nem tudja ellátni. A legtöbb energiát igénylő, legkomolyabb mentál operáció.",
+  "source": "Első Törvénykönyv, mentálmágia fejezet"
+ },
+ {
+  "id": "mentalmagia",
+  "title": "Mentálmágia",
+  "category": "magic",
+  "school": "mental",
+  "keywords": [
+   "mentálmágia",
+   "mentál mágia",
+   "mentális mágia",
+   "mentáltest",
+   "beszédközpont",
+   "érzékközpont",
+   "emlékközpont",
+   "mozgásközpont",
+   "akaratközpont",
+   "mentál központ"
+  ],
+  "links": [
+   "mental-operaciok",
+   "mental-allatok",
+   "mental-fonal"
+  ],
+  "text": "A mentálmágia a Lélekre ható mágiák legerősebb, legkifinomultabb formája; a Tudat legfelső régiójára, magára az intellektusra, a mentálra hat. Vagy magához ragadja a Mentáltest feletti uralmat, vagy magát a mentált befolyásolja (Sonor, a pyarroni Fehér Páholy nagymesterének Mentalismus című könyve nyomán).\n\nLényege: vagy átvesszük a Tudattól a test és a hozzá kapcsolódó Mentális Központok irányítását, vagy magát a Tudatot befolyásoljuk, elhitetve az áldozattal, hogy valójában azt szeretné tenni, amit a varázsló sugall.\n\nHa az áldozat egyszerre több, ellentétes célú mentáloperáció hatása alatt áll, az érvényesül, amelyiknek nagyobb az erősítése (E).\n\nA Zavarás (a könyvben Kábítás) típusú operációk lehetetlenné teszik vagy legalábbis megnehezítik az Írást; a Bénítás típusúak kizárják a központ működését.\n\nMentálmágiát a varázsló csak arra alkalmazhat, aki a Zónáján belül tartózkodik. A varázslat létrejötte után az áldozat kikerülhet a Zónából, a hatás akkor is érvényes marad.",
   "source": "Első Törvénykönyv, mentálmágia fejezet"
  }
 ]

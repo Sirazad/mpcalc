@@ -261,9 +261,20 @@ class McpIntegrationTest {
         for (String q : new String[] {"Mi az a mentál-fonál?", "Hogyan szakad el a mentálfonál?", "Hogyan lehet megszakítani a mentál fonalat?",
                 "Mit lát a mentálszem?", "Mi a tárgyszimpátia?", "Mit jelent a szimpatikus kapcsolat?", "Mi az a fonal?"}) {
             JsonNode found = notes(h, q);
-            assertEquals(1, found.size(), q);
             assertEquals("mental-fonal", found.get(0).get("id").asText(), q);
         }
+        // the questions that name one of the other mental notes find that note first
+        java.util.Map<String, String> first = new java.util.LinkedHashMap<>();
+        first.put("Mi a mentálmágia?", "mentalmagia");
+        first.put("Mi az az akaratközpont?", "mentalmagia");
+        first.put("Mit csinál az Írás operáció?", "mental-operaciok");
+        first.put("Mi a Kábítás?", "mental-operaciok");
+        first.put("Mi az a mentális csíra?", "mental-allatok");
+        for (var e : first.entrySet()) assertEquals(e.getValue(), notes(h, e.getKey()).get(0).get("id").asText(), e.getKey());
+        // a question about animals and the Mentálmágia finds both notes
+        java.util.Set<String> both = new java.util.HashSet<>();
+        for (JsonNode n : notes(h, "Hat a mentálmágia az állatokra?")) both.add(n.get("id").asText());
+        assertTrue(both.containsAll(java.util.Set.of("mentalmagia", "mental-allatok")), both.toString());
         JsonNode note = notes(h, "mentál-fonál").get(0);
         assertEquals("Mentál-fonál", note.get("title").asText());
         assertEquals("magic", note.get("category").asText());
@@ -278,7 +289,8 @@ class McpIntegrationTest {
         Hero h = hero("{}", 20);
         // words that are only in the text of the note (varázskör, áldozat, írás) or in no note do not find it
         for (String q : new String[] {"Mennyibe kerül a Fürkészés?", "Hogyan működik a Térkapu?", "Mennyi MP a Beszéd – Írás mozaik?",
-                "Mi az a varázskör?", "Mit tud a varázsló az áldozat központjáról?", "", "  ?! "}) {
+                "Mi az a varázskör?", "Mit tud a varázsló az áldozat központjáról?", "Mit tud a Zóna?", "Mennyibe kerül a Mozgás – Bénítás?",
+                "Mi a legerősebb varázslat 20 MP-ből?", "", "  ?! "}) {
             assertEquals(0, notes(h, q).size(), "'" + q + "'");
         }
     }
@@ -286,7 +298,10 @@ class McpIntegrationTest {
     @Test
     void theNoteCategoryFilterAndTheLimitWork() throws Exception {
         Hero h = hero("{}", 20);
-        assertEquals(1, tool("find_notes", args(h).put("query", "mentál-fonál").put("category", "magic"), null).get("notes").size());
+        // "mentál" is a word of the keywords of all four mental notes: the default limit (3) cuts the list, Mentál-fonál comes first
+        JsonNode magic = tool("find_notes", args(h).put("query", "mentál-fonál").put("category", "magic"), null).get("notes");
+        assertEquals(3, magic.size());
+        assertEquals("mental-fonal", magic.get(0).get("id").asText());
         assertEquals(0, tool("find_notes", args(h).put("query", "mentál-fonál").put("category", "world"), null).get("notes").size());
         assertEquals(1, tool("find_notes", args(h).put("query", "mentál-fonál").put("limit", 0), null).get("notes").size(), "a limit below 1 still gives one");
     }
@@ -295,7 +310,7 @@ class McpIntegrationTest {
     void theQueryNeverReachesTheSearchSyntax() throws Exception {
         Hero h = hero("{}", 20);
         for (String q : new String[] {"fonál & !(x)", "'; drop table notes; --", "fonál:* | <->", "\\"}) notes(h, q);
-        assertEquals(1, notes(h, "mentál-fonál").size(), "the table is untouched");
+        assertEquals(4, tool("find_notes", args(h).put("query", "mentál-fonál").put("limit", 5), null).get("notes").size(), "the table is untouched");
     }
 
     @Test
@@ -306,18 +321,23 @@ class McpIntegrationTest {
         try {
             jdbc.update(ins, "zz-teszt-egy", "Zzteszt Egy", "zzteszt egy", "zz-teszt-ketto, zz-nincs-ilyen");
             jdbc.update(ins, "zz-teszt-ketto", "Zzteszt Kettő", "zzteszt ketto", "zz-teszt-egy");
+            jdbc.update(ins, "zz-teszt-harom", "Zzteszt Három", "zzteszt harom", "");
             JsonNode one = notes(h, "zzteszt egy").get(0);
             assertEquals("zz-teszt-egy", one.get("id").asText());
             assertEquals(1, one.get("links").size(), "the link to a missing note is left out");
             assertEquals("zz-teszt-ketto", one.at("/links/0/id").asText());
             assertEquals("Zzteszt Kettő", one.at("/links/0/title").asText());
-            assertEquals(0, notes(h, "mentál-fonál").get(0).get("links").size(), "a note without links has an empty list");
+            assertEquals(0, notes(h, "zzteszt harom").get(0).get("links").size(), "a note without links has an empty list");
+            // the stored notes link to each other: Mentál-fonál has the reverse links made by the build step
+            java.util.Set<String> fonalLinks = new java.util.HashSet<>();
+            for (JsonNode l : notes(h, "mentál-fonál").get(0).get("links")) fonalLinks.add(l.get("id").asText());
+            assertEquals(java.util.Set.of("mentalmagia", "mental-operaciok"), fonalLinks);
             // the linked note is read by searching for its title
             assertEquals("zz-teszt-ketto", notes(h, "Zzteszt Kettő").get(0).get("id").asText());
         } finally {
             jdbc.update("DELETE FROM notes WHERE id LIKE 'zz-teszt-%'");
         }
-        assertEquals(1, notes(h, "mentál-fonál").size());
+        assertEquals(0, notes(h, "zzteszt egy").size(), "the test notes are removed");
     }
 
     @Test
